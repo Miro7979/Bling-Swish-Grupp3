@@ -11,7 +11,7 @@ module.exports = ({ apiPath, rules }) => {
 			// Get the users role and the entity requested
 			// (if not logged in set the role visitorr)
 			let userRole = req.session.user ?
-				req.session.user.role || 'visitor' : 'visitor';
+				req.session.user.role || 'child' : 'child';
 			let url = req.url;
 			let method = req.method.toLowerCase();
 			url += url.slice(-1) !== '/' ? '/' : '';
@@ -23,7 +23,6 @@ module.exports = ({ apiPath, rules }) => {
 					// loop through roles
 					for (let role in rules[rule]) {
 						if (userRole === role) {
-							console.log("FOUND DA ROLE", role, entity)
 							// Found the role
 							// now get allowed methods
 							let allowed = rules[rule][role]

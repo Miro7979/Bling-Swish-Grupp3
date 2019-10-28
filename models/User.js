@@ -7,7 +7,7 @@ let userSchema = new Schema({
     phone: {type: String,  required: true},
     email: {type: String,  required: true},
     nationalIdNumber: { type: String, required: true},
-    role: {type: String,  required: true},
+    role: {type: String},
     transactionsRecived: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
     transactionsSent: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
     children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
