@@ -1,0 +1,152 @@
+[
+  {
+    "name": "01-list-all-users",
+    "request": {
+      "uri": "http://localhost:3000/api/users",
+      "method": "get"
+    },
+    "response": [
+      {
+        "_id": "5db5f0f26190b602b873d9fd",
+        "username": "arne anka",
+        "password": "123e32a2f2a7f6abddc79fc7ebf618e36c559f94232e17cc05951c04f1719369",
+        "role": "admin"
+      }
+    ],
+    "tests": [
+      "*expect(response.nonJSON).to.equal('Page not found.')"
+    ],
+    "status": "failed",
+    "error": "AssertionError: expected undefined to equal 'Page not found.'"
+  },
+  {
+    "name": "02-login-as-admin",
+    "request": {
+      "uri": "http://localhost:3000/api/login",
+      "method": "post",
+      "body": {
+        "username": "arne anka",
+        "password": "123456"
+      }
+    },
+    "response": {
+      "_id": "5db5f0f26190b602b873d9fd",
+      "username": "arne anka",
+      "role": "admin"
+    },
+    "tests": [
+      "expect(response.username).to.equal('arne anka')",
+      "expect(response.role).to.equal('admin')"
+    ],
+    "status": "passed"
+  },
+  {
+    "name": "03-check-if-logged-in",
+    "request": {
+      "uri": "http://localhost:3000/api/login",
+      "method": "get"
+    },
+    "response": {
+      "_id": "5db5f0f26190b602b873d9fd",
+      "username": "arne anka",
+      "role": "admin"
+    },
+    "tests": [
+      "expect(response.username).to.equal('arne anka')",
+      "expect(response.role).to.equal('admin')"
+    ],
+    "status": "passed"
+  },
+  {
+    "name": "04-list-all-users",
+    "request": {
+      "uri": "http://localhost:3000/api/users",
+      "method": "get"
+    },
+    "response": [
+      {
+        "_id": "5db5f0f26190b602b873d9fd",
+        "username": "arne anka",
+        "password": "123e32a2f2a7f6abddc79fc7ebf618e36c559f94232e17cc05951c04f1719369",
+        "role": "admin"
+      }
+    ],
+    "tests": [
+      "expect(response.nonJSON).to.not.equal('Page not found.')",
+      "assert(response.length > 0)"
+    ],
+    "status": "passed"
+  },
+  {
+    "name": "05-delete all-but-arne",
+    "request": {
+      "uri": "http://localhost:3000/api/users/undefined",
+      "method": "delete"
+    },
+    "response": {
+      "error": 404
+    },
+    "tests": [
+      "*expect(response.deletedCount).to.equal(1)"
+    ],
+    "status": "failed",
+    "error": "AssertionError: expected undefined to equal 1"
+  },
+  {
+    "name": "06-create-some-users",
+    "request": {
+      "uri": "http://localhost:3000/api/users",
+      "method": "post",
+      "body": {
+        "username": "Farbror Blå",
+        "password": "112112",
+        "role": "police"
+      }
+    },
+    "response": {
+      "success": "User created"
+    },
+    "tests": [
+      "expect(response.success).to.equal('User created')"
+    ],
+    "status": "passed"
+  },
+  {
+    "name": "06-create-some-users",
+    "request": {
+      "uri": "http://localhost:3000/api/users",
+      "method": "post",
+      "body": {
+        "username": "Farbror Grå",
+        "password": "bankonme",
+        "role": "banker"
+      }
+    },
+    "response": {
+      "success": "User created"
+    },
+    "tests": [
+      "expect(response.success).to.equal('User created')"
+    ],
+    "status": "passed"
+  },
+  {
+    "name": "06-create-some-users",
+    "request": {
+      "uri": "http://localhost:3000/api/users",
+      "method": "post",
+      "body": {
+        "username": "Mrs Green",
+        "password": "cleanair",
+        "role": "environmental activist"
+      }
+    },
+    "response": {
+      "success": "User created"
+    },
+    "tests": [
+      "expect(response.success).to.equal('User created')"
+    ],
+    "status": "passed"
+  }
+]

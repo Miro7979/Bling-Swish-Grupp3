@@ -9,6 +9,7 @@ module.exports = ({ expect, response, assert, store }) => ({
     store.userIdsToDelete = response
       .filter(x => x.username !== 'arne anka')
       .map(x => x._id);
+    console.log("TJOHEJ", store.userIdsToDelete);
 
     // setup some dummy users for next step
     if(!store.dummyUsers){
