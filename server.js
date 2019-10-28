@@ -5,13 +5,13 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const connectMongo = require('connect-mongo')(session);
 const app = express();
-// const User = require('./mongoose-models/User');
+const User = require('./models/User');
 const salt = 'grupp3BlingKathching'; // unique secret
 
-// function encryptPassword(password) {
-//     return crypto.createHmac('sha256', salt)
-//         .update(password).digest('hex');
-// }
+function encryptPassword(password) {
+    return crypto.createHmac('sha256', salt)
+        .update(password).digest('hex');
+}
 
 // connect to db
 mongoose.connect('mongodb://localhost/bling', {
@@ -30,12 +30,12 @@ app.use(session({
     store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
 // connect our own acl middleware
-const acl = require('./acl-roles');
-const aclRules = require('./acl-roles.json');
+const acl = require('./acl');
+const aclRules = require('./acl-rules.json');
 app.use(acl(aclRules));
 // just to get some rest routes going quickly
 const theRest = require('the.rest');
-const pathToModelFolder = path.join(__dirname, 'mongoose-models');
+const pathToModelFolder = path.join(__dirname, 'models');
 app.use(theRest(express, '/api', pathToModelFolder));
 
 // route to create a user

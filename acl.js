@@ -1,3 +1,4 @@
+
 module.exports = ({ apiPath, rules }) => {
 
 	// Check if the last character is a slash
@@ -22,6 +23,7 @@ module.exports = ({ apiPath, rules }) => {
 					// loop through roles
 					for (let role in rules[rule]) {
 						if (userRole === role) {
+							console.log("FOUND DA ROLE", role, entity)
 							// Found the role
 							// now get allowed methods
 							let allowed = rules[rule][role]

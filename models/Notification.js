@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 let notificationSchema = new Schema({
     message: {type: String,  required: true},
-    seen: {type: boolean, required: true},
-    date: {type: string, required:true},
+    seen: {type: Boolean, required: true},
+    date: {type: String, required:true},
     user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    toAll: {type: string}
+    toAll: {type: String}
 })
 
 module.exports = mongoose.model('Notification', notificationSchema);

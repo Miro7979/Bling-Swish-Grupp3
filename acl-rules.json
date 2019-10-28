@@ -6,8 +6,14 @@
 			"parent": "all",
 			"admin": "all"
 		},
-		"transaction": {
+		"transactions": {
 			"user": "get",
+			"parent": "post put get",
+			"admin": "all"
+		},
+		"users": {
+			"visitor": "all",
+			"user": "all",
 			"parent": "post put get",
 			"admin": "all"
 		}
