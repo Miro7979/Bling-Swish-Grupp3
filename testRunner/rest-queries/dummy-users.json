@@ -1,17 +1,38 @@
 [
   {
-    "username": "Farbror Blå",
-    "password": "112112",
-    "role": "police"
+    "name": "Dick Tracy",
+    "password": "463759",
+    "phone": "+45524233",
+    "email": "dicktracy@hej.com",
+    "nationalIdNumber": "199802202712",
+    "role": "admin",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": [],
+    "notifications": []
   },
   {
-    "username": "Farbror Grå",
-    "password": "bankonme",
-    "role": "banker"
+    "name": "Dickaa Tracy",
+    "password": "463759",
+    "phone": "+455as24233",
+    "email": "dicktracy@hej.com",
+    "nationalIdNumber": "199802202712",
+    "role": "admin",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": [],
+    "notifications": []
   },
   {
-    "username": "Mrs Green",
-    "password": "cleanair",
-    "role": "environmental activist"
+    "name": "Dickracy",
+    "password": "463759",
+    "phone": "+45524233",
+    "email": "dicktracy@hej.com",
+    "nationalIdNumber": "199802202712",
+    "role": "admin",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": [],
+    "notifications": []
   }
 ]
