@@ -46,7 +46,6 @@ app.use(theRest(express, '/api', pathToModelFolder));
 app.post('/api/users', async (req, res) => {
     // we should check that the same username does
     // not exist... let's save that for letter
-    let userRole;
     if (
         typeof req.body.password !== 'string' ||
         req.body.password.length < 6
@@ -54,16 +53,10 @@ app.post('/api/users', async (req, res) => {
         res.json({ error: 'Password to short' });
         return;
     }
-    if(moment(req.body.nationalIdNumber, "YYYYMMDD").fromNow() >= 18 ){
-        userRole = "parent"
-    }
-    else if(moment(req.body.nationalIdNumber, "YYYYMMDD").fromNow() > 18 ){
-        userRole = "child"
-    }
+  
     let user = new User({
         ...req.body,
         password: encryptPassword(req.body.password),
-        role: userRole
     });
     let error;
     let resultFromSave = await user.save()
