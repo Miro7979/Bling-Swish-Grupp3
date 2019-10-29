@@ -66,10 +66,10 @@ app.post('/api/users', async (req, res) => {
 
 // route to login
 app.post('/api/login', async (req, res) => {
-    let { username, password } = req.body;
+    let { name, password } = req.body;
     password = encryptPassword(password);
-    let user = await User.findOne({ username, password })
-        .select('username role').exec();
+    let user = await User.findOne({ name, password })
+        .select('name role').exec();
     if (user) { req.session.user = user };
     res.json(user ? user : { error: 'not found' });
 });
