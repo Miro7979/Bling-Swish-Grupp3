@@ -1,12 +1,9 @@
-module.exports = ({ response, repeat, store, i, expect }) => ({
+module.exports = ({ response, expect }) => ({
   path: 'users',
   method: 'get',
-  role: 'parent',
-  body: store.dummyUsers[i],
+ 
   test() {
     // does the server say user created
-    expect(response.success).to.equal('User created');
-    // repeat this query as long as more dummy users
-    if(store.dummyUsers[i + 1]){ repeat(); }
+    expect(response.length > 0).to.equal(true);
   }
 });

@@ -4,7 +4,6 @@ module.exports = ({ expect, response }) => ({
   body: {
     name: 'Dick Tracy',
     password: '463759',
-    role: 'admin',
   },
   test() {
     expect(response.name).to.equal('Dick Tracy');

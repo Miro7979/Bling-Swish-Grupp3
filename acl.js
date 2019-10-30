@@ -11,7 +11,7 @@ module.exports = ({ apiPath, rules }) => {
 			// Get the users role and the entity requested
 			// (if not logged in set the role visitorr)
 			let userRole = req.session.user ?
-				req.session.user.role || 'child' : 'child';
+				req.session.user.role || 'visitor' : 'visitor';
 			let url = req.url;
 			let method = req.method.toLowerCase();
 			url += url.slice(-1) !== '/' ? '/' : '';

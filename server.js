@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const connectMongo = require('connect-mongo')(session);
 const app = express();
 const User = require('./models/User');
+const Transaction = require('./models/Transaction')
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment')
 
@@ -87,6 +88,24 @@ app.delete('/api/login', (req, res) => {
     delete req.session.user;
     res.json({ status: 'logged out' });
 });
+app.get('/api/mytransactions',  async (req, res) => {
+    let user = req.session.user;
+    if(!user){ res.json([]); return; }
+    let iGot = await Transaction.find({toUser: user._id});
+    let iSent = await Transaction
+      .find({fromUser: user._id})
+      .map(x => ({...x, amount: -x.amount}));
+    let allMyTransactions = iGot.concat(iSent);
+    allMyTransactions.sort((a,b) => a.date < b.date ? -1 : 1);
+    res.json(allMyTransactions);
+  })
+  app.get('/api/imuser',  async (req, res) => {
+    let user = req.session.user;
+    if(!user){ res.json([]); return; }
+    let imUser = await User.find({_id: user._id});
+    res.json(imUser);
+  })
+
 
 // start the web server
 app.listen(3000, () => console.log('Listening on port 3000'));

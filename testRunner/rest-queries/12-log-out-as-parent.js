@@ -1,7 +1,7 @@
 module.exports = ({ expect, response }) => ({
-  path: 'users',
+  path: 'login',
   method: 'delete',
   test() {
-    expect(response.nonJSON).to.equal('page not found.');
+    expect(response.status).to.equal('logged out');
   }
 });

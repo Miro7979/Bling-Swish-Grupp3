@@ -1,14 +1,14 @@
 [
   {
-    "name": "Stora Mumientrollet",
+    "name": "Stora Mumintrollet",
     "password": "463759",
     "phone": "+45524233",
-    "email": "mumientrollet@mumien.com",
+    "email": "mumintrollet@mumin.com",
     "nationalIdNumber": "199802202712",
     "role": "parent",
     "transactionsRecived": [],
     "transactionsSent": [],
-    "children": [],
+    "children": ["5d6ede6a0ba62570afcedd4a"],
     "notifications": []
   },
   {
@@ -48,10 +48,10 @@
     "notifications": []
   },
   {
-    "name": "Lilla Mumientrollet",
+    "name": "Lilla Mumintrollet",
     "password": "463759",
     "phone": "+45524233",
-    "email": "mumientrollet@hej.com",
+    "email": "mumintrollet@hej.com",
     "nationalIdNumber": "199802202712",
     "role": "child",
     "transactionsRecived": [],
