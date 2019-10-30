@@ -1,6 +1,18 @@
 [
   {
-    "name": "Dick Tracy",
+    "name": "Stora Mumintrollet",
+    "password": "463759",
+    "phone": "+45524233",
+    "email": "mumintrollet@mumin.com",
+    "nationalIdNumber": "199802202712",
+    "role": "parent",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": ["5d6ede6a0ba62570afcedd4a"],
+    "notifications": []
+  },
+  {
+    "name": "Dick Macy",
     "password": "463759",
     "phone": "+45524233",
     "email": "dicktracy@hej.com",
@@ -12,7 +24,7 @@
     "notifications": []
   },
   {
-    "name": "Dickaa Tracy",
+    "name": "Dick Tracy",
     "password": "463759",
     "phone": "+455as24233",
     "email": "dicktracy@hej.com",
@@ -24,12 +36,36 @@
     "notifications": []
   },
   {
-    "name": "Dickracy",
+    "name": "Dick Lacy",
     "password": "463759",
     "phone": "+45524233",
     "email": "dicktracy@hej.com",
     "nationalIdNumber": "199802202712",
     "role": "admin",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": [],
+    "notifications": []
+  },
+  {
+    "name": "Lilla Mumintrollet",
+    "password": "463759",
+    "phone": "+45524233",
+    "email": "mumintrollet@hej.com",
+    "nationalIdNumber": "199802202712",
+    "role": "child",
+    "transactionsRecived": [],
+    "transactionsSent": [],
+    "children": [],
+    "notifications": []
+  },
+  {
+    "name": "Pappa Bengt",
+    "password": "463759",
+    "phone": "+45524233",
+    "email": "bengan@hej.com",
+    "nationalIdNumber": "198012202712",
+    "role": "parent",
     "transactionsRecived": [],
     "transactionsSent": [],
     "children": [],

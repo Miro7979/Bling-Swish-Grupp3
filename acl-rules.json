@@ -2,19 +2,34 @@
 	"apiPath": "/api",
 	"rules": {
 		"login": {
-			"child": "all",
-			"parent": "all",
-			"admin": "all"
+			"visitor": "post",
+			"child": "delete get",
+			"parent": "delete get",
+			"admin": "delete get"
 		},
 		"transactions": {
-			"child": "get",
-			"parent": "post put get",
+			"child": "get post",
+			"parent": "post get",
 			"admin": "all"
 		},
 		"users": {
-			"child": "all",
-			"parent": "post put get",
+			"visitor": "post",
 			"admin": "all"
-		}
+		},
+		"notifications": {
+			"child": "post get",
+			"parent": "post get",
+			"admin": "all"
+		},
+		"mytransactions": {
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
+		  },
+		  "imuser": {
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
+		  }
 	}
 }
