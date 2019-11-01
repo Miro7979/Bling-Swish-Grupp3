@@ -6,9 +6,10 @@ const mongoose = require('mongoose');
 const connectMongo = require('connect-mongo')(session);
 const app = express();
 const User = require('./models/User');
-const Transaction = require('./models/Transaction')
+const Transaction = require('./models/Transaction');
 const salt = 'grupp3BlingKathching'; // unique secret
-const moment = require('moment')
+const moment = require('moment');
+const nodemailer = require('./nodemailer');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -62,7 +63,9 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created' });
+    res.json(error ? { error } : { success: 'User created' && nodemailer });
+    
+       
 });
 
 // route to login
@@ -88,6 +91,7 @@ app.delete('/api/login', (req, res) => {
     delete req.session.user;
     res.json({ status: 'logged out' });
 });
+
 app.get('/api/mytransactions',  async (req, res) => {
     let user = req.session.user;
     if(!user){ res.json([]); return; }
@@ -99,6 +103,7 @@ app.get('/api/mytransactions',  async (req, res) => {
     allMyTransactions.sort((a,b) => a.date < b.date ? -1 : 1);
     res.json(allMyTransactions);
   })
+
   app.get('/api/imuser',  async (req, res) => {
     let user = req.session.user;
     if(!user){ res.json([]); return; }
