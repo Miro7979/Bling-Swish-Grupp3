@@ -41,6 +41,10 @@ const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 app.use(theRest(express, '/api', pathToModelFolder));
 
+// app.all('/api/*', (req,res) => {
+//     res.json({url: req.url, ok: true});
+//   });
+
 // route to create a user
 // in production it would be STUPID to let
 // the user/frontend set its role... but for now
@@ -55,7 +59,7 @@ app.post('/api/users', async (req, res) => {
         res.json({ error: 'Password to short' });
         return;
     }
-  
+
     let user = new User({
         ...req.body,
         password: encryptPassword(req.body.password),
@@ -64,8 +68,8 @@ app.post('/api/users', async (req, res) => {
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
     res.json(error ? { error } : { success: 'User created' && nodemailer });
-    
-       
+
+
 });
 
 // route to login
@@ -92,25 +96,25 @@ app.delete('/api/login', (req, res) => {
     res.json({ status: 'logged out' });
 });
 
-app.get('/api/mytransactions',  async (req, res) => {
+app.get('/api/mytransactions', async (req, res) => {
     let user = req.session.user;
-    if(!user){ res.json([]); return; }
-    let iGot = await Transaction.find({toUser: user._id});
+    if (!user) { res.json([]); return; }
+    let iGot = await Transaction.find({ toUser: user._id });
     let iSent = await Transaction
-      .find({fromUser: user._id})
-      .map(x => ({...x, amount: -x.amount}));
+        .find({ fromUser: user._id })
+        .map(x => ({ ...x, amount: -x.amount }));
     let allMyTransactions = iGot.concat(iSent);
-    allMyTransactions.sort((a,b) => a.date < b.date ? -1 : 1);
+    allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
     res.json(allMyTransactions);
-  })
+})
 
-  app.get('/api/imuser',  async (req, res) => {
+app.get('/api/imuser', async (req, res) => {
     let user = req.session.user;
-    if(!user){ res.json([]); return; }
-    let imUser = await User.find({_id: user._id});
+    if (!user) { res.json([]); return; }
+    let imUser = await User.find({ _id: user._id });
     res.json(imUser);
-  })
+})
 
 
 // start the web server
-app.listen(3000, () => console.log('Listening on port 3000'));
+app.listen(3001, () => console.log('Listening on port 3001'));
