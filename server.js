@@ -41,6 +41,7 @@ const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 app.use(theRest(express, '/api', pathToModelFolder));
 
+//what to do with this?????
 // app.all('/api/*', (req,res) => {
 //     res.json({url: req.url, ok: true});
 //   });
