@@ -1,31 +1,44 @@
 import React, { useState } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 
-const NavBar = (props) => {
-  const [collapsed, setCollapsed] = useState(true);
+const Example = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleNavbar = () => setCollapsed(!collapsed);
+  const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <React.Fragment>
-      <Navbar color="faded" light>
-        <NavbarBrand>Captain Bling Swish</NavbarBrand>
-        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
-        <Collapse isOpen={!collapsed} navbar>
+    <div>
+      <Navbar color="light" light expand="md">
+        <NavbarBrand href="/">Bling Swish</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/minaSidor">Mina sidor</NavLink>
+              <NavLink href="/minasidor/">Mina Sidor</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
+              <NavLink href="/minasidor/">Betalningshistorik</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/loggaUt">Logga ut</NavLink>
+              <NavLink href="/minasidor/">Logga ut</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
-    </React.Fragment>);
+    </div>
+  );
 }
 
-export default NavBar;
+export default Example;
+
