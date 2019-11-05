@@ -1,0 +1,16 @@
+.logInHeader {
+	text-align: center;
+}
+@media all and (max-width: 599px) and (min-width: 320px) {
+	h2 {
+		font-size: 12px;
+	}
+	.newUserBtn,
+	.forgotPasswordBtn,
+	.logInBtn {
+		align-content: center;
+	}
+	.newUserBtn {
+		margin-top: 5px;
+	}
+}
