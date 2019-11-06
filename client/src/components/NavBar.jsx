@@ -22,13 +22,13 @@ const NavBar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/minasidor/">Mina Sidor</NavLink>
+              <NavLink href="/minasidor">Mina Sidor</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/minasidor/">Betalningshistorik</NavLink>
+              <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/minasidor/">Logga ut</NavLink>
+              <NavLink href="/loggaut">Logga ut</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
