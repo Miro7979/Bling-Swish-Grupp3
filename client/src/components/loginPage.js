@@ -10,7 +10,15 @@ import {
 
 function LogInPage() {
 
+	let handleLogInBtn = (e) => {
+		e.preventDefault();
+		console.log('log in Btn was clicked')
+	}
 
+	let handleRegisterNewUserBtn = (e) => {
+		e.preventDefault();
+		console.log('Register was clicked')
+	}
 
 	return (
 		<div className="container">
@@ -42,13 +50,13 @@ function LogInPage() {
 					</Row>
 					<Row>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button color="success" className="logInBtn mr-3">Logga in</Button>
+							<Button onClick={handleLogInBtn} color="success" className="logInBtn mr-3">Logga in</Button>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<Button color="info" className="forgotPasswordBtn mr-3">Glömt lösenord</Button>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button color="primary" className="newUserBtn">Registrera dig som ny användare</Button>
+							<Button onClick={handleRegisterNewUserBtn} color="primary" className="newUserBtn">Registrera dig som ny användare</Button>
 						</Col>
 					</Row>
 				</Form>
