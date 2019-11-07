@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
+import MyPagePage from './components/MyPagePage';
 
 function App() {
   return (
@@ -10,6 +11,9 @@ function App() {
         <NavBar />
         
       </header>
+
+      <MyPagePage />
+
     </div>
   );
 }
