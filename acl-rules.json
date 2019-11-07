@@ -13,7 +13,7 @@
 			"admin": "all"
 		},
 		"users": {
-			"visitor": "post",
+			"visitor": "all",
 			"admin": "all"
 		},
 		"notifications": {
@@ -30,6 +30,12 @@
 			"admin": "get",
 			"parent": "get",
 			"child": "get"
+		  },
+		  "activateaccounts":{
+			  "visitor": "all",
+			  "child": "all",
+			  "parent": "all",
+			  "admin": "all"
 		  }
 	}
 }

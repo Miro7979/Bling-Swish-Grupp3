@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 // async..await is not allowed in global scope, must use a wrapper
-async function main() {
+module.exports =  async function sendMail(user) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   let testAccount = await nodemailer.createTestAccount();
@@ -17,14 +17,14 @@ async function main() {
       pass: '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'
     }
   });
-
+let mail = btoa(user.email)
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"melli" <melsie78@gmail.com>', // sender address
-    to: 'melsie78@gmail.com', // list of receivers
+    to: user.email, // list of receivers
     subject: 'Hello ✔', // Subject line
-    text: 'Hello world?', // plain text body
-    html: '<b>Hello world?</b>' // html body
+    text: 'Activation link', // plain text body
+    html: `<a href="/activateAccount/${mail}">activate</a>` 
   });
   console.log('is this sending mail?');
 
@@ -36,4 +36,4 @@ async function main() {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
-main().catch(console.error);
+//main().catch(console.error);
