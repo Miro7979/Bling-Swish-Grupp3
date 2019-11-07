@@ -1,0 +1,32 @@
+.mypage-component{
+   // border: solid black 1 px;
+   // background-color:orange;
+}
+
+.mypage-component .personal-info-list{
+    width:30%;
+    padding-top:50px;
+    margin:auto;
+}
+.mypage-component .password-field{
+    
+    width:30%;
+    margin-top:20px;
+    margin-left:35%;
+    border: solid rgb(207, 207, 207) 1px;
+    border-radius:2%;
+    line-height:3;
+    text-indent:2%;
+    vertical-align:top;
+}
+.mypage-component .change-password-button{
+    display:inline-block;
+    border:solid black 1px;
+    background-image: url("../images/edit-icon.png");
+    background-repeat:no-repeat;
+    width:50px;
+    height:50px;
+    cursor:pointer;
+    margin-top:20px;
+    vertical-align:top;
+}
