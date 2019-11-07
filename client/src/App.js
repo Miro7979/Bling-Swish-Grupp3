@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from './components/NavBar';
 import './App.scss';
 import './styles.scss';
-import LogInPage from './components/LogInPage.js';
+import LogInPage from './components/loginPage.js';
 
 function App() {
   return (
