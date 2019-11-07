@@ -1,16 +1,36 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import NavBar from './components/NavBar';
+import LoginPage from './components/loginPage';
+import HistoryPage from './components/HistoryPage';
+// import MyPagePage from './components/MyPagePage';
+// import PaymentPage from './components/paymentPage';
 import './App.scss';
-import './styles.scss';
-import PaymentPage from './components/PaymentPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <PaymentPage></PaymentPage>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <NavBar />
+        </header>
+        <main>
+          {/* On path="/" a ternary operator should be introduced to alternate
+            between two stages, based on if you´re logged in or not.
+            eg. component={PaymentPage} if logged in 
+          */}
+          <Switch className="switch">
+            <Route exact path="/" component={LoginPage} />
+            <Route path="/login" component={LoginPage} />
+            {/* <Route path="/betalningar" component={PaymentPage} /> */}
+            {/* <Route path="/minasidor" component={MyPagePage} /> */}
+            <Route path="/betalningshistorik" component={HistoryPage} />
+          </Switch>
+        </main>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
