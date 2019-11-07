@@ -1,17 +1,26 @@
 import React from 'react';
-import './App.css';
-import NavBar from './components/NavBar';
-import LoginPage from './components/loginPage';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from './components/NavBar';
+import './App.scss';
+import './styles.scss';
+import LogInPage from './components/LogInPage.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <NavBar />
-        
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <main>
+          <Switch className="switch">
+            <Route path="/" exact component={LogInPage} />
+
+          </Switch>
+        </main>
+
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
