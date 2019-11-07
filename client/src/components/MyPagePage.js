@@ -3,7 +3,7 @@ import {ListGroup,ListGroupItem} from 'reactstrap';
 
 const MyPagePage =()=>{
 
-	const[userData,setUserData]=useState([{
+	const[userData,setUserData]=useState({
 		name:'Göran Persson',
 		password:'olga99',
 		phone:'0708-137490',
@@ -11,14 +11,13 @@ const MyPagePage =()=>{
 		nationalIdNumber:'620221-1942',
 		role:'parent',
 		children:'99972345, 89898986'
-	}]);
-	const[newPassword,setnewPassword]=useState([{
+	});
+	const[newPassword,setnewPassword]=useState({
 		password:''
-	}]);
+	});
 
 	const handleSubmit =()=>{
-		console.log(newPassword);
-		setUserData([{
+		setUserData({
 			name:'Göran Persson',
 			password:newPassword,
 			phone:'0708-137490',
@@ -26,28 +25,44 @@ const MyPagePage =()=>{
 			nationalIdNumber:'620221-1942',
 			role:'parent',
 			children:'99972345, 89898986'
-		}]);
-		console.log(userData[0]);
+		});
 	}
 
+	const[wantToChangePassword,setWantToChangePassword]=useState({
+		wantToChange:false
+	});
+	const HtmlToggler=()=>{
+		setWantToChangePassword({
+			wantToChange:true
+		});
+	}
+ 
 	return(
 		<div className="mypage-component">
 
 			<ListGroup className="personal-info-list" >
-				<ListGroupItem>{userData[0].name}</ListGroupItem>
-				<ListGroupItem>{userData[0].phone}</ListGroupItem>
-				<ListGroupItem>{userData[0].email}</ListGroupItem>
-				<ListGroupItem>{userData[0].nationalIdNumber}</ListGroupItem>
-				<ListGroupItem>{userData[0].role}</ListGroupItem>
-				<ListGroupItem>{userData[0].children}</ListGroupItem>
+				<ListGroupItem>{userData.name}</ListGroupItem>
+				<ListGroupItem>{userData.phone}</ListGroupItem>
+				<ListGroupItem>{userData.email}</ListGroupItem>
+				<ListGroupItem>{userData.nationalIdNumber}</ListGroupItem>
+				<ListGroupItem>{userData.role}</ListGroupItem>
+				<ListGroupItem>{userData.children}</ListGroupItem>
 			</ListGroup>
 
-			<input type="password" onChange={(e)=>setnewPassword(e.target.value)} />
-			<button onClick={handleSubmit}> Spara </button>
+			{wantToChangePassword.wantToChange? 
+				<div>
+					<input type="password" onChange={(e)=>setnewPassword(e.target.value)} />
+					<button onClick={handleSubmit}> Spara </button> 
+				</div> 
+				: 
+				<div>	
+					<output className="password-field">{userData.password}</output>
+					<div className="change-password-button" onClick={HtmlToggler}></div>
+				</div>
+			}
 				
 		</div>
 	);
 
 }
 export default MyPagePage;
-
