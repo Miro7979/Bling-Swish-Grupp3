@@ -1,32 +1,38 @@
 .mypage-component{
-   // border: solid black 1 px;
-   // background-color:orange;
+   border: solid black 1px;
 }
 
 .mypage-component .personal-info-list{
-    width:30%;
-    padding-top:50px;
-    margin:auto;
+    width:100%;
 }
-.mypage-component .password-field{
-    
+.mypage-component .personal-info-list .label{
+    display:inline-block;
     width:30%;
-    margin-top:20px;
-    margin-left:35%;
+    line-height:2.5;
+    margin:0px;
+    text-indent:20%;
+}
+.mypage-component .output-field{   
+    width:50%;
+    line-height:2.5;
+    vertical-align:top;
+    margin:0px;
+}
+.mypage-component .input-field{   
+    width:50%;
     border: solid rgb(207, 207, 207) 1px;
     border-radius:2%;
-    line-height:3;
-    text-indent:2%;
+    line-height:2.5;
     vertical-align:top;
+    margin:0px;
+    display:inline-block;
 }
 .mypage-component .change-password-button{
     display:inline-block;
-    border:solid black 1px;
     background-image: url("../images/edit-icon.png");
     background-repeat:no-repeat;
     width:50px;
     height:50px;
     cursor:pointer;
-    margin-top:20px;
     vertical-align:top;
 }

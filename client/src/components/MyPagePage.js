@@ -10,7 +10,7 @@ const MyPagePage =()=>{
 		email:'gptomelilla@hotmail.com',
 		nationalIdNumber:'620221-1942',
 		role:'parent',
-		children:'99972345, 89898986'
+		children:['99972345', '89898986']
 	});
 	const[newPassword,setnewPassword]=useState({
 		password:''
@@ -24,7 +24,7 @@ const MyPagePage =()=>{
 			email:'gptomelilla@hotmail.com',
 			nationalIdNumber:'620221-1942',
 			role:'parent',
-			children:'99972345, 89898986'
+			children:['99972345', '89898986']
 		});
 	}
 
@@ -40,25 +40,38 @@ const MyPagePage =()=>{
 	return(
 		<div className="mypage-component">
 
-			<ListGroup className="personal-info-list" >
-				<ListGroupItem>{userData.name}</ListGroupItem>
-				<ListGroupItem>{userData.phone}</ListGroupItem>
-				<ListGroupItem>{userData.email}</ListGroupItem>
-				<ListGroupItem>{userData.nationalIdNumber}</ListGroupItem>
-				<ListGroupItem>{userData.role}</ListGroupItem>
-				<ListGroupItem>{userData.children}</ListGroupItem>
-			</ListGroup>
+			<div className="personal-info-list" >
+				<p className="label">Namn:</p>  <output className="output-field">{userData.name}</output>
+				<p className="label">Telefon:</p>  <output className="output-field">{userData.phone}</output>
+				<p className="label">Email:</p>	<output className="output-field">{userData.email}</output>
+				<p className="label">PrNr:</p>  <output className="output-field">{userData.nationalIdNumber}</output>
+				<p className="label">Roll:</p>  <output className="output-field">{userData.role}</output>
+				<p className="label">Barn:</p>	<output className="output-field">{userData.children}</output>
+			</div>
 
 			{wantToChangePassword.wantToChange? 
-				<div>
-					<input type="password" onChange={(e)=>setnewPassword(e.target.value)} />
-					<button onClick={handleSubmit}> Spara </button> 
+				<div className="personal-info-list">
+					<p className="label">Lösenord:</p>  <input type="password" className="input-field" onChange={(e)=>setnewPassword(e.target.value)} autoFocus />
 				</div> 
 				: 
-				<div>	
-					<output className="password-field">{userData.password}</output>
+				<div className="personal-info-list">	
+					<p className="label">Lösenord:</p>  <output className="output-field">{userData.password}</output>
 					<div className="change-password-button" onClick={HtmlToggler}></div>
 				</div>
+			}
+
+			
+			<h2>Mina barn</h2>
+
+			{userData.children.length>0? 
+				<ul>
+					{userData.children.map(child=>{
+					return(<li>{child}</li>);
+					})}
+
+				</ul>
+			:
+				<p>inga barn</p>
 			}
 				
 		</div>
@@ -66,3 +79,8 @@ const MyPagePage =()=>{
 
 }
 export default MyPagePage;
+
+
+/*
+<button onClick={handleSubmit}> Spara </button> 
+*/
