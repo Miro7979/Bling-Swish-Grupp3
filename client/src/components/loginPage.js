@@ -16,10 +16,6 @@ function LogInPage() {
 		console.log('log in Btn was clicked')
 	}
 
-	let handleRegisterNewUserBtn = (e) => {
-		e.preventDefault();
-		console.log('Register was clicked')
-	}
 
 	return (
 		<div className="container">
@@ -55,12 +51,12 @@ function LogInPage() {
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div className="forgotPasswordLink">
-								<Link to="/ForgotPasswordPage">Glömt lösenord</Link>
+								<Link to="/forgotPasswordPage">Glömt lösenord</Link>
 							</div>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div className="registerNewUserLink">
-								<Link to="/RegisterNewUserPage">Registrera dig som ny användare</Link>
+								<Link to="/registerNewUserPage">Registrera dig som ny användare</Link>
 							</div>
 						</Col>
 					</Row>
