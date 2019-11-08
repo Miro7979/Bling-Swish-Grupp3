@@ -15,15 +15,16 @@ label {
 	color: white;
 }
 
-.forgotPasswordBtn,
-.newUserBtn {
+.forgotPasswordLink,
+.registerNewUserLink {
 	margin-top: 50px;
+	font-size: 20px;
 	left: 0;
 	top: 50%;
 	width: auto;
 	text-align: center;
 }
-.newUserBtn {
+.registerNewUserLink {
 	margin-top: 5px;
 }
 
@@ -34,15 +35,16 @@ label {
 	.h4LogInHeader {
 		font-size: 20px;
 	}
-	.forgotPasswordBtn,
-	.newUserBtn {
+	.forgotPasswordLink,
+	.registerNewUserLink {
 		margin-top: 50px;
+		font-size: 18px;
 		left: 0;
 		top: 50%;
 		width: 100%;
 		text-align: center;
 	}
-	.newUserBtn {
+	.registerNewUserLink {
 		margin-top: 5px;
 	}
 }
