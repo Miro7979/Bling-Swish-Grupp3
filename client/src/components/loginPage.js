@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
 	Button, Input,
 	Form,
@@ -53,10 +54,14 @@ function LogInPage() {
 							<Button onClick={handleLogInBtn} color="success" className="logInBtn mr-3">Logga in</Button>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button color="info" className="forgotPasswordBtn mr-3">Glömt lösenord</Button>
+							<div className="forgotPasswordLink">
+								<Link to="/ForgotPasswordPage">Glömt lösenord</Link>
+							</div>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button onClick={handleRegisterNewUserBtn} color="primary" className="newUserBtn">Registrera dig som ny användare</Button>
+							<div className="registerNewUserLink">
+								<Link to="/RegisterNewUserPage">Registrera dig som ny användare</Link>
+							</div>
 						</Col>
 					</Row>
 				</Form>
