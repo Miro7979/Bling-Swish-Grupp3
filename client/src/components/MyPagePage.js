@@ -10,7 +10,7 @@ const MyPagePage =()=>{
 		email:'gptomelilla@hotmail.com',
 		nationalIdNumber:'620221-1942',
 		role:'parent',
-		children:['99972345', '89898986']
+		children:[{id:'99972345',name:'henke'},{id:'89898986',name:'stefan'}]
 	});
 	const[newPassword,setnewPassword]=useState({
 		password:''
@@ -24,7 +24,7 @@ const MyPagePage =()=>{
 			email:'gptomelilla@hotmail.com',
 			nationalIdNumber:'620221-1942',
 			role:'parent',
-			children:['99972345', '89898986']
+			children:['666', '666']
 		});
 	}
 
@@ -50,7 +50,7 @@ const MyPagePage =()=>{
 				<p className="label">Email:</p>	<output className="output-field">{userData.email}</output>
 				<p className="label">PrNr:</p>  <output className="output-field">{userData.nationalIdNumber}</output>
 				<p className="label">Roll:</p>  <output className="output-field">{userData.role}</output>
-				<p className="label">Barn:</p>	<output className="output-field">{userData.children}</output>
+			
 			</div>
 
 			{wantToChangePassword.wantToChange? 
@@ -70,7 +70,7 @@ const MyPagePage =()=>{
 						{userData.children.map(child=>{
 							return(
 								<div>
-									<li>{child}</li>
+									<li>{child.name}</li>
 									<input type="text" className="child-limit-input"></input>
 								</div>
 							);
@@ -80,6 +80,8 @@ const MyPagePage =()=>{
 					<p>inga barn</p>
 				}
 			</div>
+
+			<button className="save-button" onClick={handleSubmit}>Spara</button>
 			
 				
 		</div>
@@ -88,7 +90,6 @@ const MyPagePage =()=>{
 }
 export default MyPagePage;
 
-
 /*
-<button onClick={handleSubmit}> Spara </button> 
-*/
+	<p className="label">Barn:</p>	<output className="output-field">{userData.children}</output>
+	*/

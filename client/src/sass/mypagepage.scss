@@ -1,10 +1,10 @@
 .mypage-component{
-   border: solid black 1px;
+   //border: solid black 1px;
    margin-top:30px;
 }
 
 .mypage-component .header{
-    border: solid orange 1px;
+    //border: solid orange 1px;
     width:100%;
     height:70px;
  }
@@ -14,7 +14,7 @@
     width:25%;
     margin-left:5%;
     height:50px;
-    border:solid black 1px;
+   // border:solid black 1px;
     display:inline-block;
 }
 .mypage-component .header .name{
@@ -30,7 +30,7 @@
 
 .mypage-component .personal-info-list{
     width:100%;
-    border:solid green 1px;
+    //border:solid green 1px;
 }
 .mypage-component .personal-info-list .label{
     display:inline-block;
@@ -68,14 +68,19 @@
 .mypage-component .children-list{
     list-style-image: url('../images/child-icon.png');
     width:100%;
-    border:solid orange 1px;
+   // border:solid orange 1px;
 }
 .mypage-component .children-list li{
-    border:solid red 1px;
+    //border:solid red 1px;
     width:30%;
     margin-left:7%;
 }
 .mypage-component .children-list .child-limit-input{
-    border:solid pink 1px;
+    //border:solid pink 1px;
     width:60%;
+}
+
+
+.mypage-component .save-button{
+    margin-left:45%;
 }
