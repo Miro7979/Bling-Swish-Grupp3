@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
 import HistoryPage from './components/HistoryPage';
 // import MyPagePage from './components/MyPagePage';
-// import PaymentPage from './components/paymentPage';
+import PaymentPage from './components/PaymentPage';
 import './App.scss';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           <Switch className="switch">
             <Route exact path="/" component={LoginPage} />
             <Route path="/login" component={LoginPage} />
-            {/* <Route path="/betalningar" component={PaymentPage} /> */}
+            <Route path="/betalningar" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
             <Route path="/betalningshistorik" component={HistoryPage} />
           </Switch>

@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   InputGroup,
-  InputGroupAddon,
   Button,
   Label,
   Input
@@ -38,7 +37,7 @@ function PaymentPage() {
         </Col>
         <Col xs={12} className="mt-3">
 
-          <Button color="success">success</Button>{' '}
+          <Button color="success">Bling</Button>{' '}
         </Col>
       </Row>
     </div >
@@ -48,3 +47,5 @@ function PaymentPage() {
 };
 
 export default PaymentPage;
+
+
