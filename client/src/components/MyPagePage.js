@@ -40,8 +40,12 @@ const MyPagePage =()=>{
 	return(
 		<div className="mypage-component">
 
+			<div className="header">
+				<div className="person-logo"></div>
+				<div className="name">{userData.name}</div>
+			</div>
+
 			<div className="personal-info-list" >
-				<p className="label">Namn:</p>  <output className="output-field">{userData.name}</output>
 				<p className="label">Telefon:</p>  <output className="output-field">{userData.phone}</output>
 				<p className="label">Email:</p>	<output className="output-field">{userData.email}</output>
 				<p className="label">PrNr:</p>  <output className="output-field">{userData.nationalIdNumber}</output>
@@ -60,19 +64,23 @@ const MyPagePage =()=>{
 				</div>
 			}
 
+			<div className="personal-info-list">
+				{userData.children.length>0? 
+					<ul className="children-list">
+						{userData.children.map(child=>{
+							return(
+								<div>
+									<li>{child}</li>
+									<input type="text" className="child-limit-input"></input>
+								</div>
+							);
+						})}
+					</ul>
+				:
+					<p>inga barn</p>
+				}
+			</div>
 			
-			<h2>Mina barn</h2>
-
-			{userData.children.length>0? 
-				<ul>
-					{userData.children.map(child=>{
-					return(<li>{child}</li>);
-					})}
-
-				</ul>
-			:
-				<p>inga barn</p>
-			}
 				
 		</div>
 	);

@@ -1,20 +1,47 @@
 .mypage-component{
    border: solid black 1px;
+   margin-top:30px;
 }
+
+.mypage-component .header{
+    border: solid orange 1px;
+    width:100%;
+    height:70px;
+ }
+ .mypage-component .header .person-logo{
+    background-image: url("../images/person-icon.png");
+    background-repeat:no-repeat;
+    width:25%;
+    margin-left:5%;
+    height:50px;
+    border:solid black 1px;
+    display:inline-block;
+}
+.mypage-component .header .name{
+    display:inline-block;
+    vertical-align:top;
+    width:50%;
+    font-size:23px;
+    line-height:2;
+    
+}
+
+
 
 .mypage-component .personal-info-list{
     width:100%;
+    border:solid green 1px;
 }
 .mypage-component .personal-info-list .label{
     display:inline-block;
     width:30%;
-    line-height:2.5;
+    line-height:2;
     margin:0px;
     text-indent:20%;
 }
 .mypage-component .output-field{   
     width:50%;
-    line-height:2.5;
+    line-height:2;
     vertical-align:top;
     margin:0px;
 }
@@ -22,7 +49,7 @@
     width:50%;
     border: solid rgb(207, 207, 207) 1px;
     border-radius:2%;
-    line-height:2.5;
+    line-height:2;
     vertical-align:top;
     margin:0px;
     display:inline-block;
@@ -35,4 +62,20 @@
     height:50px;
     cursor:pointer;
     vertical-align:top;
+}
+
+
+.mypage-component .children-list{
+    list-style-image: url('../images/child-icon.png');
+    width:100%;
+    border:solid orange 1px;
+}
+.mypage-component .children-list li{
+    border:solid red 1px;
+    width:30%;
+    margin-left:7%;
+}
+.mypage-component .children-list .child-limit-input{
+    border:solid pink 1px;
+    width:60%;
 }
