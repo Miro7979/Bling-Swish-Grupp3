@@ -20,7 +20,7 @@ const MyPagePageChild=({child})=>{
 				<p className="name">{child.name}</p>
 		   		<p className="limit-text">Begränsning:</p>
 				{editLimit.wantToEdit?
-					<input type="text" className="child-limit-input" onChange={changeLimit} autoFocus></input>
+					<input type="text" className="limit-input" onChange={changeLimit} autoFocus></input>
 					:<p className="limit">{child.limit}</p>}  				
 				<p className="limit-text">kr</p>
 				<div className="edit-limit-button" onClick={htmlToggler}></div> 
