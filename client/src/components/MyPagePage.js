@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from 'react';
-import {ListGroup,ListGroupItem} from 'reactstrap';
+import React,{useState} from 'react';
+import MypagePageChild from './MyPagePageChild.js';
 
 const MyPagePage =()=>{
 
@@ -17,7 +17,7 @@ const MyPagePage =()=>{
 	});
 
 	const handleSubmit =()=>{
-		setUserData({
+		/*setUserData({
 			name:'Göran Persson',
 			password:newPassword,
 			phone:'0708-137490',
@@ -25,7 +25,9 @@ const MyPagePage =()=>{
 			nationalIdNumber:'620221-1942',
 			role:'parent',
 			children:['666', '666']
-		});
+		});*/
+		alert('hej');
+
 	}
 
 	const[wantToChangePassword,setWantToChangePassword]=useState({
@@ -36,7 +38,8 @@ const MyPagePage =()=>{
 			wantToChange:true
 		});
 	}
- 
+
+
 	return(
 		<div className="mypage-component">
 
@@ -68,29 +71,15 @@ const MyPagePage =()=>{
 				{userData.children.length>0? 
 					<ul className="children-list">
 						{userData.children.map(child=>{
-							return(
-								<div>
-									<li>{child.name}</li>
-									<p>Limiterad till : {child.limit} kr</p>
-									<input type="text" className="child-limit-input"></input>
-								</div>
+							return(									
+								<MypagePageChild child={child}/>
 							);
 						})}
 					</ul>
-				:
-					<p>inga barn</p>
-				}
+				: <p>inga barn</p> }
 			</div>
-
-			<button className="save-button" onClick={handleSubmit}>Spara</button>
-			
-				
+			<button className="save-button" onClick={handleSubmit}>Spara</button>				
 		</div>
 	);
-
 }
 export default MyPagePage;
-
-/*
-	<p className="label">Barn:</p>	<output className="output-field">{userData.children}</output>
-	*/
