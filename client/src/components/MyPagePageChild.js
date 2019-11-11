@@ -10,28 +10,22 @@ const MyPagePageChild=({child})=>{
 			wantToEdit: true
 		});
 	}
-
-	const [newLimit,setNewLimit]=useState({
-		theLimit:''
-	});
+	const changeLimit=(e)=>{
+		child.limit=e.target.value;
+	}
 
     return(
-        <div className="mypagepage-child-component">
-			<li>{child.name}</li>
-		    {editLimit.wantToEdit?
-			<div>
-				<p className="limited-text">Limiterad till</p>
-				<input type="text" className="child-limit-input" 
-				onChange={(e)=>setNewLimit(e.target.value)} autoFocus></input>
-			</div>
-			:
-			<div>
-				<p className="limited-text">Limiterad till : {child.limit} kr</p>
-				<div className="edit-limit-button" onClick={htmlToggler}></div>
-			</div>
-			}
+        <div>
+			<li>
+				<p className="name">{child.name}</p>
+		   		<p className="limit-text">Begränsning:</p>
+				{editLimit.wantToEdit?
+					<input type="text" className="child-limit-input" onChange={changeLimit} autoFocus></input>
+					:<p className="limit">{child.limit}</p>}  				
+				<p className="limit-text">kr</p>
+				<div className="edit-limit-button" onClick={htmlToggler}></div> 
+			</li>
 		</div>	
     );
 }
-
 export default MyPagePageChild;

@@ -1,10 +1,10 @@
 .mypage-component{
-   //border: solid black 1px;
+   border: solid black 1px;
    margin-top:30px;
 }
 
 .mypage-component .header{
-    //border: solid orange 1px;
+    border: solid orange 1px;
     width:100%;
     height:70px;
  }
@@ -14,7 +14,7 @@
     width:25%;
     margin-left:5%;
     height:50px;
-   // border:solid black 1px;
+    border:solid black 1px;
     display:inline-block;
 }
 .mypage-component .header .name{
@@ -30,7 +30,7 @@
 
 .mypage-component .personal-info-list{
     width:100%;
-    //border:solid green 1px;
+    border:solid green 1px;
 }
 .mypage-component .personal-info-list .label{
     display:inline-block;
@@ -65,30 +65,65 @@
 }
 
 
+
+
+//children space
+
 .mypage-component .children-list{
-    list-style-image: url('../images/child-icon.png');
     width:100%;
-   // border:solid orange 1px;
+    border:solid orange 1px;
 }
 .mypage-component .children-list li{
-    //border:solid red 1px;
-    width:30%;
-    margin-left:7%;
+    list-style-image: url('../images/child-icon.png');
+    border:solid red 1px;
+    width:90%;
+    margin-left:6.5%;  
 }
-.mypage-component .children-list .child-limit-input{
-    //border:solid pink 1px;
-    width:60%;
+.mypage-component .children-list li .name{
+    vertical-align: top;
+    border:solid black 1px;
+    margin:0px;
+    position:relative;
+    bottom:13px;
+    font-size:19px;
+}
+.mypage-component .children-list li .limit-text{
+    vertical-align: top;
+    border:solid black 1px;
+    margin:0px;
+    display: inline-block;
+}
+.mypage-component .children-list li .limit{
+    vertical-align: top;
+    border:solid black 1px;
+    margin:0px;
+    display: inline-block;
+    padding-left:10px;
+    padding-right:10px;
 }
 
 .mypage-component .edit-limit-button{
     display:inline-block;
     background-image: url("../images/edit-icon.png");
     background-repeat:no-repeat;
-    width:50px;
-    height:50px;
+    width:30px;
+    height:30px;
     cursor:pointer;
     vertical-align:top;
+    margin-left:20px;
 }
+
+
+
+
+.mypage-component .children-list .child-limit-input{
+    //border:solid pink 1px;
+    width:60%;
+}
+
+
+
+
 
 
 

@@ -10,7 +10,7 @@ const MyPagePage =()=>{
 		email:'gptomelilla@hotmail.com',
 		nationalIdNumber:'620221-1942',
 		role:'parent',
-		children:[{id:'99972345',name:'Henrik Persson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
+		children:[{id:'99972345',name:'Henrik Peeeeeeeeersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
 	});
 	const[newPassword,setnewPassword]=useState({
 		password:''
@@ -26,7 +26,7 @@ const MyPagePage =()=>{
 			role:'parent',
 			children:['666', '666']
 		});*/
-		alert('hej');
+		console.log(userData.children);
 
 	}
 
