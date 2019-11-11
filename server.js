@@ -56,9 +56,10 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
     }
     console.log("user save", user)
     res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
-
+    
 })
 
+//http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
 //what to do with this?????
 // app.all('/api/*', (req,res) => {
 //     res.json({url: req.url, ok: true});
@@ -71,9 +72,10 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
 app.post('/api/users', async (req, res) => {
     // we should check that the same username does
     // not exist... let's save that for letter
+    console.log(req)
     if (
-        typeof req.body.password !== 'string' ||
-        req.body.password.length < 6
+        typeof req.body.user.password !== 'string' ||
+        req.body.user.password.length < 6
     ) {
         res.json({ error: 'Password to short' });
         return;
@@ -88,8 +90,6 @@ app.post('/api/users', async (req, res) => {
         .catch(err => error = err + '');
     res.json(error ? { error } : { success: 'User created'});
     !error && sendMail(user)
-
-
 });
 
 // route to login
