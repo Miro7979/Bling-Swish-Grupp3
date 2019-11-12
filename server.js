@@ -9,7 +9,7 @@ const User = require('./models/User');
 const Transaction = require('./models/Transaction');
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
-const nodemailer = require('./nodemailer');
+// const nodemailer = require('./nodemailer');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -68,7 +68,7 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created' && nodemailer });
+    res.json(error ? { error } : { success: 'User created' });
 
 
 });
