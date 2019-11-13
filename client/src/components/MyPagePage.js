@@ -10,6 +10,7 @@ const MyPagePage =()=>{
 		email:'gptomelilla@hotmail.com',
 		nationalIdNumber:'620221-1942',
 		role:'parent',
+		limit:500,
 		children:[{id:'99972345',name:'Henrik Peeeeeeeeersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
 	});
 	const handleSubmit =()=>{
@@ -22,8 +23,17 @@ const MyPagePage =()=>{
 	const[wantToChangePassword,setWantToChangePassword]=useState({
 		wantToChange:false
 	});
-	const HtmlToggler=()=>{
+	const passwordToggler=()=>{
 		setWantToChangePassword({
+			wantToChange:true
+		});
+	}
+
+	const[wantToChangeLimit,setWantToChangeLimit]= useState({
+		wantToChange:false
+	});
+	const limitToggler=()=>{
+		setWantToChangeLimit({
 			wantToChange:true
 		});
 	}
@@ -48,9 +58,19 @@ const MyPagePage =()=>{
 					</div> : 
 					<div>	
 						<p className="label">Lösenord:</p>  <output className="output-field">{userData.password}</output>
-						<div className="change-password-button" onClick={HtmlToggler}></div>
+						<div className="change-password-button" onClick={passwordToggler}></div> 
 					</div>
 				}
+				{wantToChangeLimit.wantToChange?
+					<div>
+						<p className="label">Begränsning</p> <input className="input-field" autoFocus/>
+					</div>:
+					<div>
+						<p className="label">Begränsning</p> <output className="output-field">{userData.limit}</output>
+						<div className="change-password-button" onClick={limitToggler}></div> 
+					</div>
+				}
+				
 			</div>
 			
 			{userData.children.length>0? 
@@ -68,3 +88,16 @@ const MyPagePage =()=>{
 	);
 }
 export default MyPagePage;
+
+/*
+
+	{wantToChangeLimit.wantToChange?
+					<div>
+						<p className="label">Begränsning</p> <input className="input-field" autoFocus/>
+					</div>:
+					<div>
+						<p className="label">Begränsning</p> <output className="output-field">{userData.limit}</output>
+					</div>
+				}
+
+				*/
