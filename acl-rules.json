@@ -30,6 +30,12 @@
 			"admin": "get",
 			"parent": "get",
 			"child": "get"
+		  },
+		  "activateaccounts":{
+			  "visitor": "all",
+			  "child": "all",
+			  "parent": "all",
+			  "admin": "all"
 		  }
 	}
 }

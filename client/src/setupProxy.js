@@ -1,7 +1,5 @@
-const proxy = require('http-proxy-middleware');
- 
-module.exports = function(app) {
-  app.use(proxy('/api/', { target: 'HTTP://localhost:3001/' 
-
-    }));
-};
+const proxy = require('easy-server-sent-events/react-dev-proxy');
+module.exports = proxy({
+  route: '/api/',
+  target: 'http://localhost:3001'
+});
