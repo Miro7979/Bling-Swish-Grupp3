@@ -62,8 +62,19 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
 //http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
 //what to do with this?????
 // app.all('/api/*', (req,res) => {
-//     res.json({url: req.url, ok: true});
-//   });
+    //     res.json({url: req.url, ok: true});
+    //   });
+    
+    // Set keys to names of rest routes
+    const models = {
+        users: require('./models/User'),
+        Transaction: require('./models/Transaction'),
+        Notification: require('./models/Notification')
+    };
+    
+    
+// create all necessary rest routes for the models
+//new CreateRestRoutes(app, mongoose, models);
 
 // route to create a user
 // in production it would be STUPID to let
@@ -134,6 +145,7 @@ app.get('/api/imuser', async (req, res) => {
     res.json(imUser);
 })
 
+//app.use('/api/users', require('./routes/api/users'));
 
 
 // start the web server
