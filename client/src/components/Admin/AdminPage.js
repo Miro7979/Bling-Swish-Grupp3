@@ -47,7 +47,7 @@ const AdminPage = (props) => {
   }
 
   return (
-    <Container>
+    <Container className="containerAdmin">
       <React.Fragment>
         <button onClick={(e) => openModal(e)}>skapa ny användare</button>
         <button onClick={(e) => handleClick(e)}>redigera ny användare</button>

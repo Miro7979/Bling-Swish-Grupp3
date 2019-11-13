@@ -18,7 +18,6 @@ function App() {
           <NavBar />
         </header>
         <main>
-          <CreateAccountModal />
           {/* On path="/" a ternary operator should be introduced to alternate
             between two stages, based on if you´re logged in or not.
             eg. component={PaymentPage} if logged in 
@@ -30,6 +29,7 @@ function App() {
             {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
             <Route path="/betalningar" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
+            <Route path="/registernewuserpage" component={CreateAccountModal} />
             <Route path="/betalningshistorik" component={HistoryPage} />
           </Switch>
         </main>

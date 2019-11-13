@@ -9,6 +9,7 @@ let userSchema = new Schema({
     nationalIdNumber: { type: Number, required: true},
     role: {type: String, default: 'visitor'},
     children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
     activated: {type:Boolean, default:false}
 })
