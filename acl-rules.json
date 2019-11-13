@@ -2,7 +2,7 @@
 	"apiPath": "/api",
 	"rules": {
 		"login": {
-			"visitor": "post",
+			"visitor": "post, get",
 			"child": "delete get",
 			"parent": "delete get",
 			"admin": "delete get"

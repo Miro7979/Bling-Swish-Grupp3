@@ -36,11 +36,10 @@ app.use(session({
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
-app.use(acl(aclRules));
+//app.use(acl(aclRules));
 // just to get some rest routes going quickly
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
-app.use(theRest(express, '/api', pathToModelFolder));
 
 app.get('/api/activateaccounts/:encoded', async(req,res)=>{
     let email = atob(req.params.encoded)
@@ -73,78 +72,83 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
     };
     
     
-// create all necessary rest routes for the models
-//new CreateRestRoutes(app, mongoose, models);
-
-// route to create a user
-// in production it would be STUPID to let
-// the user/frontend set its role... but for now
-// we should also check length of password etc.
-app.post('/api/users', async (req, res) => {
-    // we should check that the same username does
-    // not exist... let's save that for letter
-    if (
-        typeof req.body.password !== 'string' ||
-        req.body.password.length < 6
-    ) {
-        res.json({ error: 'Password to short' });
-        return;
-    }
-
-    let user = new User({
-        ...req.body,
-        password: encryptPassword(req.body.password),
-    });
-    let error;
-    let resultFromSave = await user.save()
+    // create all necessary rest routes for the models
+    //new CreateRestRoutes(app, mongoose, models);
+    
+    // route to create a user
+    // in production it would be STUPID to let
+    // the user/frontend set its role... but for now
+    // we should also check length of password etc.
+    app.post('/api/users', async (req, res) => {
+        // we should check that the same username does
+        // not exist... let's save that for letter
+        if (
+            typeof req.body.password !== 'string' ||
+            req.body.password.length < 6
+        ) {
+            res.json({ error: 'Password to short' });
+            return;
+        }
+        
+        let user = new User({
+            ...req.body,
+            password: encryptPassword(req.body.password),
+        });
+        let error;
+        let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created'});
-    !error && sendMail(user)
-});
-
-// route to login
-app.post('/api/login', async (req, res) => {
-    let { name, password } = req.body;
-    password = encryptPassword(password);
-    let user = await User.findOne({ name, password })
-        .select('name role').exec();
-    if (user) { req.session.user = user };
-    res.json(user ? user : { error: 'not found' });
-});
-
-// check if/which user that is logged in
-app.get('/api/login', (req, res) => {
-    res.json(req.session.user ?
-        req.session.user :
-        { status: 'not logged in' }
-    );
-});
-
-// logout
-app.delete('/api/login', (req, res) => {
-    delete req.session.user;
-    res.json({ status: 'logged out' });
-});
-
-app.get('/api/mytransactions', async (req, res) => {
-    let user = req.session.user;
-    if (!user) { res.json([]); return; }
-    let iGot = await Transaction.find({ toUser: user._id });
-    let iSent = await Transaction
+        res.json(error ? { error } : { success: 'User created', statusCode: 200});
+        //!error && sendMail(user)
+    });
+    
+    // route to login
+    app.post('/api/login*', async (req, res) => {
+        console.log(req.body.name, req.body.password)
+        let { email, password } = req.body;
+        password = encryptPassword(password);
+        let user = await User.findOne({ email, password })
+        .select('email role name activated').exec();
+        if (user) { req.session.user = user };
+        res.json(user ? user : { error: 'not found 1' });
+        console.log("adsd",user)
+    });
+    
+    // check if/which user that is logged in
+    app.get('/api/login*', (req, res) => {
+        res.json(req.session.user ?
+            [req.session.user] :
+            { status: 'not logged in' }
+        );
+    });
+    
+    // logout
+    app.delete('/api/login*', (req, res) => {
+        delete req.session.user;
+        res.json({ status: 'logged out' });
+    });
+    
+    app.get('/api/mytransactions', async (req, res) => {
+        let user = req.session.user;
+        if (!user) { res.json([]); return; }
+        let iGot = await Transaction.find({ toUser: user._id });
+        let iSent = await Transaction
         .find({ fromUser: user._id })
         .map(x => ({ ...x, amount: -x.amount }));
-    let allMyTransactions = iGot.concat(iSent);
-    allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
-    res.json(allMyTransactions);
-})
-
-app.get('/api/imuser', async (req, res) => {
-    let user = req.session.user;
-    if (!user) { res.json([]); return; }
-    let imUser = await User.find({ _id: user._id });
-    res.json(imUser);
-})
-
+        let allMyTransactions = iGot.concat(iSent);
+        allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
+        res.json(allMyTransactions);
+    })
+    
+    app.get('/api/imuser', async (req, res) => {
+        let user = req.session.user;
+        if (!user) { res.json([]); return; }
+        let imUser = await User.find({ _id: user._id });
+        res.json(imUser);
+    })
+    app.use(theRest(express, '/api', pathToModelFolder, null, {
+        'login': 'Login'
+      }));
+    
 //app.use('/api/users', require('./routes/api/users'));
 
 
