@@ -19,25 +19,8 @@ const MyPagePage =()=>{
 		console.log(userData);
 	}
 
-	const passwordToggler=()=>{
-		setUserData({
-			...userData,
-			wantToChangePassword:true
-		});		
-	}
-	const setNewPassword=(e)=>{
-		setUserData({
-			...userData,
-			password:e.target.value
-		});
-	}
 
-	const limitToggler=()=>{
-		setUserData({
-			...userData,
-			wantToChangeLimit:true
-		});
-	}
+
 	const setNewLimit=(e)=>{
 		setUserData({
 			...userData,
@@ -63,23 +46,25 @@ const MyPagePage =()=>{
 				{userData.wantToChangePassword?  
 					<div>
 						<p className="label">Lösenord:</p>  
-						<input type="password" className="input-field" onChange={setNewPassword} autoFocus />
+						<input type="password" className="input-field" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />
 					</div>:					
 					<div>	
 						<p className="label">Lösenord:</p>  <output className="output-field">{userData.password}</output>
-						<div className="change-password-button" onClick={passwordToggler}></div> 
+						<div className="change-password-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
+						</div> 
 					</div>
 				}
 				{userData.wantToChangeLimit?
 					<div>
 						<p className="label">Begränsning</p> 
-						<input type="text" className="input-field" onChange={setNewLimit} autoFocus/>
+						<input type="text" className="input-field" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>
 					</div>:
 					<div>
 						<p className="label">Begränsning</p> <output className="output-field">{userData.limit}</output>
-						<div className="change-password-button" onClick={limitToggler}></div> 
+						<div className="change-password-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}></div> 
 					</div>
-				}				
+				}
+				
 			</div>
 			
 			{userData.children.length>0? 
