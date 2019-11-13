@@ -1,3 +1,10 @@
-.navbar {
+.navbar,
+.navbar-nav,
+.collapse.navbar-collapse,
+.nav-link,
+.navbar-brand {
+  color: aliceblue!important;
   background-color: rgb(183, 108, 226);
+  width: 100%;
+  display: flex;
 }

@@ -27,6 +27,7 @@
 		"bootstrap": "^4.3.1",
 		"concurrently": "^5.0.0",
 		"connect-mongo": "^3.1.0",
+		"easy-server-sent-events": "^1.0.8",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
 		"moment": "^2.24.0",
