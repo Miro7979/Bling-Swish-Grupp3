@@ -16,7 +16,7 @@ function HistoryPage() {
     }
 
     fetchChildren();
-  },[setMyChildren]);
+  }, [setMyChildren]);
 
   const toggle = () => setDropdownOpen( prevState => !prevState);
 
@@ -33,16 +33,18 @@ function HistoryPage() {
           {dropdownTitle}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={e => displayDropdownTitle(e)} value={'Min historik'}>Min historik</DropdownItem>
-          {myChildren.map( (child, id) => (
+          { dropdownTitle != 'Min historik' ? 
+            <DropdownItem onClick={e => displayDropdownTitle(e)} value={'Min historik'}>Min historik</DropdownItem>
+            : null }
+          { myChildren.map( (child, id) => (
+            dropdownTitle != child ? 
             <DropdownItem onClick={e => displayDropdownTitle(e)} value={child} key={id}>{child}</DropdownItem>
+            : null
           ))}
         </DropdownMenu>
       </Dropdown>
     </div>
   );
-
-
 }
 
 export default HistoryPage;
