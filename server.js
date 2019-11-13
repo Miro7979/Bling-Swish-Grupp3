@@ -72,10 +72,9 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
 app.post('/api/users', async (req, res) => {
     // we should check that the same username does
     // not exist... let's save that for letter
-    console.log(req)
     if (
-        typeof req.body.user.password !== 'string' ||
-        req.body.user.password.length < 6
+        typeof req.body.password !== 'string' ||
+        req.body.password.length < 6
     ) {
         res.json({ error: 'Password to short' });
         return;

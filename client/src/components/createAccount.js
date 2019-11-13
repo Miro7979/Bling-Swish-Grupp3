@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, FormFeedback } from 'reactstrap';
 import { resolve } from 'path';
 const request = require('request-promise-native');
 
@@ -17,29 +17,18 @@ const CreateAccountModal = (props) => {
       nationalIdNumber
     }
 
-  
-//       const res = await fetch('http://localhost:3000/api/users', {
-//         method: "POST",
-//         credentials: "include",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(user)
-//       })
-// console.log(res)  
-    
     let response = {
       uri: 'http://localhost:3000/api/users',
       body: {
-          user
+          ...user
       },
-      json: true // Automatically stringifies the body to JSON
+      json: true
   };
   try {
     const res = await request.post(response);
     console.log(res)
     if (res.statusCode !== 200) {
-        // do something
+      console.log("oh no we got an error")
     }
     console.log(res);
     console.log("statuscode", res.statusCode)
@@ -76,13 +65,16 @@ const CreateAccountModal = (props) => {
             <Input placeholder="För och efternamn" value={name} onChange={handleNameChange} className="mt-3 personName" />
             <Input placeholder="Telefon-nummer" value={phone} onChange={handlePhoneChange} className="mt-3 phoneNumber" />
             <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
-            <Input placeholder="Lösenord" value={password} onChange={handlePasswordChange} className="mt-3 password" />
+            <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
+            <FormFeedback tooltip>
+                Uh oh! Looks like there is an issue with your email. Please input a correct email.
+            </FormFeedback>
           </Container>
           </InputGroup>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={gatherUserInfo}>Skapa konto</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+          <Button color="secondary" onClick={toggle}>Avbryt</Button>
         </ModalFooter>
       </Modal>
     </div>
