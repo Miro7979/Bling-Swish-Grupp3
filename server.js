@@ -9,8 +9,8 @@ const User = require('./models/User');
 const Transaction = require('./models/Transaction');
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
-//const nodemailer = require('./nodemailer');
-const CreateRestRoutes = require('./CreateRestRoutes');
+const nodemailer = require('./nodemailer');
+//const CreateRestRoutes = require('./CreateRestRoutes');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -56,7 +56,7 @@ app.use(theRest(express, '/api', pathToModelFolder));
     
     
 // create all necessary rest routes for the models
-new CreateRestRoutes(app, mongoose, models);
+//new CreateRestRoutes(app, mongoose, models);
 
 // route to create a user
 // in production it would be STUPID to let
