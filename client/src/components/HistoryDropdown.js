@@ -33,11 +33,11 @@ function HistoryDropdown() {
           {dropdownTitle}
         </DropdownToggle>
         <DropdownMenu>
-          { dropdownTitle != 'Min historik' ? 
+          { dropdownTitle !== 'Min historik' ? 
             <DropdownItem onClick={e => displayDropdownTitle(e)} value={'Min historik'}>Min historik</DropdownItem>
             : null }
           { myChildren.map( (child, id) => (
-            dropdownTitle != child ? 
+            dropdownTitle !== child ? 
             <DropdownItem onClick={e => displayDropdownTitle(e)} value={child} key={id}>{child}</DropdownItem>
             : null
           ))}
