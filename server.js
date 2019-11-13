@@ -42,12 +42,12 @@ const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 app.use(theRest(express, '/api', pathToModelFolder));
 
-app.get('/api/activateaccounts/:encoded', async(req,res)=>{
+app.get('/api/activateaccounts/:encoded', async (req, res) => {
     let email = atob(req.params.encoded)
-    let user = await User.findOne({email})
+    let user = await User.findOne({ email })
     console.log("email", email);
     console.log("user", user)
-    if(user){
+    if (user) {
         user.activated = true;
         let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
         let notChild = (age >= 18)
@@ -56,23 +56,23 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
     }
     console.log("user save", user)
     res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
-    
+
 })
 
 //http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
 //what to do with this?????
 // app.all('/api/*', (req,res) => {
-    //     res.json({url: req.url, ok: true});
-    //   });
-    
-    // Set keys to names of rest routes
-    const models = {
-        users: require('./models/User'),
-        Transaction: require('./models/Transaction'),
-        Notification: require('./models/Notification')
-    };
-    
-    
+//     res.json({url: req.url, ok: true});
+//   });
+
+// Set keys to names of rest routes
+const models = {
+    users: require('./models/User'),
+    Transaction: require('./models/Transaction'),
+    Notification: require('./models/Notification')
+};
+
+
 // create all necessary rest routes for the models
 //new CreateRestRoutes(app, mongoose, models);
 
@@ -81,7 +81,7 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
 // the user/frontend set its role... but for now
 // we should also check length of password etc.
 app.post('/api/users', async (req, res) => {
-    // we should check that the same username does
+    // we should check that the same email does
     // not exist... let's save that for letter
     if (
         typeof req.body.password !== 'string' ||
@@ -98,15 +98,16 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created'});
+    res.json(error ? { error } : { success: 'User created' });
     !error && sendMail(user)
 });
 
 // route to login
 app.post('/api/login', async (req, res) => {
-    let { name, password } = req.body;
+    console.log('hej', req)
+    let { email, password } = req.body;
     password = encryptPassword(password);
-    let user = await User.findOne({ name, password })
+    let user = await User.findOne({ email, password })
         .select('name role').exec();
     if (user) { req.session.user = user };
     res.json(user ? user : { error: 'not found' });

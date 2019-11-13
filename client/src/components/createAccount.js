@@ -8,7 +8,7 @@ const CreateAccountModal = (props) => {
     buttonLabel,
     className
   } = props;
-  async function gatherUserInfo(){
+  async function gatherUserInfo() {
     let user = {
       name,
       email,
@@ -20,22 +20,22 @@ const CreateAccountModal = (props) => {
     let response = {
       uri: 'http://localhost:3000/api/users',
       body: {
-          ...user
+        ...user
       },
       json: true
-  };
-  try {
-    const res = await request.post(response);
-    console.log(res)
-    if (res.statusCode !== 200) {
-      console.log("oh no we got an error")
+    };
+    try {
+      const res = await request.post(response);
+      console.log(res)
+      if (res.statusCode !== 200) {
+        console.log("oh no we got an error")
+      }
+      console.log(res);
+      console.log("statuscode", res.statusCode)
+      return res;
+    } catch (err) {
+      return err;
     }
-    console.log(res);
-    console.log("statuscode", res.statusCode)
-    return res;
-} catch (err) {
-    return err;
-}
   }
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -49,7 +49,7 @@ const CreateAccountModal = (props) => {
   const handleIdNumberChange = e => setIdNumber(e.target.value);
   const handlePasswordChange = e => setPassword(e.target.value);
 
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 
@@ -60,16 +60,16 @@ const CreateAccountModal = (props) => {
         <ModalHeader toggle={toggle}>Skapa konto</ModalHeader>
         <ModalBody>
           <InputGroup>
-          <Container>
-            <Input placeholder="E-post" value={email} onChange={handleEmailChange} className="mt-3 email" />
-            <Input placeholder="För och efternamn" value={name} onChange={handleNameChange} className="mt-3 personName" />
-            <Input placeholder="Telefon-nummer" value={phone} onChange={handlePhoneChange} className="mt-3 phoneNumber" />
-            <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
-            <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
-            <FormFeedback tooltip>
+            <Container>
+              <Input placeholder="E-post" value={email} onChange={handleEmailChange} className="mt-3 email" />
+              <Input placeholder="För och efternamn" value={name} onChange={handleNameChange} className="mt-3 personName" />
+              <Input placeholder="Telefon-nummer" value={phone} onChange={handlePhoneChange} className="mt-3 phoneNumber" />
+              <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
+              <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
+              <FormFeedback tooltip>
                 Uh oh! Looks like there is an issue with your email. Please input a correct email.
             </FormFeedback>
-          </Container>
+            </Container>
           </InputGroup>
         </ModalBody>
         <ModalFooter>

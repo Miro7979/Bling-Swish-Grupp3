@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import {
 	Button, Input,
 	Form,
@@ -8,13 +8,47 @@ import {
 	FormGroup,
 	Label
 } from 'reactstrap';
+const request = require('request-promise-native');
 
 function LogInPage() {
 
-	let handleLogInBtn = (e) => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [redirect, setRedirect] = useState(false);
+
+	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log('log in Btn was clicked')
+		let response = {
+			uri: 'http://localhost:3000/api/login',
+			body: {
+				...email,
+				...password
+			},
+			json: true
+		};
+
+		try {
+			const res = await request.post(response);
+			console.log(res)
+			if (res.statusCode !== 200) {
+				console.log("We got an error")
+			}
+			return res;
+		} catch (err) {
+			return err;
+		}
+
 	}
+
+	useEffect(() => {
+		setRedirect(true);
+	}, []);
+
+	let redirectTo = () => {
+		return <Redirect to="/payment" />;
+	}
+
+
 
 
 	return (
@@ -37,17 +71,23 @@ function LogInPage() {
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<FormGroup>
 								<Label for="emailLabel">Email</Label>
-								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här" />
+								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
+									value={email}
+									onChange={e => setEmail(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label for="passwordLabel">Lösenord</Label>
-								<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här" />
+								<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här"
+									value={password}
+									onChange={e => setPassword(e.target.value)}
+								/>
 							</FormGroup>
 						</Col>
 					</Row>
 					<Row>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button onClick={handleLogInBtn} color="success" className="logInBtn mr-3">Logga in</Button>
+							<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div className="forgotPasswordLink">
