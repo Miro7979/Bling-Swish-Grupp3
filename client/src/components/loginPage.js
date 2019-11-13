@@ -1,55 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Login } from 'the.rest/dist/to-import';
 import {
 	Button, Input,
 	Form,
 	Row,
 	Col,
 	FormGroup,
-	Label
+	Label,
+	Alert
 } from 'reactstrap';
-const request = require('request-promise-native');
 
-function LogInPage() {
+
+function LogInPage(props) {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [redirect, setRedirect] = useState(false);
+	const [problem, setProblem] = useState(false);
+	const dismissProblem = () => setProblem(false);
+
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let response = {
-			uri: 'http://localhost:3000/api/login',
-			body: {
-				...email,
-				...password
-			},
-			json: true
-		};
-
-		try {
-			const res = await request.post(response);
-			console.log(res)
-			if (res.statusCode !== 200) {
-				console.log("We got an error")
-			}
-			return res;
-		} catch (err) {
-			return err;
-		}
-
+		let logInUser = new Login({ email, password })
+		//Post the login to the server
+		await logInUser.save()
+		let whoIsLoggedIn = await Login.findOne()
+		console.log(whoIsLoggedIn);
+		whoIsLoggedIn.status !== 'not logged in' ? props.history.push('/payment') : setProblem(true);
 	}
-
-	useEffect(() => {
-		setRedirect(true);
-	}, []);
-
-	let redirectTo = () => {
-		return <Redirect to="/payment" />;
-	}
-
-
-
 
 	return (
 		<div className="container">
@@ -67,9 +46,13 @@ function LogInPage() {
 					</Row>
 				</div>
 				<Form>
+
 					<Row form>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<FormGroup>
+								<Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
+									Yo wrong info man
+						</Alert>
 								<Label for="emailLabel">Email</Label>
 								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
 									value={email}
