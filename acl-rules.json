@@ -1,41 +1,41 @@
 {
-  "apiPath": "/api",
-  "rules": {
-    "login": {
-      "visitor": "all",
-      "child": "all",
-      "parent": "all",
-      "admin": "all"
-    },
-    "transactions": {
-      "child": "get post",
-      "parent": "post get",
-      "admin": "all"
-    },
-    "users": {
-      "visitor": "all",
-      "admin": "all"
-    },
-    "notifications": {
-      "child": "post get",
-      "parent": "post get",
-      "admin": "all"
-    },
-    "mytransactions": {
-      "admin": "get",
-      "parent": "get",
-      "child": "get"
-    },
-    "imuser": {
-      "admin": "get",
-      "parent": "get",
-      "child": "get"
-    },
-    "activateaccounts": {
-      "visitor": "all",
-      "child": "all",
-      "parent": "all",
-      "admin": "all"
-    }
-  }
+	"apiPath": "/api",
+	"rules": {
+		"login": {
+			"visitor": "post, get",
+			"child": "delete get",
+			"parent": "delete get",
+			"admin": "delete get"
+		},
+		"transactions": {
+			"child": "get post",
+			"parent": "post get",
+			"admin": "all"
+		},
+		"users": {
+			"visitor": "all",
+			"admin": "all"
+		},
+		"notifications": {
+			"child": "post get",
+			"parent": "post get",
+			"admin": "all"
+		},
+		"mytransactions": {
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
+		  },
+		  "imuser": {
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
+		  },
+		  "activateaccounts":{
+			  "visitor": "all",
+			  "child": "all",
+			  "parent": "all",
+			  "admin": "all"
+		  }
+	}
 }
