@@ -7,6 +7,7 @@ import HistoryPage from './components/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
 
+import CreateAccountModal from './components/createAccount'
 function App() {
   return (
     <Router>
@@ -15,6 +16,7 @@ function App() {
           <NavBar />
         </header>
         <main>
+          <CreateAccountModal />
           {/* On path="/" a ternary operator should be introduced to alternate
             between two stages, based on if you´re logged in or not.
             eg. component={PaymentPage} if logged in 

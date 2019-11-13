@@ -5,11 +5,12 @@ let userSchema = new Schema({
     name: {type: String,  required: true},
     password: {type: String,  required: true},
     phone: {type: String,  required: true},
-    email: {type: String,  required: true},
-    nationalIdNumber: { type: String, required: true},
-    role: {type: String},
+    email: {type: String,  required: true, unique:true},
+    nationalIdNumber: { type: Number, required: true},
+    role: {type: String, default: 'visitor'},
     children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
+    notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
+    activated: {type:Boolean, default:false}
 })
 
 userSchema.methods.linkResetPassword = function testFunc(params) {
