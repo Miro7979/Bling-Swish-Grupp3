@@ -24,7 +24,7 @@ const PaymentPage = () => {
   }
 
   async function gatherPaymentInfo() {
-
+    // payment.balance -= payment.amount;
     console.log("payment", payment)
 
     let response = {
@@ -49,10 +49,8 @@ const PaymentPage = () => {
   }
 
 
-  const handleBalanceChange = e => setBalance(
 
-
-    e.target.value);
+  const handleBalanceChange = e => setBalance(e.target.value);
   const handleAmountChange = e => setAmount(e.target.value);
   const handleToUserChange = e => setUser(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
@@ -63,27 +61,27 @@ const PaymentPage = () => {
         <Col xs={12} className="mt-3">
           <Label className="payment-lable" value={balance}>Din balans: {payment.balance} kr</Label>
         </Col>
-        <Col lx={6} lg={6} md={6} sm={12} xs={12} className="mt-3">
+        <Col lx={7} lg={7} md={7} sm={12} xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col lx={7} lg={7} md={7} sm={12} xs={12} className="mt-3">
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare" value={toUser} onChange={handleToUserChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col lx={7} lg={7} md={7} sm={12} xs={12} className="mt-3">
 
           <InputGroup>
             <Input placeholder="belopp" value={amount} onChange={handleAmountChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col lx={7} lg={7} md={7} sm={12} xs={12} className="mt-3">
 
           <InputGroup>
             <Input placeholder="meddelande" value={message} onChange={handleMessageChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col lx={7} lg={7} md={7} sm={12} xs={12} className="mt-3">
           <Button onClick={gatherPaymentInfo} color="success">Bling</Button>{' '}
         </Col>
       </Row>
