@@ -9,8 +9,8 @@ const User = require('./models/User');
 const Transaction = require('./models/Transaction');
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
-const nodemailer = require('./nodemailer');
-//const CreateRestRoutes = require('./CreateRestRoutes');
+const sendMail = require('./nodemailer');
+const atob = require('atob');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -42,7 +42,25 @@ const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 app.use(theRest(express, '/api', pathToModelFolder));
 
-//WHAT TO DO WITH THIS?????
+app.get('/api/activateaccounts/:encoded', async(req,res)=>{
+    let email = atob(req.params.encoded)
+    let user = await User.findOne({email})
+    console.log("email", email);
+    console.log("user", user)
+    if(user){
+        user.activated = true;
+        let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
+        let notChild = (age >= 18)
+        notChild ? user.role = "parent" : user.role = "child"
+        await user.save()
+    }
+    console.log("user save", user)
+    res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
+    
+})
+
+//http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
+//what to do with this?????
 // app.all('/api/*', (req,res) => {
     //     res.json({url: req.url, ok: true});
     //   });
@@ -80,10 +98,8 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created' }); //&& nodemailer
-    console.log(user);
-
-
+    res.json(error ? { error } : { success: 'User created'});
+    !error && sendMail(user)
 });
 
 // route to login
@@ -130,7 +146,6 @@ app.get('/api/imuser', async (req, res) => {
 })
 
 //app.use('/api/users', require('./routes/api/users'));
-
 
 
 // start the web server
