@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Container } from 'reactstrap';
 
-import EditUser from './EditUser';
+// import EditUser from './EditUser';
 
 
 const AdminPage = (props) => {
@@ -12,7 +12,7 @@ const AdminPage = (props) => {
 
   useEffect(() => {
     async function getUsers() {
-      let endpoint = 'http://localhost:3001/api/users';
+      let endpoint = '/api/users';
       const response = await fetch(endpoint);
 
 
@@ -33,8 +33,8 @@ const AdminPage = (props) => {
   }
   const editUser = () => {
     console.log('edit');
+}
 
-  }
   const deleteUser = () => {
     console.log('user deleted');
 
@@ -52,7 +52,7 @@ const AdminPage = (props) => {
         <button onClick={(e) => openModal(e)}>skapa ny användare</button>
         <button onClick={(e) => handleClick(e)}>redigera ny användare</button>
 
-        <EditUser />
+        {/* <EditUser /> */}
         <Table striped>
           <thead>
             <tr>
