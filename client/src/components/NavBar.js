@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
- } from 'reactstrap';
+} from 'reactstrap';
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +28,7 @@ const NavBar = (props) => {
               <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/loggaut">Logga ut</NavLink>
+              <NavLink href="/login">Logga ut</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
