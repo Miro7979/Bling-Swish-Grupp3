@@ -44,18 +44,19 @@ app.use(theRest(express, '/api', pathToModelFolder));
 
 //WHAT TO DO WITH THIS?????
 // app.all('/api/*', (req,res) => {
-//     res.json({url: req.url, ok: true});
-//   });
-
-  // Set keys to names of rest routes
-  const models = {
-    users: require('./models/User'),
-    Transaction: require('./models/Transaction'),
-    Notification: require('./models/Notification')
-  };
-
-  // create all necessary rest routes for the models
-  new CreateRestRoutes(app, mongoose, models);
+    //     res.json({url: req.url, ok: true});
+    //   });
+    
+    // Set keys to names of rest routes
+    const models = {
+        users: require('./models/User'),
+        Transaction: require('./models/Transaction'),
+        Notification: require('./models/Notification')
+    };
+    
+    
+// create all necessary rest routes for the models
+new CreateRestRoutes(app, mongoose, models);
 
 // route to create a user
 // in production it would be STUPID to let
@@ -79,8 +80,8 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created'  }); //&& nodemailer
-console.log(user);
+    res.json(error ? { error } : { success: 'User created' }); //&& nodemailer
+    console.log(user);
 
 
 });
@@ -128,16 +129,17 @@ app.get('/api/imuser', async (req, res) => {
     res.json(imUser);
 })
 
-// app.use('/api/users', require('./routes/api/users'));
+//app.use('/api/users', require('./routes/api/users'));
 
-// let allowCrossDomain = function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', "*");
-//     res.header('Access-Control-Allow-Headers', "*");
+// let allowCrossDomain = function (req, res, next) {
+//     // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+//     // res.setHeader("Access-Control-Allow-Headers", "Authorization, Cache-Control, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
+//         res.header('Access-Control-Allow-Origin', "*");
+//         res.header('Access-Control-Allow-Headers', "*");
 //     next();
-//     console.log('hi');
-    
-//   }
-//   app.use(allowCrossDomain);
+//     console.log('server file');
+// }
+// app.use(allowCrossDomain);
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));
