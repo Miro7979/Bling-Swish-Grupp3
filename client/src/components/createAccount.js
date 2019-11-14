@@ -41,7 +41,7 @@ const CreateAccountModal = () => {
   const dismissProblem = () => setProblem(false);
   const dismissCreated = () => setCreated(false);
 
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 
@@ -57,16 +57,16 @@ const CreateAccountModal = () => {
           Yo go to login bro you got an account
         </Alert>
           <InputGroup>
-          <Container>
-            <Input placeholder="E-post" value={email} onChange={handleEmailChange} className="mt-3 email" />
-            <Input placeholder="För och efternamn" value={name} onChange={handleNameChange} className="mt-3 personName" />
-            <Input placeholder="Telefon-nummer" value={phone} onChange={handlePhoneChange} className="mt-3 phoneNumber" />
-            <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
-            <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
-            <FormFeedback tooltip>
+            <Container>
+              <Input placeholder="E-post" value={email} onChange={handleEmailChange} className="mt-3 email" />
+              <Input placeholder="För och efternamn" value={name} onChange={handleNameChange} className="mt-3 personName" />
+              <Input placeholder="Telefon-nummer" value={phone} onChange={handlePhoneChange} className="mt-3 phoneNumber" />
+              <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
+              <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
+              <FormFeedback tooltip>
                 Uh oh! Looks like there is an issue with your email. Please input a correct email.
             </FormFeedback>
-          </Container>
+            </Container>
           </InputGroup>
         </ModalBody>
         <ModalFooter>

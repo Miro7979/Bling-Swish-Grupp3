@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Login } from 'the.rest/dist/to-import';
 import {
 	Button, Input,
 	Form,
 	Row,
 	Col,
 	FormGroup,
-	Label
+	Label,
+	Alert
 } from 'reactstrap';
 
-function LogInPage() {
 
-	let handleLogInBtn = (e) => {
+function LogInPage(props) {
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [problem, setProblem] = useState(false);
+	const dismissProblem = () => setProblem(false);
+
+
+	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log('log in Btn was clicked')
+		let logInUser = new Login({ email, password })
+		//Post the login to the server
+		await logInUser.save()
+		let whoIsLoggedIn = await Login.findOne()
+		console.log(whoIsLoggedIn);
+		whoIsLoggedIn.status !== 'not logged in' ? props.history.push('/payment') : setProblem(true);
 	}
-
 
 	return (
 		<div className="container">
@@ -33,21 +46,31 @@ function LogInPage() {
 					</Row>
 				</div>
 				<Form>
+
 					<Row form>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<FormGroup>
+								<Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
+									Yo wrong info man
+						</Alert>
 								<Label for="emailLabel">Email</Label>
-								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här" />
+								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
+									value={email}
+									onChange={e => setEmail(e.target.value)}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Label for="passwordLabel">Lösenord</Label>
-								<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här" />
+								<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här"
+									value={password}
+									onChange={e => setPassword(e.target.value)}
+								/>
 							</FormGroup>
 						</Col>
 					</Row>
 					<Row>
 						<Col lx={12} lg={12} md={12} sm={6}>
-							<Button onClick={handleLogInBtn} color="success" className="logInBtn mr-3">Logga in</Button>
+							<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
 						</Col>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div className="forgotPasswordLink">
