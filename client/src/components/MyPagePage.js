@@ -19,53 +19,51 @@ const MyPagePage =()=>{
 		console.log(userData);
 	}
 
-
-
-	const setNewLimit=(e)=>{
-		setUserData({
-			...userData,
-			limit:e.target.value
-		});
-	}
-
-
-
 	return(
-		<div className="mypage-component">
+		<div className="mypage-component container-fluid">
 
-			<div className="header">
-				<div className="person-logo"></div>
-				<div className="name">{userData.name}</div>
+			<div className="header row">
+				<div className="col-3 header-cols">
+					<div className="logo mx-auto"></div>
+				</div>
+				<div className="col-9 header-cols">
+					<div className="name">{userData.name}</div>
+				</div>
 			</div>
 
-			<div className="personal-info-list" >
-				<p className="label">Telefon:</p>  <output className="output-field">{userData.phone}</output>
-				<p className="label">Email:</p>	<output className="output-field">{userData.email}</output>
-				<p className="label">PrNr:</p>  <output className="output-field">{userData.nationalIdNumber}</output>
-				<p className="label">Roll:</p>  <output className="output-field">{userData.role}</output>
-				{userData.wantToChangePassword?  
-					<div>
-						<p className="label">Lösenord:</p>  
-						<input type="password" className="input-field" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />
-					</div>:					
-					<div>	
-						<p className="label">Lösenord:</p>  <output className="output-field">{userData.password}</output>
-						<div className="change-password-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
-						</div> 
-					</div>
-				}
+			<div className="row">
+				<p className="col-3">Telefon:</p>  <output className="col-9">{userData.phone}</output>
+			</div>
+			<div className="row">
+				<p className="col-3">Email:</p>	<output className="col-9">{userData.email}</output>
+			</div>
+			<div className="row">
+				<p className="col-3">PrNr:</p>  <output className="col-9">{userData.nationalIdNumber}</output>
+			</div>
+			<div className="row">
+				<p className="col-3">Roll:</p>  <output className="col-9">{userData.role}</output>
+			</div>
+						
+			<div className="row">
+				<p className="col-3">Lösenord:</p>  
+				{userData.wantToChangePassword? 
+					<input type="password" className="col-7" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
+					<output className="col-7">{userData.password}</output>}				
+				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}></div>
+			</div>
+						
+			<div className="row">
+				<p className="col-3">Begränsning:</p>  
 				{userData.wantToChangeLimit?
-					<div>
-						<p className="label">Begränsning</p> 
-						<input type="text" className="input-field" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>
-					</div>:
-					<div>
-						<p className="label">Begränsning</p> <output className="output-field">{userData.limit}</output>
-						<div className="change-password-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}></div> 
-					</div>
-				}
-				
+					<input type="text" className="col-7" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>:
+					<output className="col-7">{userData.limit}</output>}
+				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}></div> 
 			</div>
+			
+	
+	
+		
+			
 			
 			{userData.children.length>0? 
 				<ul className="children-list">
