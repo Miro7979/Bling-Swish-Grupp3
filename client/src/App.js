@@ -9,6 +9,10 @@ import './App.scss';
 
 import CreateAccountModal from './components/createAccount'
 function App() {
+  (()=>{
+    console.log("hej")
+  })()
+
   return (
     <Router>
       <div className="App">
