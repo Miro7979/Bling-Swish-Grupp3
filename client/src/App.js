@@ -18,7 +18,7 @@ function App() {
         <header className="App-header">
           <NavBar />
         </header>
-        <main>
+        <main className='container'>
           <CreateAccountModal />
           {/* On path="/" a ternary operator should be introduced to alternate
             between two stages, based on if you´re logged in or not.

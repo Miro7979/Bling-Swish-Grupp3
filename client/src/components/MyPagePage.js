@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import MypagePageChild from './MyPagePageChild.js';
+import editIcon from '../images/edit-icon.png';
 
 const MyPagePage =()=>{
 
@@ -20,7 +21,7 @@ const MyPagePage =()=>{
 	}
 
 	return(
-		<div className="mypage-component container-fluid">
+		<div className="mypage-component container">
 
 			<div className="header row">
 				<div className="col-3 header-cols">
@@ -49,7 +50,9 @@ const MyPagePage =()=>{
 				{userData.wantToChangePassword? 
 					<input type="password" className="col-7" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
 					<output className="col-7">{userData.password}</output>}				
-				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}></div>
+				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
+					<img src={editIcon} alt="ändra ikon"></img>
+				</div>
 			</div>
 						
 			<div className="row">
@@ -57,22 +60,19 @@ const MyPagePage =()=>{
 				{userData.wantToChangeLimit?
 					<input type="text" className="col-7" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>:
 					<output className="col-7">{userData.limit}</output>}
-				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}></div> 
+				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}>
+					<img src={editIcon}></img>
+				</div> 
 			</div>
-			
-	
-	
-		
-			
-			
+						
 			{userData.children.length>0? 
-				<ul className="children-list">
+				<div className="mt-4">
 					{userData.children.map(child=>{
 						return(									
 							<MypagePageChild child={child}/>
 						);
 					})}
-	 			</ul>
+	 			</div>
 				: <p>inga barn</p> }
 		
 			<button className="save-button" onClick={handleSubmit}>Spara</button>				

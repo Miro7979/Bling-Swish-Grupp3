@@ -1,8 +1,10 @@
 import React,{useState} from 'react';
+import logo from '../images/child-icon.png';
+import editIcon from '../images/edit-icon.png';
 
 const MyPagePageChild=({child})=>{
 
-    const [editLimit,setEditLimit]=useState({
+  const [editLimit,setEditLimit]=useState({
 		wantToEdit: false
 	});
 	const htmlToggler=()=>{
@@ -14,18 +16,29 @@ const MyPagePageChild=({child})=>{
 		child.limit=e.target.value;
 	}
 
-    return(
-        <div>
-			<li>
-				<p className="name">{child.name}</p>
-		   		<p className="limit-text">Begränsning:</p>
-				{editLimit.wantToEdit?
-					<input type="text" className="limit-input" onChange={changeLimit} autoFocus></input>
-					:<p className="limit">{child.limit}</p>}  				
-				<p className="limit-text">kr</p>
-				<div className="edit-limit-button" onClick={htmlToggler}></div> 
-			</li>
+  return(
+    <div>
+
+			<div className="row">
+				<div className="col-3">
+					<img src={logo} alt="barn ikon"></img>
+				</div>			
+				<p className="col-9 child-name">{child.name}</p>
+			</div>
+
+			<div className="row">
+				<p className="col-3">Begränsning:</p>
+				<div className="col-7">
+					{editLimit.wantToEdit?
+						<input type="text" onChange={changeLimit} autoFocus></input>:
+						<p>{child.limit}</p>} 
+				</div>		
+				<div className="col-2 edit-button" onClick={htmlToggler}>
+					<img src={editIcon} alt="ändra ikon"></img>
+				</div> 					
+			</div>	
+		   				
 		</div>	
-    );
+  );
 }
 export default MyPagePageChild;
