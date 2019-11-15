@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 
 
-function LogOut(props) {
+function LogOut() {
 
 
 
