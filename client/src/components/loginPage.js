@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
 import Context from './Context';
@@ -16,37 +17,19 @@ import {
 
 
 function LogInPage(props) {
-
-	let setState = useContext(Context)[1]
-
-	let [loading, setLoading] = useState({ fetchingStatus: true, isLoggedIn: false })
-
+	let [state, setState] = useContext(Context)
 	const [email, setEmail] = useState('sama@sama.com');
 	const [password, setPassword] = useState('123456789');
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
-	useEffect(() => {
-		async function checkUserSession() {
-			let whoIsLoggedIn = await Login.findOne()
-			if (whoIsLoggedIn._id) {
-				setLoading({ fetchingStatus: false, isLoggedIn: true })
-				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
-			} else {
-				setLoading({ fetchingStatus: false, isLoggedIn: false })
-			}
-		}
-		checkUserSession()
-	}, []);
-
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let logInUser = new Login({ email, password })
-		//Post the login to the server
-		await logInUser.save()
+		await new Login({ email, password }).save()
 		let whoIsLoggedIn = await Login.findOne()
-		setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
-		setLoading({ fetchingStatus: false, isLoggedIn: true })
+		if (whoIsLoggedIn._id) {
+			setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+		}
 	}
 
 	const LoginForm = () => {
@@ -108,17 +91,9 @@ function LogInPage(props) {
 		)
 	}
 
-	const ShowLoadingSpinner = () => {
-		return (
-			<div>Loading....</div>
-		)
-	}
-
 	return (
 		<div className="container">
-			{loading.fetchingStatus && <ShowLoadingSpinner />}
-			{!loading.isLoggedIn && <LoginForm />}
-			{loading.isLoggedIn && props.history.push('/betalningar')}
+			{(!state.user && <LoginForm />) || <Redirect to="/betalningar" />}
 		</div>
 	);
 };
