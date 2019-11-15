@@ -7,15 +7,16 @@
     margin-top:30px;
     margin-bottom:30px;
 
-        .header-cols{
-            //border:solid black 1px;
-        }
+      
         .name{
         font-size:23px;
         line-height:2;   
         }
     }
 
+    .delete-button{
+        cursor:pointer;
+    }
     .edit-button{
         cursor:pointer;
     }    

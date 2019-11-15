@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import logo from '../images/child-icon.png';
 import editIcon from '../images/edit-icon.png';
+import deleteIcon from '../images/delete-icon.png';
 
 const MyPagePageChild=({child})=>{
 
@@ -16,6 +17,9 @@ const MyPagePageChild=({child})=>{
 		child.limit=e.target.value;
 	}
 
+
+
+
   return(
     <div>
 
@@ -23,7 +27,10 @@ const MyPagePageChild=({child})=>{
 				<div className="col-3">
 					<img src={logo} alt="barn ikon"></img>
 				</div>			
-				<p className="col-9 child-name">{child.name}</p>
+				<p className="col-7 child-name">{child.name}</p>
+				<div className="col-2 delete-button" onClick={htmlToggler}>
+					<img src={deleteIcon} alt="ta bort ikon"></img>
+				</div> 
 			</div>
 
 			<div className="row">
@@ -35,7 +42,8 @@ const MyPagePageChild=({child})=>{
 				</div>		
 				<div className="col-2 edit-button" onClick={htmlToggler}>
 					<img src={editIcon} alt="ändra ikon"></img>
-				</div> 					
+				</div> 		
+								
 			</div>	
 		   				
 		</div>	

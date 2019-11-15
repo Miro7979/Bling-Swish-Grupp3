@@ -1,8 +1,10 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
 import editIcon from '../images/edit-icon.png';
 import logo from '../images/person-icon.png';
+
+import { User, Login } from 'the.rest/dist/to-import';
 
 const MyPagePage =()=>{
 
@@ -20,7 +22,34 @@ const MyPagePage =()=>{
 	});
 	const handleSubmit =()=>{
 		console.log(userData);
+		
 	}
+
+	useEffect(() => {
+	//(async () => console.log(await User.find()))();
+	//(async () => console.log(await Login.findOne()))();
+		async function hej(){
+		
+			let whoIsLoggedIn = await Login.findOne()
+			//console.log(whoIsLoggedIn);
+			//console.log(whoIsLoggedIn.role);			
+			setUserData({
+				name:whoIsLoggedIn.name,
+				password:'turningtorso',
+				wantToChangePassword:false,
+				phone:'0708-137490',
+				email:whoIsLoggedIn.email,
+				nationalIdNumber:'620221-1942',
+				role:whoIsLoggedIn.role,
+				limit:10000,
+				wantToChangeLimit:false,
+				children:[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
+			});
+		}
+		hej();
+	})
+
+
 
 	return(
 		<div className="mypage-component container">
