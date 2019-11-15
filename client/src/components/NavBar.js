@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LogOut from './logOut';
 import {
   Collapse,
   Navbar,
@@ -28,7 +29,7 @@ const NavBar = (props) => {
               <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/login">Logga ut</NavLink>
+              <LogOut />
             </NavItem>
           </Nav>
         </Collapse>
