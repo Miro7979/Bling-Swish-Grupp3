@@ -8,8 +8,9 @@ import {
 	Col,
 	FormGroup,
 	Label,
-	Alert
+	UncontrolledAlert
 } from 'reactstrap';
+
 
 
 function LogInPage(props) {
@@ -49,10 +50,12 @@ function LogInPage(props) {
 
 					<Row form>
 						<Col lx={12} lg={12} md={12} sm={6}>
+							<div>
+								<UncontrolledAlert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
+									Email eller lösenord är felaktigt, vänligen försök igen.
+							</UncontrolledAlert>
+							</div>
 							<FormGroup>
-								<Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
-									Yo wrong info man
-						</Alert>
 								<Label for="emailLabel">Email</Label>
 								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
 									value={email}
