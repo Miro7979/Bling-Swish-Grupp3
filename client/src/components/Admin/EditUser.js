@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 // import createAccount from '../components/createAccount';
@@ -21,8 +21,9 @@ const EditUser = (props) => {
     phone: "Telefonnummer",
     email: "Email",
     nationalIdNumber: "Personnummer",
-    children: "Har barn",
-    notifications: "Meddelanden",
+    role: "Roll",
+    children: "Barn",
+    notificatations: "Meddelanden"
 
   };
 
@@ -30,6 +31,7 @@ const EditUser = (props) => {
     let key = e.target.getAttribute('type');
     let editedUser = { ...user };
     editedUser[key] = e.target.value;
+    
     setUser(editedUser);
   }
 
@@ -47,8 +49,17 @@ const EditUser = (props) => {
           </FormGroup>
         );
       })}
-      {/*<FormGroup>
-         <Label for="selectKids">Har barn:</Label>
+      {/* <FormGroup>
+        <Label for="selectRole">Roll:</Label>
+        <Input type="select" name="select" id="selectRole">
+          <option>Välj</option>
+          <option>kundkund</option>
+          <option>förälderkund</option>
+          <option>barnkund</option>
+        </Input>
+      </FormGroup> */}
+      {/* <FormGroup>
+        <Label for="selectKids">Har barn:</Label>
         <Input type="select" name="select" id="selectKids">
           <option>Välj</option>
           <option>inga</option>
@@ -64,7 +75,6 @@ const EditUser = (props) => {
           reset password email
         </Label>
       </FormGroup>
-      <Button>Skicka</Button>
       <Button>Updatera</Button>
     </Form>
   );

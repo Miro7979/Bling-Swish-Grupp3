@@ -80,7 +80,7 @@ const CreateAccountModal = () => {
           </Link>
         </ModalFooter>
       </Modal>
-    </div>
+    </div >
   );
 }
 

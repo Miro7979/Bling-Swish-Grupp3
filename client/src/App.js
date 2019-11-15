@@ -25,9 +25,10 @@ function App() {
           <Switch className="switch">
             <Route exact path="/" component={LoginPage} />
             <Route path="/login" component={LoginPage} />
-            <Route exact path="/adminsida" component={AdminPage} />
+            <Route  exact path="/adminsida" component={AdminPage} />
             <Route path="/adminsida/redigera-anvandare" component={EditUser} />
-            <Route path="/payment" component={PaymentPage} />
+            {/* <Route path="/adminsida/skapa-anvandare" component={CreateUser} /> */}
+            <Route path="/betalningar" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
             <Route path="/registernewuserpage" component={CreateAccountModal} />
             <Route path="/betalningshistorik" component={HistoryPage} />

@@ -53,7 +53,7 @@ app.get('/api/activateaccounts/:encoded', async (req, res) => {
         notChild ? user.role = "parent" : user.role = "child"
         await user.save()
     }
-    console.log("user save", user)
+    // console.log("user save", user)
     res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
 
 })
