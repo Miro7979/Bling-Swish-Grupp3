@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import MypagePageChild from './MyPagePageChild.js';
+import MyPagePageAddChild from './MyPagePageAddChild.js';
 import editIcon from '../images/edit-icon.png';
+import logo from '../images/person-icon.png';
 
 const MyPagePage =()=>{
 
@@ -25,7 +27,7 @@ const MyPagePage =()=>{
 
 			<div className="header row">
 				<div className="col-3 header-cols">
-					<div className="logo mx-auto"></div>
+					<img src={logo} alt="person ikon"></img>
 				</div>
 				<div className="col-9 header-cols">
 					<div className="name">{userData.name}</div>
@@ -47,9 +49,11 @@ const MyPagePage =()=>{
 						
 			<div className="row">
 				<p className="col-3">Lösenord:</p>  
-				{userData.wantToChangePassword? 
-					<input type="password" className="col-7" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
-					<output className="col-7">{userData.password}</output>}				
+				<div className="col-7">
+					{userData.wantToChangePassword? 
+						<input type="password" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
+						<output>{userData.password}</output>}	
+				</div>			
 				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
 					<img src={editIcon} alt="ändra ikon"></img>
 				</div>
@@ -57,11 +61,13 @@ const MyPagePage =()=>{
 						
 			<div className="row">
 				<p className="col-3">Begränsning:</p>  
-				{userData.wantToChangeLimit?
-					<input type="text" className="col-7" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>:
-					<output className="col-7">{userData.limit}</output>}
+				<div className="col-7">
+					{userData.wantToChangeLimit?
+						<input type="text" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>:
+						<output>{userData.limit}</output>}
+				</div>
 				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}>
-					<img src={editIcon}></img>
+					<img src={editIcon} alt="ämdra ikon"></img>
 				</div> 
 			</div>
 						
@@ -73,9 +79,11 @@ const MyPagePage =()=>{
 						);
 					})}
 	 			</div>
-				: <p>inga barn</p> }
+			: <p>inga barn</p> }
+
+			<MyPagePageAddChild />
 		
-			<button className="save-button" onClick={handleSubmit}>Spara</button>				
+			<br></br><button onClick={handleSubmit}>Spara</button>				
 		</div>
 	);
 }

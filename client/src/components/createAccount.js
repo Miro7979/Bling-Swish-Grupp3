@@ -49,7 +49,7 @@ const CreateAccountModal = (props) => {
   const handleIdNumberChange = e => setIdNumber(e.target.value);
   const handlePasswordChange = e => setPassword(e.target.value);
 
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 

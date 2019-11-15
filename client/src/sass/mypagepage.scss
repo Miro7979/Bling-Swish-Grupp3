@@ -10,12 +10,6 @@
         .header-cols{
             //border:solid black 1px;
         }
-        .logo{
-            background-image: url("../images/person-icon.png");
-            background-repeat:no-repeat;
-            width:50px;
-            height:50px;    
-        }  
         .name{
         font-size:23px;
         line-height:2;   
@@ -28,10 +22,11 @@
     .child-name{
         font-size:19px;
     }
-    .save-button{
-        margin-left:45%;
-        margin-top:50px;
+
+    .newRow{
+        border:solid black 2px;
     }
+
    
 }
 
