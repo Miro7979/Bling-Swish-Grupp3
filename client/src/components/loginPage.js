@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
 import Context from './Context';
@@ -17,37 +17,42 @@ import {
 
 function LogInPage(props) {
 
-	let [state, setState] = useContext(Context);
+	let setState = useContext(Context)[1]
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	let [loading, setLoading] = useState({ fetchingStatus: true, isLoggedIn: false })
+
+	const [email, setEmail] = useState('sama@sama.com');
+	const [password, setPassword] = useState('123456789');
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
-
-
+	useEffect(() => {
+		async function checkUserSession() {
+			let whoIsLoggedIn = await Login.findOne()
+			if (whoIsLoggedIn._id) {
+				setLoading({ fetchingStatus: false, isLoggedIn: true })
+				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+			} else {
+				setLoading({ fetchingStatus: false, isLoggedIn: false })
+			}
+		}
+		checkUserSession()
+	}, []);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 		let logInUser = new Login({ email, password })
-
 		//Post the login to the server
 		await logInUser.save()
 		let whoIsLoggedIn = await Login.findOne()
-		let transactions = await
-			//console.log(whoIsLoggedIn);
-			// setState({ user: whoIsLoggedIn })
-			setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
-		console.log(state)
-		whoIsLoggedIn.status !== 'not logged in' ? props.history.push('/betalningar') : setProblem(true);
+		setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+		setLoading({ fetchingStatus: false, isLoggedIn: true })
 	}
 
-	return (
-
-		<div className="container">
+	const LoginForm = () => {
+		return (
 			<div className="logInContent mt-5">
 				<div className="logInHeader">
-
 					<Row>
 						<Col lx={12} lg={12} md={12} sm={6} >
 							<h2 className="h2LogInHeader">Välkommen till Bling</h2>
@@ -60,7 +65,6 @@ function LogInPage(props) {
 					</Row>
 				</div>
 				<Form>
-
 					<Row form>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div>
@@ -101,8 +105,21 @@ function LogInPage(props) {
 					</Row>
 				</Form>
 			</div >
-		</div >
+		)
+	}
 
+	const ShowLoadingSpinner = () => {
+		return (
+			<div>Loading....</div>
+		)
+	}
+
+	return (
+		<div className="container">
+			{loading.fetchingStatus && <ShowLoadingSpinner />}
+			{!loading.isLoggedIn && <LoginForm />}
+			{loading.isLoggedIn && props.history.push('/betalningar')}
+		</div>
 	);
 };
 

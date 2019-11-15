@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
@@ -10,14 +10,21 @@ import PaymentPage from './components/PaymentPage';
 import './App.scss';
 import CreateAccountModal from './components/createAccount'
 import Context from './components/Context';
+import { Login } from 'the.rest/dist/to-import';
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 
-  // const message = () => {
-  //   setState({ message: 'Du har fått betalning' })
-  // }
+  useEffect(() => {
+    async function checkUserSession() {
+      let whoIsLoggedIn = await Login.findOne()
+      if (whoIsLoggedIn._id) {
+        setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+      }
+    }
+    checkUserSession()
+  }, []);
 
   return (
     <Context.Provider value={[state, setState]}>
