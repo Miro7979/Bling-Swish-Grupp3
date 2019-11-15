@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
+import Context from './Context';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const Notification = (props) => {
+const CreateNotification = (props) => {
+  let [state, setState] = useContext(Context);
   const {
     buttonLabel,
     className
@@ -14,6 +16,8 @@ const Notification = (props) => {
 
   return (
     <div>
+      <h1>Meddelande : {state.message} </h1>
+      <button onClick={message}>Meddelande</button>
       <Button color="info" onClick={toggle}>{buttonLabel}</Button>
       <Modal isOpen={notification} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
@@ -28,4 +32,4 @@ const Notification = (props) => {
   );
 }
 
-export default Notification;
+export default CreateNotification;

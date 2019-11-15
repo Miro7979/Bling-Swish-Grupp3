@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from './Context';
 import {
   Row,
   Col,
@@ -9,12 +10,20 @@ import {
 } from 'reactstrap';
 
 function PaymentPage() {
+  let [state, setState] = useContext(Context);
+
+  console.log(state)
 
 
+  const message = () => {
+    setState({ message: 'Du har fått betalning' })
+  }
 
   return (
     <div className="container">
       <Row>
+        <h1>Meddelande : {state.message} </h1>
+        <button onClick={message}>Meddelande</button>
         <Col xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>

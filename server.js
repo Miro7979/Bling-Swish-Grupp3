@@ -107,7 +107,8 @@ app.post('/api/login*', async (req, res) => {
     let { email, password } = req.body;
     password = encryptPassword(password);
     let user = await User.findOne({ email, password })
-        .select('email role name activated').exec();
+        .exec();
+    user.password = 'Forget it!!!';
     if (user) { req.session.user = user };
     res.json(user ? user : { error: 'not found 1' });
     console.log("adsd", user)

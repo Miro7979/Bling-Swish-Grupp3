@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
+import Context from './Context';
+
 import {
 	Button, Input,
 	Form,
@@ -15,26 +17,37 @@ import {
 
 function LogInPage(props) {
 
+	let [state, setState] = useContext(Context);
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
 
+
+
 	async function handleSubmit(e) {
 		e.preventDefault();
 		let logInUser = new Login({ email, password })
+
 		//Post the login to the server
 		await logInUser.save()
 		let whoIsLoggedIn = await Login.findOne()
-		console.log(whoIsLoggedIn);
-		whoIsLoggedIn.status !== 'not logged in' ? props.history.push('/payment') : setProblem(true);
+		let transactions = await
+			//console.log(whoIsLoggedIn);
+			// setState({ user: whoIsLoggedIn })
+			setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+		console.log(state)
+		whoIsLoggedIn.status !== 'not logged in' ? props.history.push('/betalningar') : setProblem(true);
 	}
 
 	return (
+
 		<div className="container">
 			<div className="logInContent mt-5">
 				<div className="logInHeader">
+
 					<Row>
 						<Col lx={12} lg={12} md={12} sm={6} >
 							<h2 className="h2LogInHeader">Välkommen till Bling</h2>
@@ -89,6 +102,7 @@ function LogInPage(props) {
 				</Form>
 			</div >
 		</div >
+
 	);
 };
 

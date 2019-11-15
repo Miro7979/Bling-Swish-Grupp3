@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
@@ -8,33 +8,43 @@ import HistoryPage from './components/HistoryPage';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
-
 import CreateAccountModal from './components/createAccount'
+import Context from './components/Context';
+
 function App() {
+  let context = useContext(Context);
+  const [state, setState] = useState(context);
+
+  // const message = () => {
+  //   setState({ message: 'Du har fått betalning' })
+  // }
+
   return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <NavBar />
-        </header>
-        <main>
-          {/* On path="/" a ternary operator should be introduced to alternate
+    <Context.Provider value={[state, setState]}>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <NavBar />
+          </header>
+          <main>
+            {/* On path="/" a ternary operator should be introduced to alternate
             between two stages, based on if you´re logged in or not.
             eg. component={PaymentPage} if logged in 
           */}
-          <Switch className="switch">
-            <Route exact path="/" component={LoginPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/adminpage" component={AdminPage} />
-            {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
-            <Route path="/payment" component={PaymentPage} />
-            {/* <Route path="/minasidor" component={MyPagePage} /> */}
-            <Route path="/registernewuserpage" component={CreateAccountModal} />
-            <Route path="/betalningshistorik" component={HistoryPage} />
-          </Switch>
-        </main>
-      </div>
-    </Router>
+            <Switch className="switch">
+              <Route exact path="/" component={LoginPage} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/adminpage" component={AdminPage} />
+              {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
+              <Route path="/betalningar" component={PaymentPage} />
+              {/* <Route path="/minasidor" component={MyPagePage} /> */}
+              <Route path="/registernewuserpage" component={CreateAccountModal} />
+              <Route path="/betalningshistorik" component={HistoryPage} />
+            </Switch>
+          </main>
+        </div>
+      </Router>
+    </Context.Provider>
   );
 }
 
