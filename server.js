@@ -36,18 +36,17 @@ app.use(session({
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
-app.use(acl(aclRules));
+//app.use(acl(aclRules));
 // just to get some rest routes going quickly
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
-app.use(theRest(express, '/api', pathToModelFolder));
 
-app.get('/api/activateaccounts/:encoded', async(req,res)=>{
+app.get('/api/activateaccounts/:encoded', async (req, res) => {
     let email = atob(req.params.encoded)
-    let user = await User.findOne({email})
+    let user = await User.findOne({ email })
     console.log("email", email);
     console.log("user", user)
-    if(user){
+    if (user) {
         user.activated = true;
         let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
         let notChild = (age >= 18)
@@ -56,23 +55,23 @@ app.get('/api/activateaccounts/:encoded', async(req,res)=>{
     }
     console.log("user save", user)
     res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
-    
+
 })
 
 //http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
 //what to do with this?????
 // app.all('/api/*', (req,res) => {
-    //     res.json({url: req.url, ok: true});
-    //   });
-    
-    // Set keys to names of rest routes
-    const models = {
-        users: require('./models/User'),
-        Transaction: require('./models/Transaction'),
-        Notification: require('./models/Notification')
-    };
-    
-    
+//     res.json({url: req.url, ok: true});
+//   });
+
+// Set keys to names of rest routes
+const models = {
+    users: require('./models/User'),
+    Transaction: require('./models/Transaction'),
+    Notification: require('./models/Notification')
+};
+
+
 // create all necessary rest routes for the models
 //new CreateRestRoutes(app, mongoose, models);
 
@@ -98,30 +97,32 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created'});
-    !error && sendMail(user)
+    res.json(error ? { error } : { success: 'User created', statusCode: 200 });
+    //!error && sendMail(user)
 });
 
 // route to login
-app.post('/api/login', async (req, res) => {
-    let { name, password } = req.body;
+app.post('/api/login*', async (req, res) => {
+
+    let { email, password } = req.body;
     password = encryptPassword(password);
-    let user = await User.findOne({ name, password })
-        .select('name role').exec();
+    let user = await User.findOne({ email, password })
+        .select('email role name activated').exec();
     if (user) { req.session.user = user };
-    res.json(user ? user : { error: 'not found' });
+    res.json(user ? user : { error: 'not found 1' });
+    console.log("adsd", user)
 });
 
 // check if/which user that is logged in
-app.get('/api/login', (req, res) => {
+app.get('/api/login*', (req, res) => {
     res.json(req.session.user ?
-        req.session.user :
-        { status: 'not logged in' }
+        [req.session.user] :
+        [{ status: 'not logged in' }]
     );
 });
 
 // logout
-app.delete('/api/login', (req, res) => {
+app.delete('/api/login*', (req, res) => {
     delete req.session.user;
     res.json({ status: 'logged out' });
 });
@@ -144,6 +145,9 @@ app.get('/api/imuser', async (req, res) => {
     let imUser = await User.find({ _id: user._id });
     res.json(imUser);
 })
+app.use(theRest(express, '/api', pathToModelFolder, null, {
+    'login': 'Login'
+}));
 
 //app.use('/api/users', require('./routes/api/users'));
 
