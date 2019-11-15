@@ -1,29 +1,32 @@
 import React from 'react';
-
 import { Login } from 'the.rest/dist/to-import';
+// import { Link } from 'react-router-dom';
 import {
-  NavLink
+  NavLink,
 } from 'reactstrap';
 
 
-function LogOut() {
+function LogOut(props) {
 
 
 
-
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleLogout() {
+    // e.preventDefault();
 
     let whoIsLoggedIn = await Login.findOne()
     console.log(whoIsLoggedIn);
     let deleteThisUser = await whoIsLoggedIn.delete()
     console.log(deleteThisUser)
-
   }
+
+  let handleRoute = history => {
+    history.push('/')
+  }
+
 
   return (
 
-    <NavLink onSubmit={handleSubmit} href="/login">Logga ut</NavLink>
+    <NavLink onClick={handleLogout} onChange={handleRoute.history} href='/login' >Logga ut</NavLink>
   )
 
 };
