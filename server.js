@@ -43,10 +43,10 @@ const pathToModelFolder = path.join(__dirname, 'models');
 
 app.get('/api/activateaccounts/:encoded', async (req, res) => {
     let email = atob(req.params.encoded)
-    let user = await User.findOne({ email })
-    console.log("email", email);
-    console.log("user", user)
-    if (user) {
+    let user = await User.findOne({email})
+    // console.log("email", email);
+    // console.log("user", user)
+    if(user){
         user.activated = true;
         let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
         let notChild = (age >= 18)

@@ -33,6 +33,7 @@ const EditUser = (props) => {
     let key = e.target.getAttribute('type');
     let editedUser = { ...user };
     editedUser[key] = e.target.value;
+    
     setUser(editedUser);
     console.log(editedUser);
 
