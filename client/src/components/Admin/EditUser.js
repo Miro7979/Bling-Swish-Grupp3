@@ -7,13 +7,15 @@ const request = require('request-promise-native');
 
 
 const EditUser = (props) => {
-//I WANNA FIND ONE USER TO EDIT OR DELETE
+  //I WANNA FIND ONE USER TO EDIT OR DELETE
   async function getUserInfo() {
     const { userid } = props.match.params;
     setUser(await User.findOne(userid));
+    console.log(userid);
   }
 
   const [user, setUser] = useState(false);
+  
   getUserInfo();
 
   let inputLabels = {
@@ -31,8 +33,9 @@ const EditUser = (props) => {
     let key = e.target.getAttribute('type');
     let editedUser = { ...user };
     editedUser[key] = e.target.value;
-    
     setUser(editedUser);
+    console.log(editedUser);
+
   }
 
 

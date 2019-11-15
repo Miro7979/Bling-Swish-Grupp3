@@ -17,7 +17,7 @@ const NavBar = (props) => {
 
   return (
     <div>
-      <Navbar className="navbar" dark style={{backgroundColor: "#DA85E3", color:"FBF4FB"}} expand="md">
+      <Navbar className="navbar flex" dark style={{backgroundColor: "#DA85E3", color:"#FBF4FB"}} expand="md">
         <NavbarBrand href="/">Bling Swish</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

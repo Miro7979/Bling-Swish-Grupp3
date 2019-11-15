@@ -5,12 +5,17 @@ import { User } from 'the.rest/dist/to-import';
 
 const AdminPage = (props) => {
   const [users, setUsers] = useState([]);
+
   //I WANNA FIND ALL THE USERS
   useEffect(() => {
     (async () => setUsers(await User.find()))();
   }, []);
 
   const editUser = () => {
+    let user = {
+      
+    }
+    console.log(editUser)
   }
 
   const deleteUser = () => {
@@ -21,17 +26,17 @@ const AdminPage = (props) => {
   return (
     <Row>
       <Col>
-        <Table striped className="mt-3 table-responsive-md">
+        <Table striped className="mt-3 table-responsive-md" style={{ color: "#FBF4FB" }}>
           <thead>
             <tr>
               <th>#</th>
               <th>Namn</th>
               <th>Telefonnummer</th>
               <th>Email </th>
-              <th>Personnummer</th>
+              {/* <th>Personnummer</th>
               <th>Roll</th>
               <th>Barn</th>
-              <th>Meddelanden</th>
+              <th>Meddelanden</th> */}
               <th></th>
               <th></th>
             </tr>
@@ -44,10 +49,10 @@ const AdminPage = (props) => {
                 <td className="align-middle">{name}</td>
                 <td className="align-middle">{phone}</td>
                 <td className="align-middle">{email}</td>
-                <td className="align-middle">{nationalIdNumber}</td>
+                {/* <td className="align-middle">{nationalIdNumber}</td>
                 <td className="align-middle">{role}</td>
                 <td className="align-middle">{children}</td>
-                <td className="align-middle">{notifications}</td>
+                <td className="align-middle">{notifications}</td> */}
                 <td className="align-middle">
                   <Button
                     className="remove-btn"

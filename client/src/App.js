@@ -27,7 +27,6 @@ function App() {
             <Route path="/login" component={LoginPage} />
             <Route  exact path="/adminsida" component={AdminPage} />
             <Route path="/adminsida/redigera-anvandare" component={EditUser} />
-            {/* <Route path="/adminsida/skapa-anvandare" component={CreateUser} /> */}
             <Route path="/betalningar" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
             <Route path="/registernewuserpage" component={CreateAccountModal} />
