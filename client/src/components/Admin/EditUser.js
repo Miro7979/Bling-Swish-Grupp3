@@ -7,34 +7,13 @@ const request = require('request-promise-native');
 
 
 const EditUser = (props) => {
-
-
-
+//I WANNA FIND ONE USER TO EDIT OR DELETE
   async function getUserInfo() {
     const { userid } = props.match.params;
     setUser(await User.findOne(userid));
   }
 
   const [user, setUser] = useState(false);
-  // const [name, setName] = useState("")
-  // const [email, setEmail] = useState("")
-  // const [phone, setPhoneNumber] = useState("")
-  // const [nationalIdNumber, setIdNumber] = useState("")
-  // const [password, setPassword] = useState("")
-
-  // const handleNameChange = e => setName(e.target.value);
-  // const handleEmailChange = e => setEmail(e.target.value);
-  // const handlePhoneChange = e => setPhoneNumber(e.target.value);
-  // const handleIdNumberChange = e => setIdNumber(e.target.value);
-  // const handlePasswordChange = e => setPassword(e.target.value);
-
-  // let userFound = await User.findOne({ name: /Lilla/i });
-  // console.log(userFound);
-
-  // setState((prev) => (
-  //   { ...prev, user: user, loading: false }
-  // ))
-
   getUserInfo();
 
   let inputLabels = {
@@ -42,13 +21,9 @@ const EditUser = (props) => {
     phone: "Telefonnummer",
     email: "Email",
     nationalIdNumber: "Personnummer",
-  };
+    children: "Har barn",
+    notifications: "Meddelanden",
 
-  let selectRole = {
-    name: "Namn",
-    phone: "Telefonnummer",
-    email: "Email",
-    nationalIdNumber: "Personnummer",
   };
 
   let handleChange = e => {
@@ -72,23 +47,8 @@ const EditUser = (props) => {
           </FormGroup>
         );
       })}
-      {/* {Object.keys(selectRole).map(role => {
-        let select = selectRole[role];
-        return (
-          <FormGroup>
-            <Label for="selectRole">Roll:</Label>
-            <Input type={role} value={user[role]}>
-              <option>Välj</option>
-              <option>kundkund</option>
-              <option>förälderkund</option>
-              <option>barnkund</option>
-            </Input>
-          </FormGroup>
-
-        )
-      })} */}
-      <FormGroup>
-        <Label for="selectKids">Har barn:</Label>
+      {/*<FormGroup>
+         <Label for="selectKids">Har barn:</Label>
         <Input type="select" name="select" id="selectKids">
           <option>Välj</option>
           <option>inga</option>
@@ -97,7 +57,7 @@ const EditUser = (props) => {
           <option>3 barn</option>
           <option>4 barn</option>
         </Input>
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup check>
         <Label check>
           <Input type="checkbox" />{' '}

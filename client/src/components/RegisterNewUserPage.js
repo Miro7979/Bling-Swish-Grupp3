@@ -4,7 +4,7 @@ import React from 'react';
 function RegisterNewUserPage() {
 
   return (
-    <div className="container">
+    <div>
       <h1>Register New User Page</h1>
     </div >
   );

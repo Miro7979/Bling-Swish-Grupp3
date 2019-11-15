@@ -22,7 +22,7 @@ function LogInPage(props) {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let logInUser = new Login({ email, password })
+		let logInUser = new Login ({ email, password })
 		//Post the login to the server
 		await logInUser.save()
 		let whoIsLoggedIn = await Login.findOne()
