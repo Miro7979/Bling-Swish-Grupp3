@@ -60,6 +60,7 @@ const MyPagePage =()=>{
 		});
 	}
 
+
 	return(
 		<div className="mypage-component container">
 
@@ -119,7 +120,7 @@ const MyPagePage =()=>{
 	 			</div>
 			: <p>inga barn</p> }
 
-			<MyPagePageAddChild />
+			<MyPagePageAddChild userData={userData} setUserData={setUserData} />
 		
 			<br></br><button onClick={handleSubmit}>Spara</button>				
 		</div>
