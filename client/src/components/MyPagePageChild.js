@@ -3,7 +3,7 @@ import logo from '../images/child-icon.png';
 import editIcon from '../images/edit-icon.png';
 import deleteIcon from '../images/delete-icon.png';
 
-const MyPagePageChild=({child})=>{
+const MyPagePageChild=({child,deleteChild})=>{
 
   const [editLimit,setEditLimit]=useState({
 		wantToEdit: false
@@ -17,9 +17,6 @@ const MyPagePageChild=({child})=>{
 		child.limit=e.target.value;
 	}
 
-
-
-
   return(
     <div>
 
@@ -28,7 +25,7 @@ const MyPagePageChild=({child})=>{
 					<img src={logo} alt="barn ikon"></img>
 				</div>			
 				<p className="col-7 child-name">{child.name}</p>
-				<div className="col-2 delete-button" onClick={htmlToggler}>
+				<div className="col-2 delete-button" onClick={()=>deleteChild(child.id)}>
 					<img src={deleteIcon} alt="ta bort ikon"></img>
 				</div> 
 			</div>

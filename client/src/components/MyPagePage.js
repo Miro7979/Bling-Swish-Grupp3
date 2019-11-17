@@ -9,16 +9,16 @@ import { User, Login } from 'the.rest/dist/to-import';
 const MyPagePage =()=>{
 
 	const[userData,setUserData]=useState({
-		name:'Göran Persson',
-		password:'olga99',
+		name:'',
+		password:'',
 		wantToChangePassword:false,
-		phone:'0708-137490',
-		email:'gptomelilla@hotmail.com',
-		nationalIdNumber:'620221-1942',
-		role:'parent',
-		limit:500,
+		phone:'',
+		email:'',
+		nationalIdNumber:'',
+		role:'',
+		limit:null,
 		wantToChangeLimit:false,
-		children:[{id:'99972345',name:'Henrik Peeeeeeeeersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
+		children:[]
 	});
 	const handleSubmit =()=>{
 		console.log(userData);
@@ -26,30 +26,39 @@ const MyPagePage =()=>{
 	}
 
 	useEffect(() => {
+		//alert('körs');
 	//(async () => console.log(await User.find()))();
 	//(async () => console.log(await Login.findOne()))();
-		async function hej(){
+		async function loadLoggedInUser(){
 		
 			let whoIsLoggedIn = await Login.findOne()
-			//console.log(whoIsLoggedIn);
+			console.log(whoIsLoggedIn);
 			//console.log(whoIsLoggedIn.role);			
 			setUserData({
+				...userData,
 				name:whoIsLoggedIn.name,
 				password:'turningtorso',
-				wantToChangePassword:false,
 				phone:'0708-137490',
 				email:whoIsLoggedIn.email,
 				nationalIdNumber:'620221-1942',
 				role:whoIsLoggedIn.role,
 				limit:10000,
-				wantToChangeLimit:false,
 				children:[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
 			});
 		}
-		hej();
-	})
+		loadLoggedInUser();
+	},[]);
 
+	const deleteChild=(id)=>{
 
+		let updatedData= userData.children.filter((object)=>{
+			return object.id !=id;
+		});
+		setUserData({
+			...userData,
+			children:updatedData
+		});
+	}
 
 	return(
 		<div className="mypage-component container">
@@ -104,7 +113,7 @@ const MyPagePage =()=>{
 				<div className="mt-4">
 					{userData.children.map(child=>{
 						return(									
-							<MypagePageChild child={child}/>
+							<MypagePageChild child={child} deleteChild={deleteChild}/>
 						);
 					})}
 	 			</div>
