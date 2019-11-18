@@ -87,7 +87,7 @@ const MyPagePage =()=>{
 				<div className="col-7">
 					{userData.wantToChangePassword? 
 						<input type="password" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
-						<output>{userData.password}</output>}	
+						<output>{/*{userData.password}*/}</output>}	
 				</div>			
 				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
 					<img src={editIcon} alt="ändra ikon"></img>
