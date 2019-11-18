@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
@@ -11,26 +11,31 @@ import {
 	Col,
 	FormGroup,
 	Label,
-	UncontrolledAlert
+	Alert
 } from 'reactstrap';
+
 
 
 
 function LogInPage(props) {
 	let [state, setState] = useContext(Context)
-	const [email, setEmail] = useState('sama@sama.com');
-	const [password, setPassword] = useState('123456789');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const inputEl = useRef(null)
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		await new Login({ email, password }).save()
+		let logInUser = await new Login({ email, password })
+		await logInUser.save()
 		let whoIsLoggedIn = await Login.findOne()
 		if (whoIsLoggedIn._id) {
 			setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
 		}
-	}
+
+	};
+
 
 	const LoginForm = () => {
 		return (
@@ -51,13 +56,15 @@ function LogInPage(props) {
 					<Row form>
 						<Col lx={12} lg={12} md={12} sm={6}>
 							<div>
-								<UncontrolledAlert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
+								<Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
 									Email eller lösenord är felaktigt, vänligen försök igen.
-							</UncontrolledAlert>
+							</Alert>
 							</div>
 							<FormGroup>
 								<Label for="emailLabel">Email</Label>
 								<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
+
+									ref={inputEl}
 									value={email}
 									onChange={e => setEmail(e.target.value)}
 								/>
