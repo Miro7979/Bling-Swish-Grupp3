@@ -7,6 +7,7 @@ const connectMongo = require('connect-mongo')(session);
 const app = express();
 const User = require('./models/User');
 const Transaction = require('./models/Transaction');
+const Notification = require('./models/Notification');
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
 const sendMail = require('./nodemailer');
@@ -97,7 +98,7 @@ app.post('/api/users', async (req, res) => {
     let error;
     let resultFromSave = await user.save()
         .catch(err => error = err + '');
-    res.json(error ? { error } : { success: 'User created', statusCode: 200 });
+    res.json(error ? { error } : { success: 'User created', resultFromSave, statusCode: 200 });
     //!error && sendMail(user)
 });
 
@@ -127,7 +128,7 @@ app.delete('/api/login*', (req, res) => {
     res.json({ status: 'logged out' });
 });
 
-app.get('/api/mytransactions', async (req, res) => {
+app.get('/api/mytransactions*', async (req, res) => {
     let user = req.session.user;
     if (!user) { res.json([]); return; }
     let iGot = await Transaction.find({ toUser: user._id });
@@ -139,12 +140,24 @@ app.get('/api/mytransactions', async (req, res) => {
     res.json(allMyTransactions);
 })
 
-app.get('/api/imuser', async (req, res) => {
+app.get('/api/imuser*', async (req, res) => {
     let user = req.session.user;
     if (!user) { res.json([]); return; }
     let imUser = await User.find({ _id: user._id });
     res.json(imUser);
 })
+app.post('/api/notifications*', async (req, res) => {
+    let user = await User.findOne({email: req.body.user[0] })
+    let notification = await new Notification({
+        message: req.body.message,
+        user: []
+    });
+    console.log(user._id)
+    await notification.user.push(user._id)
+    await notification.save()
+    res.json({status: 'yo', notification})
+});
+
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login'
 }));

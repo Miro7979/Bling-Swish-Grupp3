@@ -7,6 +7,7 @@ import AdminPage from './components/Admin/AdminPage';
 import HistoryPage from './components/HistoryPage';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
+import CreateAccount from './components/createAccount'
 import './App.scss';
 
 import CreateAccountModal from './components/createAccount'
@@ -33,7 +34,7 @@ function App() {
             {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
             <Route path="/payment" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
-            <Route path="/registernewuserpage" component={CreateAccountModal} />
+            <Route path="/registernewuserpage" component={CreateAccount} />
             <Route path="/betalningshistorik" component={HistoryPage} />
           </Switch>
         </main>
