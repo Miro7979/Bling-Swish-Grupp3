@@ -21,19 +21,13 @@ const MyPagePage =()=>{
 		children:[]
 	});
 	const handleSubmit =()=>{
-		console.log(userData);
-		
+		console.log(userData);		
 	}
 
 	useEffect(() => {
-		//alert('körs');
-	//(async () => console.log(await User.find()))();
-	//(async () => console.log(await Login.findOne()))();
 		async function loadLoggedInUser(){
 		
-			let whoIsLoggedIn = await Login.findOne()
-			console.log(whoIsLoggedIn);
-			//console.log(whoIsLoggedIn.role);			
+			let whoIsLoggedIn = await Login.findOne()			
 			setUserData({
 				...userData,
 				name:whoIsLoggedIn.name,
@@ -122,7 +116,7 @@ const MyPagePage =()=>{
 
 			<MyPagePageAddChild userData={userData} setUserData={setUserData} />
 		
-			<br></br><button onClick={handleSubmit}>Spara</button>				
+			<button className="row mx-auto mt-5" onClick={handleSubmit}>Spara</button>				
 		</div>
 	);
 }
