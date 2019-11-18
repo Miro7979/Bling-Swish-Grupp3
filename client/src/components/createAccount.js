@@ -11,8 +11,9 @@ const CreateAccountModal = () => {
   async function gatherUserInfo(){
     let notify = {
       message: "hej på digasdf",
-      user: ['dan@arv.com']
+      user: 'dan@arv.com'
     }
+    //user: ['5dcbf9564713fe2d0104e51a']
     let hejsan = await new Notification(notify)
     console.log(await hejsan.save(), "hej")
 
@@ -29,9 +30,8 @@ const CreateAccountModal = () => {
     }
 
     let newUser = new User(user);
-    console.log(await newUser.save())
+    await newUser.save()
     let foundUser = await User.findOne({email:email})
-    console.log(foundUser)
     foundUser ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);

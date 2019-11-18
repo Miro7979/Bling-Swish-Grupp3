@@ -147,15 +147,15 @@ app.get('/api/imuser*', async (req, res) => {
     res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-    let user = await User.findOne({email: req.body.user[0] })
+    let user = await User.findOne({email: req.body.user })
     let notification = await new Notification({
         message: req.body.message,
-        user: []
+        user
     });
     console.log(user._id)
-    await notification.user.push(user._id)
     await notification.save()
-    res.json({status: 'yo', notification})
+    console.log(notification)
+    res.json( notification);
 });
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
