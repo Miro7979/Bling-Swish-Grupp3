@@ -11,11 +11,15 @@ const AdminPage = (props) => {
     (async () => setUsers(await User.find()))();
   }, []);
 
-  const editUser = () => {
+  const editUser = (name, email, nationalIdNumber) => {
     let user = {
-      
+      name,
+      email,
+      nationalIdNumber,
+
     }
-    console.log(editUser)
+    console.log(editUser, user);
+
   }
 
   const deleteUser = () => {

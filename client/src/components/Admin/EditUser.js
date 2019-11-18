@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 // import createAccount from '../components/createAccount';
@@ -9,14 +9,21 @@ const request = require('request-promise-native');
 const EditUser = (props) => {
   //I WANNA FIND ONE USER TO EDIT OR DELETE
   async function getUserInfo() {
-    const { userid } = props.match.params;
-    setUser(await User.findOne(userid));
-    console.log(userid);
+    // const { userid } = props.match.params;
+    // setUser(await User.findOne(userid));
+
+    //get what's in the browser
+    let id = window.location.pathname.split('/')[3]
+    let userToEdit = await User.findOne({ _id: id })
+    //changed state...changed values of user aka changed user 
+    setUser(userToEdit)
   }
 
   const [user, setUser] = useState(false);
-  
-  getUserInfo();
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   let inputLabels = {
     name: "Namn",
@@ -33,10 +40,7 @@ const EditUser = (props) => {
     let key = e.target.getAttribute('type');
     let editedUser = { ...user };
     editedUser[key] = e.target.value;
-    
     setUser(editedUser);
-    console.log(editedUser);
-
   }
 
 
