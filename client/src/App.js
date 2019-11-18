@@ -37,7 +37,6 @@ function App() {
         height={150}
         width={300}
         timeout={3000} //3 secs
-
       />}
       {!state.booting &&
         <Router>
