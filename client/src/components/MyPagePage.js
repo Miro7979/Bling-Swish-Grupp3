@@ -26,18 +26,20 @@ const MyPagePage =()=>{
 
 	useEffect(() => {
 		async function loadLoggedInUser(){
-		
-			let whoIsLoggedIn = await Login.findOne()			
+
+			let whoIsLoggedIn = await Login.findOne();
+			let user= await User.findOne({name:whoIsLoggedIn.name});
+			console.log(user);
+	
 			setUserData({
 				...userData,
-				name:whoIsLoggedIn.name,
-				password:'turningtorso',
-				phone:'0708-137490',
-				email:whoIsLoggedIn.email,
-				nationalIdNumber:'620221-1942',
-				role:whoIsLoggedIn.role,
-				limit:10000,
-				children:[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
+				name:user.name,
+				password:user.password,
+				phone:user.phone,
+				email:user.email,
+				nationalIdNumber:user.nationalIdNumber,
+				role:user.role,
+				children:user.children
 			});
 		}
 		loadLoggedInUser();
@@ -112,7 +114,7 @@ const MyPagePage =()=>{
 						);
 					})}
 	 			</div>
-			: <p>inga barn</p> }
+			: '' }
 
 			<MyPagePageAddChild userData={userData} setUserData={setUserData} />
 		
@@ -121,3 +123,7 @@ const MyPagePage =()=>{
 	);
 }
 export default MyPagePage;
+
+/*
+[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
+*/

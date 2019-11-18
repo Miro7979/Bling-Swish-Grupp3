@@ -22,9 +22,11 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	}
 
 	const addChild=()=>{
+		console.log(data.foundChild);
+		
 		setUserData({
 			...userData,
-			children:[...userData.children,{id:data.foundChild.id,name:data.foundChild.name,limit:400}]
+			children:[data.foundChild]
 		});
 	}
 
@@ -68,25 +70,5 @@ export default MyPagePageAddChild;
 
 
 /*
-	async function findChild(){
-
-		let child = await User.findOne({phone:data.childPhone});
-		console.log('child'+child);
-					
-		if(child.length>0){
-			setData({
-				...data,
-				foundChild:child
-			});	
-		}
-
-		console.log('state'+data.foundChild);
-
-		/*
-		else{
-			setData({
-				...data,
-				foundChild:'Det finns ingen med detta telefonnummer'
-			});	
-		} */
-	//}
+children:[...userData.children,{id:data.foundChild.id,name:data.foundChild.name,limit:400}]
+*/
