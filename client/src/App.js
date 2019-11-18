@@ -11,6 +11,7 @@ import './App.scss';
 import CreateAccountModal from './components/createAccount'
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
+import Loader from 'react-loader-spinner'
 
 function App() {
   let context = useContext(Context);
@@ -30,7 +31,14 @@ function App() {
 
   return (
     <Context.Provider value={[state, setState]}>
-      {state.booting && 'SPINNER FOR ENTIRE PAGE...'}
+      {state.booting && <Loader className="spinner"
+        type="BallTriangle"
+        color="#FFFF"
+        height={150}
+        width={300}
+        timeout={3000} //3 secs
+
+      />}
       {!state.booting &&
         <Router>
           <div className="App">
