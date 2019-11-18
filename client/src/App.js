@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
 import AdminPage from './components/Admin/AdminPage';
 // import EditUser from './components/Admin/EditUser';
-import HistoryPage from './components/HistoryPage';
+import HistoryPage from './components/HistoryPage/HistoryPage.js';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
