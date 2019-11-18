@@ -10,13 +10,11 @@ import {
 } from 'reactstrap';
 
 function PaymentPage() {
-  let [state, setState] = useContext(Context);
 
-  console.log(state)
-
-
+  let state = useContext(Context)[0]
   const message = () => {
-    setState({ message: 'Du har fått betalning' })
+    // NO!!!! We do not set state without spreading PREV! This would remove all other things we need in state that other components redirect on etc...
+    // setState({ message: 'Du har fått betalning' }) <-- Nooooo!!!
   }
 
   return (
@@ -33,19 +31,16 @@ function PaymentPage() {
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-
           <InputGroup>
             <Input placeholder="belopp" />
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-
           <InputGroup>
             <Input placeholder="meddelande" />
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-
           <Button color="success">Bling</Button>{' '}
         </Col>
       </Row>
