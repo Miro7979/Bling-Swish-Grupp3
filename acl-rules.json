@@ -36,6 +36,9 @@
 			  "child": "all",
 			  "parent": "all",
 			  "admin": "all"
+		  },
+		  "resets": {
+			  "visitor": "all"
 		  }
 	}
 }

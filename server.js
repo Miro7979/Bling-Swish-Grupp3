@@ -8,6 +8,7 @@ const app = express();
 const User = require('./models/User');
 const Transaction = require('./models/Transaction');
 const Notification = require('./models/Notification');
+const Reset = require('./models/Reset')
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
 const sendMail = require('./nodemailer');
@@ -59,6 +60,53 @@ app.get('/api/activateaccounts/:encoded', async (req, res) => {
 
 })
 
+app.get('/api/resets/:id', async (req, res) => {
+    console.log(req.params.id)
+    let foundResetUser = await Reset.findOne({_id: req.params.id});
+    if(foundResetUser && foundResetUser.date  < Date.now()){
+        console.log("hej")
+    }
+    res.json({result:"hej"})
+    return
+})
+app.post('/api/resets', async (req, res) => {
+    let foundUser = await User.findOne({email: req.body.email})
+    if(!foundUser){
+        res.json({result: "Om din användare finns så har vi skickat ett mejl."})
+        return
+    }
+    let foundResetUser = await Reset.findOne({userId:foundUser._id});
+    let time =  Date.now()
+
+    let reset = new Reset({
+        date: Date.now(),
+        userId: foundUser._id 
+    })
+    if(foundResetUser){
+        if((time - foundResetUser.date) > 86400000 ){
+            console.log('här?')
+            let savedReset = await reset.save()
+            //send email
+            res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+            return;
+        }
+        else if(time < 86400000){
+            console.log("under 24")
+            res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+            return
+        }
+    }
+    if(foundUser && !foundResetUser){
+        console.log("hittade user men inte reset")
+        let savedReset = await reset.save();
+        res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+        return
+    }
+    res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})  
+    return; 
+})
+
+
 //http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
 //what to do with this?????
 // app.all('/api/*', (req,res) => {
@@ -69,7 +117,8 @@ app.get('/api/activateaccounts/:encoded', async (req, res) => {
 const models = {
     users: require('./models/User'),
     Transaction: require('./models/Transaction'),
-    Notification: require('./models/Notification')
+    Notification: require('./models/Notification'),
+    Reset: require('./models/Reset')
 };
 
 
@@ -150,7 +199,7 @@ app.get('/api/imuser*', async (req, res) => {
     res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-    let user = await User.findOne({email: req.body.user })
+    let user = await User.findOne({phone: req.body.toUser })
     let notification = await new Notification({
         message: req.body.message,
         user
