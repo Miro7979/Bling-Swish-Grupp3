@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 // import createAccount from '../components/createAccount';
-import { User } from 'the.rest/dist/to-import';
+import { User } from '../../../../node_modules/the.rest/dist/to-import';
 const request = require('request-promise-native');
 
 
@@ -15,17 +15,6 @@ const EditUser = (props) => {
     //changed state...changed values of user aka changed user 
     setUser(userToEdit)
   }
-
-  // let userToBeEdited = (e) = {
-  //   name,
-  //   phone,
-  //   email,
-  //   nationalIdNumber,
-  //   role: [],
-  //   children: Boolean,
-  //   notifications: []
-  // }
-  // console.log(userToBeEdited);
 
   const [user, setUser] = useState(false);
 
@@ -41,7 +30,6 @@ const EditUser = (props) => {
     role: "Roll",
     children: "Barn",
     notificatations: "Meddelanden"
-
   };
 
   const handleChange = e => {
@@ -51,18 +39,14 @@ const EditUser = (props) => {
     setUser(editedUser);
   }
 
-  async function handleSubmit(name, email,password, phone, nationalIdNumber) {
-    let userToEdit = {
-      name,
-      email,
-      password,
-      phone,
-      nationalIdNumber
-    }
-    let user = new User(userToEdit);
-    console.log(await user.save())
-    console.log('submitted')
+  const handleSubmit = () => {
+    let userToSave = new User(user);
+     userToSave.save();
+    // alert updated
+    alert('uppdaterad!')
   }
+
+
 
 
   return !user ? null : (
