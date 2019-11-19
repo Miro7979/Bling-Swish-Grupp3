@@ -6,6 +6,10 @@ function HistoryList(props) {
     <div className="history-list">
       <h1 className="list-h1">{props.theDropdownTitle}</h1>
 
+      {props.transactions.length > 0 ? '' :
+        <h3 className="history-list-no-transactions">- Inga transaktioner genomförda -</h3>
+      }
+
       {props.transactions.map((transaction, i) => 
         <div className="row history-list-row" key={i}>
           <div className="col list-col">

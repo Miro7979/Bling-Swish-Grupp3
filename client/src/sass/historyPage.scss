@@ -1,3 +1,19 @@
+// HistoryPage
+.history-page {
+  .history-page-no-children {
+    margin-left: 15px;
+    margin-top: 50px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .history-page-no-children {
+      font-size: 30px;
+      text-align: center;
+    }
+  }
+
+}
+
 // HistoryDropdown
 .history-dropdown {
   .dropdown-list {
@@ -19,6 +35,16 @@
 .history-list {
   .list-h1 {
     margin-left: 15px;
+  }
+  .history-list-no-transactions {
+    border: solid 1px rgb(255, 255, 255);
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 25px 0;
+    text-align: center;
+    margin-top: 50px;
   }
   .history-list-row {
     border: solid 1px rgb(255, 255, 255);
@@ -81,6 +107,9 @@
     }
     .history-list-row p {
       font-size: 14px;
+    }
+    .history-list-no-transactions {
+      font-size: 20px;
     }
   }
 }

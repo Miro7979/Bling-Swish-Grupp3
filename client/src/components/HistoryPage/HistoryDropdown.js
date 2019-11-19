@@ -8,6 +8,9 @@ function HistoryDropdown(props) {
   const toggle = () => setDropdownOpen( prevState => !prevState);
 
   const displayDropdownTitle = (e) => {
+    if(e.target.value === 'Inga fler användare') {
+      return;
+    }
     setDropdownTitle(e.target.value);
   }
 

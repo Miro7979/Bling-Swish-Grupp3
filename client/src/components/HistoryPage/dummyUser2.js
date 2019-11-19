@@ -1,28 +1,11 @@
-export const user = {
+export const dummyUser2 = {
   name: 'Captain Bling',
   transactions: [
-    {
-      date: '1990-01-01',
-      amount: 199,
-      fromUser: 'Ingvar Kampvik',
-      toUser: ''
-    },
-    {
-      date: '1992-02-02',
-      amount: 299,
-      fromUser: 'Stig Stjernfeldt',
-      toUser: ''
-    },
-    {
-      date: '1994-04-04',
-      amount: 499,
-      fromUser: '',
-      toUser: 'Ylva Fredriksson'
-    }
+
   ],
   children: [
     {
-      name: 'Son Bling',
+      name: 'AAAAA',
       transactions: [
         {
           date: '2000-01-01',
@@ -33,14 +16,14 @@ export const user = {
         {
           date: '2002-02-02',
           amount: 2299,
-          fromUser: '',
-          toUser: 'Britt Nielsen'
+          fromUser: 'Britt Nielsen',
+          toUser: ''
         }
       ],
       children: [{ }]
     },
     {
-      name: 'Daughter Bling',
+      name: 'BBBBB',
       transactions: [
         {
           date: '3000-01-01',

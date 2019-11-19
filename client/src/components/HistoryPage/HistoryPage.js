@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import HistoryDropdown from './HistoryDropdown.js';
 import HistoryList from './HistoryList.js';
-import {user} from './user.js';
+import Context from '../Context';
+
+import {dummyUser} from './dummyUser.js';
+import {dummyUser2} from './dummyUser2.js';
 
 function HistoryPage() {
-
+  
   const [theDropdownTitle, setTheDropdownTitle] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [dropdownNames, setDropdownNames] = useState([]);
+  let context = useContext(Context);
+
+  let [user, setUser] = useState(context[0].user)
+  // let [user, setUser] = useState(dummyUser)
+  // let [user, setUser] = useState(dummyUser2)
+
 
   useEffect( () => {
-    function fetchTransactions() {
-      setTransactions(user.transactions);
-    }
-
-    fetchTransactions();
     insertNamesToDropdown();
     organizeTransactions();
   }, [setTransactions]);
@@ -25,6 +29,8 @@ function HistoryPage() {
       for(let child of user.children) {
         dropdownNames.push(child.name);
       }
+    } else {
+      dropdownNames.push('Inga fler användare')
     }
 
     setDropdownNames(dropdownNames);
