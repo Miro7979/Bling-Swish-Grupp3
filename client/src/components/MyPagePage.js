@@ -20,8 +20,17 @@ const MyPagePage =()=>{
 		wantToChangeLimit:false,
 		children:[]
 	});
-	const handleSubmit =()=>{
-		console.log(userData);		
+
+	async function handleSubmit(){
+		//console.log(userData);	
+		let whoIsLoggedIn = await Login.findOne();
+		let user= await User.findOne({name:whoIsLoggedIn.name});
+		//console.log(user.name);	
+
+		user.password=userData.password;
+		user.limit=userData.limit;
+		user.children=userData.children;
+		await user.save();
 	}
 
 	useEffect(() => {
