@@ -1,0 +1,38 @@
+.mypage-component{
+   color: white;
+
+  .header{
+		margin-top:30px;
+		margin-bottom:30px;
+			
+    .name{
+      font-size:23px;
+      line-height:2;   
+    }
+  }
+
+  .delete-button{
+    cursor:pointer;
+  }
+  .edit-button{
+    cursor:pointer;
+	}  
+	.search-button{
+		cursor:pointer;
+	}  
+  .child-name{
+    font-size:19px;
+  }
+
+  .newRow{
+    border:solid black 2px;
+  }
+  .newCol{
+    border:solid orange 1px;
+  }
+
+   
+}
+
+
+

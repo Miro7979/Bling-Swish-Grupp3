@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
-import { Login } from 'the.rest/dist/to-import';
+import { Login } from '../../../node_modules/the.rest/dist/to-import';
 import Context from './Context';
 
 import {

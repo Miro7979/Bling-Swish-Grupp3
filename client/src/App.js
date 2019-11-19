@@ -2,10 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
+import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
 // import EditUser from './components/Admin/EditUser';
 import HistoryPage from './components/HistoryPage';
-//import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
 import CreateAccount from './components/createAccount'
 import './App.scss';
