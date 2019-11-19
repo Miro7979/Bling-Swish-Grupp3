@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Login } from 'the.rest/dist/to-import';
+import { Login } from '../../../node_modules/the.rest/dist/to-import';
 import {
 	Button, Input,
 	Form,

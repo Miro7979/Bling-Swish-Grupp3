@@ -4,7 +4,7 @@ import MyPagePageAddChild from './MyPagePageAddChild.js';
 import editIcon from '../images/edit-icon.png';
 import logo from '../images/person-icon.png';
 
-import { User, Login } from 'the.rest/dist/to-import';
+import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
 const MyPagePage =()=>{
 
@@ -22,7 +22,7 @@ const MyPagePage =()=>{
 	});
 
 	async function handleSubmit(){
-		//console.log(userData);	
+		console.log(userData);	
 		let whoIsLoggedIn = await Login.findOne();
 		let user= await User.findOne({name:whoIsLoggedIn.name});
 		//console.log(user.name);	
@@ -37,9 +37,9 @@ const MyPagePage =()=>{
 		async function loadLoggedInUser(){
 
 			let whoIsLoggedIn = await Login.findOne();
-			let user= await User.findOne({name:whoIsLoggedIn.name});
+			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
 			console.log(user);
-	
+			//return;
 			setUserData({
 				...userData,
 				name:user.name,

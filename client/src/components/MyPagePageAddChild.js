@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { User, Login } from 'the.rest/dist/to-import';
+import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 import searchIcon from '../images/search-icon.png';
 import addIcon from '../images/add-icon.png';
 
