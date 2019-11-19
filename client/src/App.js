@@ -38,24 +38,26 @@ function App() {
             <header className="App-header">
               <NavBar />
             </header>
-        <main className="container mt-2">
-          {/* On path="/" a ternary operator should be introduced to alternate
+            <main className="container mt-2">
+              {/* On path="/" a ternary operator should be introduced to alternate
             between two stages, based on if you´re logged in or not.
             eg. component={PaymentPage} if logged in 
           */}
-          <Switch className="switch">
-            <Route exact path="/" component={LoginPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route  exact path="/adminsida" component={AdminPage} />
-            <Route path="/adminsida/redigera-anvandare" component={EditUser} />
-            <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
-            <Route path="/betalningar" component={PaymentPage} />
-            {/* <Route path="/minasidor" component={MyPagePage} /> */}
-            <Route path="/registernewuserpage" component={CreateAccountModal} />
-            <Route path="/betalningshistorik" component={HistoryPage} />
-          </Switch>
-        </main>
-      </div>
+              <Switch className="switch">
+                <Route exact path="/" component={LoginPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route exact path="/adminsida" component={AdminPage} />
+                <Route path="/adminsida/redigera-anvandare" component={EditUser} />
+                <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
+                <Route path="/betalningar" component={PaymentPage} />
+                {/* <Route path="/minasidor" component={MyPagePage} /> */}
+                <Route path="/registernewuserpage" component={CreateAccountModal} />
+                <Route path="/betalningshistorik" component={HistoryPage} />
+              </Switch>
+            </main>
+          </div>
+        </Router>
+      }
     </Context.Provider>
   );
 }
