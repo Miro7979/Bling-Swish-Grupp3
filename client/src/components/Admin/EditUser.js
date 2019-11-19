@@ -9,15 +9,23 @@ const request = require('request-promise-native');
 const EditUser = (props) => {
   //I WANNA FIND ONE USER TO EDIT OR DELETE
   async function getUserInfo() {
-    // const { userid } = props.match.params;
-    // setUser(await User.findOne(userid));
-
     //get what's in the browser
     let id = window.location.pathname.split('/')[3]
     let userToEdit = await User.findOne({ _id: id })
     //changed state...changed values of user aka changed user 
     setUser(userToEdit)
   }
+
+  // let userToBeEdited = (e) = {
+  //   name,
+  //   phone,
+  //   email,
+  //   nationalIdNumber,
+  //   role: [],
+  //   children: Boolean,
+  //   notifications: []
+  // }
+  // console.log(userToBeEdited);
 
   const [user, setUser] = useState(false);
 
@@ -36,11 +44,24 @@ const EditUser = (props) => {
 
   };
 
-  let handleChange = e => {
+  const handleChange = e => {
     let key = e.target.getAttribute('type');
     let editedUser = { ...user };
     editedUser[key] = e.target.value;
     setUser(editedUser);
+  }
+
+  async function handleSubmit(name, email,password, phone, nationalIdNumber) {
+    let userToEdit = {
+      name,
+      email,
+      password,
+      phone,
+      nationalIdNumber
+    }
+    let user = new User(userToEdit);
+    console.log(await user.save())
+    console.log('submitted')
   }
 
 
@@ -57,33 +78,13 @@ const EditUser = (props) => {
           </FormGroup>
         );
       })}
-      {/* <FormGroup>
-        <Label for="selectRole">Roll:</Label>
-        <Input type="select" name="select" id="selectRole">
-          <option>Välj</option>
-          <option>kundkund</option>
-          <option>förälderkund</option>
-          <option>barnkund</option>
-        </Input>
-      </FormGroup> */}
-      {/* <FormGroup>
-        <Label for="selectKids">Har barn:</Label>
-        <Input type="select" name="select" id="selectKids">
-          <option>Välj</option>
-          <option>inga</option>
-          <option>1 barn</option>
-          <option>2 barn</option>
-          <option>3 barn</option>
-          <option>4 barn</option>
-        </Input>
-      </FormGroup> */}
       <FormGroup check>
         <Label check>
           <Input type="checkbox" />{' '}
           reset password email
         </Label>
       </FormGroup>
-      <Button>Updatera</Button>
+      <Button onClick={handleSubmit}>Updatera</Button>
     </Form>
   );
 }

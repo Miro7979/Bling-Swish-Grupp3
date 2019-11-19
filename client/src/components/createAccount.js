@@ -10,6 +10,7 @@ const CreateAccountModal = () => {
       setProblem(true)
       return
     }
+  
     let user = {
       name,
       email,
@@ -41,7 +42,7 @@ const CreateAccountModal = () => {
   const dismissProblem = () => setProblem(false);
   const dismissCreated = () => setCreated(false);
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
 
   const toggle = () => setModal(!modal);
 
