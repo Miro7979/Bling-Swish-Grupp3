@@ -13,7 +13,7 @@ import CreateNotificationModal from './createNotificationModal';
 
 const PaymentPage = () => {
 
-  const [state, setState] = useContext(Context);
+  const [state] = useContext(Context);
 
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
@@ -32,6 +32,7 @@ const PaymentPage = () => {
     }
     let hejsan = await new Notification(notify)
     console.log(await hejsan.save(), "notis skickat")
+
   }
 
   async function sendTransaction() {
@@ -41,7 +42,7 @@ const PaymentPage = () => {
       toUser: number,
       fromUser: state.user._id
     }
-    //user: ['email']
+
     let bling = await new Transaction(transaction)
     console.log(await bling.save(), "transaction skickat")
     createNotification();

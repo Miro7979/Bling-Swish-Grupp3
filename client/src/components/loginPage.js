@@ -26,12 +26,21 @@ function LogInPage(props) {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let logInUser = await new Login({ email, password })
-		await logInUser.save()
-		let whoIsLoggedIn = await Login.findOne()
-		if (whoIsLoggedIn._id) {
-			setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+		try {
+			let logInUser = await new Login({ email, password })
+			await logInUser.save()
+			let whoIsLoggedIn = await Login.findOne()
+			if (whoIsLoggedIn._id) {
+				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+			}
 		}
+		catch {
+			setProblem(true);
+		}
+		finally {
+			return ''
+		}
+
 
 	};
 

@@ -1,13 +1,15 @@
-import React, { useState, useContext } from 'react';
-import Context from './Context';
+import React, { useState } from 'react';
+// import Context from './Context';
 import {
   Button,
   Modal,
-  ModalHeader
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from 'reactstrap';
 
 const CreateNotificationModal = (props) => {
-  let [state, setState] = useContext(Context);
+  // let [state] = useContext(Context);
 
   const {
     buttonLabel,
@@ -17,19 +19,19 @@ const CreateNotificationModal = (props) => {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
-  console.log(state.user._id)
+
 
   return (
     <div className="notisModal">
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Bling notis</ModalHeader>
-        
+        <ModalHeader className="modalHeader">Bling notis</ModalHeader>
+        <ModalBody className="modalBody">
           Du har fått en betalning på ditt Bling konto.
-      
-
-        <Button onClick={toggle}>Ok</Button>
-
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={toggle}>Ok</Button>
+        </ModalFooter>
       </Modal>
     </div>
   );

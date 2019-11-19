@@ -169,7 +169,6 @@ app.post('/api/transaction*', async (req, res) => {
         toUser: toUser._id,
         fromUser: req.body.fromUser
     });
-    // console.log(toUser._id)
     await transaction.save()
     console.log(transaction)
     res.json(transaction);
