@@ -7,6 +7,7 @@ import AdminPage from './components/Admin/AdminPage';
 import HistoryPage from './components/HistoryPage';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
+import CreateAccount from './components/createAccount'
 import './App.scss';
 import CreateAccountModal from './components/createAccount'
 import Context from './components/Context';
