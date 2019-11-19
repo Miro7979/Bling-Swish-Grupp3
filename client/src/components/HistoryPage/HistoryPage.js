@@ -13,15 +13,18 @@ function HistoryPage() {
   const [dropdownNames, setDropdownNames] = useState([]);
   let context = useContext(Context);
 
-  let [user, setUser] = useState(context[0].user)
+  let [user] = useState(context[0].user)
   // let [user, setUser] = useState(dummyUser)
   // let [user, setUser] = useState(dummyUser2)
 
 
-  useEffect( () => {
+  useEffect(() => {
     insertNamesToDropdown();
     organizeTransactions();
-  }, [setTransactions]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   function insertNamesToDropdown() {
     let dropdownNames = ['Min historik'];
@@ -50,12 +53,12 @@ function HistoryPage() {
     setTransactions(personFromDropdown.transactions)
   }
 
-  const showDropdownTitle = (dropdownTitle) => {
+  const createDropdown = (dropdownTitle) => {
     setTheDropdownTitle(dropdownTitle);
     organizeTransactions(dropdownTitle);
   }
 
-  let propsToDropDown = {showDropdownTitle, dropdownNames, organizeTransactions};
+  let propsToDropDown = {createDropdown, dropdownNames, organizeTransactions};
   let propsToHistoryList = {theDropdownTitle, transactions};
   
   return (

@@ -15,7 +15,7 @@ function HistoryDropdown(props) {
   }
 
   const callFunctionsOnHistoryPage = () => {
-    props.showDropdownTitle(dropdownTitle); 
+    props.createDropdown(dropdownTitle); 
     props.organizeTransactions(dropdownTitle);
   }
 
