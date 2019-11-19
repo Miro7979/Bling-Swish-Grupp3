@@ -1,6 +1,6 @@
 //here we type the route-models we want to use in the component 
 //both those who have an mongoose-model and the routes who dont have
-import { User, Login } from 'the.rest/dist/to-import'
+import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
 // New user
 let user = {
