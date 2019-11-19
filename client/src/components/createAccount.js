@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, FormFeedback, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import {User, Notification} from 'the.rest/dist/to-import'
+import { User } from 'the.rest/dist/to-import'
 
 const CreateAccountModal = () => {
   useEffect(() => {
     setModal(true)
-  })
+  }, []);
 
-  async function gatherUserInfo(){
-    let notify = {
-      message: "hej på digasdf",
-      user: 'dan@arv.com'
-    }
-    //user: ['5dcbf9564713fe2d0104e51a']
-    let hejsan = await new Notification(notify)
-    console.log(await hejsan.save(), "hej")
+  async function gatherUserInfo() {
 
-    if(!name || !email || !password || !phone || !nationalIdNumber){
+    if (!name || !email || !password || !phone || !nationalIdNumber) {
       setProblem(true)
       return
     }
@@ -31,7 +24,7 @@ const CreateAccountModal = () => {
 
     let newUser = new User(user);
     await newUser.save()
-    let foundUser = await User.findOne({email:email})
+    let foundUser = await User.findOne({ email })
     foundUser ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
@@ -58,13 +51,13 @@ const CreateAccountModal = () => {
   return (
     <div>
       <Modal isOpen={modal} size="md">
-       <Link to="/"> <ModalHeader toggle={toggle} >Skapa konto</ModalHeader> </Link>
+        <Link to="/"> <ModalHeader toggle={toggle} >Skapa konto</ModalHeader> </Link>
         <ModalBody>
-        <Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
-          Yo missing info bro
+          <Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
+            Yo missing info bro
         </Alert>
-        <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
-          Yo go to login bro you got an account
+          <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
+            Yo go to login bro you got an account
         </Alert>
           <InputGroup>
             <Container>
@@ -80,8 +73,8 @@ const CreateAccountModal = () => {
           </InputGroup>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={gatherUserInfo}>
-              Skapa konto
+          <Button color="primary" onClick={gatherUserInfo}>
+            Skapa konto
             </Button>
           <Link to="/">
             <Button color="secondary" onClick={toggle}>
