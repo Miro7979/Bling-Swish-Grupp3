@@ -35,7 +35,7 @@ const MyPagePage =()=>{
 
 	useEffect(() => {
 		async function loadLoggedInUser(){
-				console.log('run');
+				//console.log('run');
 			let whoIsLoggedIn = await Login.findOne();
 			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
 			//console.log(user);
@@ -117,9 +117,9 @@ const MyPagePage =()=>{
 						
 			{userData.children.length>0? 
 				<div className="mt-4">
-					{userData.children.map(child=>{
+					{userData.children.map((child,index)=>{
 						return(									
-							<MypagePageChild child={child} deleteChild={deleteChild}/>
+							<MypagePageChild key={index+1} child={child} deleteChild={deleteChild}/>
 						);
 					})}
 	 			</div>
