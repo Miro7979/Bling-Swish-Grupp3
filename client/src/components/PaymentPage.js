@@ -9,6 +9,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import CreateNotificationModal from './createNotificationModal';
 
 const PaymentPage = () => {
 
@@ -25,12 +26,12 @@ const PaymentPage = () => {
 
   async function createNotification() {
     let notify = {
-      message: message || "Du har fått en betalning på din Bling konto",
+      message: message || "Du har fått en betalning på ditt Bling konto",
       toUser: number,
       fromUser: state.user._id
     }
     let hejsan = await new Notification(notify)
-    console.log(await hejsan.save(), "hej")
+    console.log(await hejsan.save(), "notis skickat")
   }
 
   async function sendTransaction() {
@@ -42,7 +43,8 @@ const PaymentPage = () => {
     }
     //user: ['email']
     let bling = await new Transaction(transaction)
-    console.log(await bling.save(), "bling")
+    console.log(await bling.save(), "transaction skickat")
+    createNotification();
   }
 
 
@@ -51,8 +53,6 @@ const PaymentPage = () => {
   return (
     <div className="container">
       <Row>
-        <h1>Meddelande : {} </h1>
-        <button onClick={createNotification}>Meddelande</button>
         <Col xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>
@@ -78,9 +78,10 @@ const PaymentPage = () => {
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-          <Button onClick={sendTransaction} color="success">Bling</Button>{' '}
+          <Button onClick={sendTransaction} color="success">Bling</Button>
         </Col>
       </Row>
+      <CreateNotificationModal />
     </div >
   );
 
