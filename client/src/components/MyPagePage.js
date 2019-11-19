@@ -35,10 +35,10 @@ const MyPagePage =()=>{
 
 	useEffect(() => {
 		async function loadLoggedInUser(){
-
+				console.log('run');
 			let whoIsLoggedIn = await Login.findOne();
 			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
-			console.log(user);
+			//console.log(user);
 			//return;
 			setUserData({
 				...userData,
@@ -57,7 +57,7 @@ const MyPagePage =()=>{
 	const deleteChild=(id)=>{
 
 		let updatedData= userData.children.filter((object)=>{
-			return object.id !=id;
+			return object.id !==id;
 		});
 		setUserData({
 			...userData,
