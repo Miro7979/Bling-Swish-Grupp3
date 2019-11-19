@@ -45,7 +45,7 @@ function App() {
                 <Route path="/adminpage" component={AdminPage} />
                 {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
                 <Route path="/betalningar" component={PaymentPage} />
-                {/* <Route path="/minasidor" component={MyPagePage} /> */}
+                <Route path="/minasidor" component={MyPagePage} />
                 <Route path="/registernewuserpage" component={CreateAccountModal} />
                 <Route path="/betalningshistorik" component={HistoryPage} />
               </Switch>

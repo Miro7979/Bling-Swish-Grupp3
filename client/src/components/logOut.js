@@ -1,6 +1,8 @@
 import { Login } from '../../../node_modules/the.rest/dist/to-import';
 import React, { useContext } from 'react';
-import { Login } from 'the.rest/dist/to-import';
+import { Redirect } from 'react-router';
+
+
 import {
   NavLink,
 } from 'reactstrap';
