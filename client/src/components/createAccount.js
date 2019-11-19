@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, FormFeedback, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
 import {User} from '../../../node_modules/the.rest/dist/to-import';
 
 const CreateAccountModal = () => {
+  useEffect(() => {
+    setModal(true)
+  })
 
   async function gatherUserInfo(){
+    let notify = {
+      message: "hej på digasdf",
+      user: 'dan@arv.com'
+    }
+    //user: ['5dcbf9564713fe2d0104e51a']
+    let hejsan = await new Notification(notify)
+    console.log(await hejsan.save(), "hej")
+
     if(!name || !email || !password || !phone || !nationalIdNumber){
       setProblem(true)
       return
@@ -19,9 +30,8 @@ const CreateAccountModal = () => {
     }
 
     let newUser = new User(user);
-    console.log(await newUser.save())
+    await newUser.save()
     let foundUser = await User.findOne({email:email})
-    console.log(foundUser)
     foundUser ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
