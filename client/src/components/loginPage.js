@@ -89,7 +89,7 @@ function LogInPage(props) {
 								</Col>
 								<Col lx={12} lg={12} md={12} sm={6}>
 									<div className="registerNewUserLink">
-										<Link to="/registerNewUserPage">Registrera dig som ny användare</Link>
+										<Link to="/skapaKontoSida">Registrera dig som ny användare</Link>
 									</div>
 								</Col>
 							</Row>
