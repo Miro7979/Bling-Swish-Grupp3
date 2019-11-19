@@ -30,6 +30,7 @@ function App() {
             <Route path="/betalningar" component={PaymentPage} />
             {/* <Route path="/minasidor" component={MyPagePage} /> */}
             <Route path="/registernewuserpage" component={CreateAccountModal} />
+            <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
             <Route path="/betalningshistorik" component={HistoryPage} />
           </Switch>
         </main>
