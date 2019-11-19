@@ -7,9 +7,8 @@ import AdminPage from './components/Admin/AdminPage';
 import HistoryPage from './components/HistoryPage';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
-import CreateAccount from './components/createAccount'
 import './App.scss';
-import CreateAccountModal from './components/createAccount'
+import CreateAccountModal from './components/createAccount';
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 import Loader from 'react-loader-spinner'
@@ -53,7 +52,7 @@ function App() {
                 {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
                 <Route path="/betalningar" component={PaymentPage} />
                 {/* <Route path="/minasidor" component={MyPagePage} /> */}
-                <Route path="/registernewuserpage" component={CreateAccountModal} />
+                <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/betalningshistorik" component={HistoryPage} />
               </Switch>
             </main>
