@@ -1,34 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router'
 import { Login } from 'the.rest/dist/to-import';
-// import { Link } from 'react-router-dom';
 import {
   NavLink,
 } from 'reactstrap';
+import Context from './Context';
 
 
-function LogOut(props) {
-
-
-
+function LogOut() {
+  let [state, setState] = useContext(Context);
   async function handleLogout() {
-    // e.preventDefault();
-
     let whoIsLoggedIn = await Login.findOne()
-    console.log(whoIsLoggedIn);
-    let deleteThisUser = await whoIsLoggedIn.delete()
-    console.log(deleteThisUser)
+    await whoIsLoggedIn.delete()
+    setState((prev) => ({ ...prev, user: null }))
   }
-
-  let handleRoute = history => {
-    history.push('/')
-  }
-
 
   return (
-
-    <NavLink onClick={handleLogout} onChange={handleRoute.history} href='/login' >Logga ut</NavLink>
+    <React.Fragment>
+      {state.user ? <NavLink onClick={handleLogout} style={{ cursor: 'pointer' }} >Logga ut</NavLink> : <Redirect to="/" />}
+    </React.Fragment>
   )
-
 };
 
 export default LogOut;

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { User, Login, Transaction } from 'the.rest/dist/to-import';
+import React, { useContext } from 'react';
+import Context from './Context';
 import {
   Row,
   Col,
@@ -11,35 +11,41 @@ import {
 
 // const request = require('request-promise-native');
 
-const PaymentPage = () => {
+  let state = useContext(Context)[0]
+  const message = () => {
+    // NO!!!! We do not set state without spreading PREV! This would remove all other things we need in state that other components redirect on etc...
+    // setState({ message: 'Du har fått betalning' }) <-- Nooooo!!!
+  }
 
-  const [state, setState] = useState({
-    user: []
-  })
-  const [balance, setBalance] = useState()
-  const [amount, setAmount] = useState('')
-  const [toUser, setUser] = useState('')
-  const [message, setMessage] = useState('')
-
-  // let payment = {
-  //   balance: 4000,
-  //   amount,
-  //   toUser,
-  //   message
-  // }
-
-  // let userPayment = {
-  //   date: '',
-  //   amount: 500,
-  //   fromUser: 'siko sa',
-  //   toUser: 'miko sa',
-  //   balance: 4000,
-  // }
-
-  async function handleSubmit(e) {
-  
-
-    // let paymentUser = whoIsLoggedIn;
+  return (
+    <div className="container">
+      <Row>
+        <h1>Meddelande : {state.message} </h1>
+        <button onClick={message}>Meddelande</button>
+        <Col xs={12} className="mt-3">
+          <Label className="payment-lable">Betala till:</Label>
+        </Col>
+        <Col xs={12} className="mt-3">
+          <InputGroup>
+            <Input className="border-bottom" placeholder="mottagare" />
+          </InputGroup>
+        </Col>
+        <Col xs={12} className="mt-3">
+          <InputGroup>
+            <Input placeholder="belopp" />
+          </InputGroup>
+        </Col>
+        <Col xs={12} className="mt-3">
+          <InputGroup>
+            <Input placeholder="meddelande" />
+          </InputGroup>
+        </Col>
+        <Col xs={12} className="mt-3">
+          <Button color="success">Bling</Button>{' '}
+        </Col>
+      </Row>
+    </div >
+  );
 
     // // e.preventDefault();
     // paymentUser = new Transaction({
