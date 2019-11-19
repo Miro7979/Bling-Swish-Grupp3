@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
+import { Redirect } from 'react-router'
+import Context from './Context';
 import {
   Collapse,
   Navbar,
@@ -11,30 +13,34 @@ import {
 } from 'reactstrap';
 
 const NavBar = (props) => {
+  let [state] = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar className="navbar flex" dark style={{backgroundColor: "#DA85E3", color:"#FBF4FB"}} expand="md">
-        <NavbarBrand href="/">Bling Swish</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/minasidor">Mina Sidor</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
-            </NavItem>
-            <NavItem>
-              <LogOut />
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Navbar>
-    </div>
+    <React.Fragment>
+      {state.user ?
+        <div>
+          <Navbar className="navbar" light expand="md">
+            <NavbarBrand href="/">Bling Swish</NavbarBrand>
+            <NavbarToggler onClick={toggle} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink href="/minasidor">Mina Sidor</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
+                </NavItem>
+                <NavItem>
+                  <LogOut />
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div> : <Redirect to="/" />}
+    </React.Fragment>
   );
 }
 
