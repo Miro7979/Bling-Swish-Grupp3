@@ -12,7 +12,8 @@ let userSchema = new Schema({
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
   transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
-  activated: { type: Boolean, default: false }
+  activated: { type: Boolean, default: false },
+  limit: {type: Number}
 })
 
 userSchema.methods.linkResetPassword = function testFunc(params) {
