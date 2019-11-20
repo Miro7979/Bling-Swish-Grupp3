@@ -1,38 +1,39 @@
-.mypage-component{
-   color: white;
+.mypage-component {
+  color: white;
+  border: solid white 1px;
+  padding: 30px;
 
-  .header{
-		margin-top:30px;
-		margin-bottom:30px;
-			
-    .name{
-      font-size:23px;
-      line-height:2;   
+  .header {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .name {
+      font-size: 23px;
+      line-height: 2;
     }
   }
-
-  .delete-button{
-    cursor:pointer;
+  input {
+    color: black;
+    background-color: white;
   }
-  .edit-button{
-    cursor:pointer;
-	}  
-	.search-button{
-		cursor:pointer;
-	}  
-  .child-name{
-    font-size:19px;
+  .delete-button {
+    cursor: pointer;
   }
-
-  .newRow{
-    border:solid black 2px;
+  .edit-button {
+    cursor: pointer;
   }
-  .newCol{
-    border:solid orange 1px;
+  .search-button {
+    cursor: pointer;
+  }
+  .child-name {
+    font-size: 19px;
   }
 
-   
 }
 
-
-
+@media screen and (min-width: 450px) {
+  .mypage-component {
+    width: 400px;
+    margin: auto;
+  }
+}
