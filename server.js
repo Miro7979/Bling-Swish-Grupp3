@@ -12,6 +12,7 @@ const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
 const sendMail = require('./nodemailer');
 const atob = require('atob');
+const sse = require('easy-server-sent-events');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -26,7 +27,6 @@ mongoose.connect('mongodb://localhost/bling', {
 });
 
 // connect middleware
-app.use(express.json()) // body parser
 app.use(session({
     secret: salt, // a unique secret
     resave: false,
@@ -34,6 +34,32 @@ app.use(session({
     cookie: { secure: false }, // true on htttps server
     store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
+
+// You can change the following options:
+// endpoint: which endpoint you want to use
+// script: at which route a clientside library should be served
+// These are the default values (they will be set even if omitted):
+const options = {
+  endpoint: '/api/sse',
+  script: '/sse.js'
+};
+
+// Calling the module returns an object with four properties:
+// SSE:
+//     the middleware - use with an express app
+// send: 
+//     a function that sends events from the server:
+//     send(to, eventType, data)
+// openSessions: 
+//     a function returns how many sessions are open
+// openConnections: 
+//     a function that returns how man connections that are open
+const {SSE, send, openSessions, openConnections} = sse(options);
+app.use(SSE);
+
+
+
+app.use(express.json()) // body parser
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
@@ -104,7 +130,9 @@ app.post('/api/users', async (req, res) => {
 
 // route to login
 app.post('/api/login*', async (req, res) => {
-    let { email, password } = req.body;
+    console.log('HOHOHOHOHOHOHO')
+    console.log(req.body)
+    let { email, password} = req.body;
     password = encryptPassword(password);
     let user = await User.findOne({ email, password }).exec();
     if (!user) {
@@ -115,6 +143,7 @@ app.post('/api/login*', async (req, res) => {
         req.session.user = user
     };
     res.json(user ? user : { error: 'not found 1' });
+    testSend(user._id, user.phone)
 });
 
 // check if/which user that is logged in
@@ -184,3 +213,29 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));
+
+
+// Example of using send(to, eventType, data)
+// Here we send messages to all connected clients
+// We randomly choose between the event types
+// 'message' and 'other' (you can name your event types how you like)
+// and send a message (an object with the properties cool and content)
+function testSend(userId, phoneNbr) {
+  console.log('HAAHAHAHAHAHAHAH')
+  send(
+    'all',
+    Math.random() < .5 ? 'message' : 'other',
+    { 
+      cool: true, 
+      content: 'This is a message sent ' + new Date().toLocaleTimeString() + ' userId: ' + userId + 'phoneNbr: ' + phoneNbr 
+    }
+  );
+  // log how many openSessions and openConnections we have
+  console.log(
+    'openSessions', openSessions(),
+    'openConnections', openConnections()
+  );
+}
+
+// send an event every 3 seconds
+// setInterval(testSend, 2000);
