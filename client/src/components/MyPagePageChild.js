@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon.png';
 
@@ -23,8 +23,8 @@ const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
 			</div>
 
 			<div className="row">
-				<p className="col-3">Begränsning:</p>
-				<div className="col-7">
+				<p className="col-4">MaxSwish:</p>
+				<div className="col-8">
 					{wantToEdit.wantToEdit?
 						<input type="text" placeholder={child.limit} onChange={changeLimit}></input>:
 						<output>{child.limit}</output>	

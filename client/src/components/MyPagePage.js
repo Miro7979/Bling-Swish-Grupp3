@@ -52,6 +52,10 @@ const MyPagePage =()=>{
 
 		await child.save();
 		await user.save();
+
+		setWantToEdit({
+			wantToEdit:false
+		});
 	}
 
 	const deleteChild=(id)=>{
@@ -86,21 +90,21 @@ const MyPagePage =()=>{
 			</div>
 
 			<div className="row">
-				<p className="col-3">Telefon:</p>  <output className="col-9">{userData.phone}</output>
+				<p className="col-4">Telefon:</p>  <output className="col-8">{userData.phone}</output>
 			</div>
 			<div className="row">
-				<p className="col-3">Email:</p>	<output className="col-9">{userData.email}</output>
+				<p className="col-4">Email:</p>	<output className="col-8">{userData.email}</output>
 			</div>
 			<div className="row">
-				<p className="col-3">PrNr:</p>  <output className="col-9">{userData.nationalIdNumber}</output>
+				<p className="col-4">PrNr:</p>  <output className="col-8">{userData.nationalIdNumber}</output>
 			</div>
 			<div className="row">
-				<p className="col-3">Roll:</p>  <output className="col-9">{userData.role}</output>
+				<p className="col-4">Roll:</p>  <output className="col-8">{userData.role}</output>
 			</div>
 
 			<div className="row">
-				<p className="col-3">Begränsning:</p>  
-				<div className="col-7">			
+				<p className="col-4">MaxSwish:</p>  
+				<div className="col-8">			
 					{wantToEdit.wantToEdit?	
 						<input type="text" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
 						<output>{userData.limit}</output>
@@ -110,8 +114,8 @@ const MyPagePage =()=>{
 			
 			{wantToEdit.wantToEdit?			
 				<div className="row">
-					<p className="col-3">Byt Lösen</p>  
-					<div className="col-7">
+					<p className="col-4">Byt Lösen</p>  
+					<div className="col-8">
 						<input type="password" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />
 					</div>		
 				</div> 
@@ -127,9 +131,15 @@ const MyPagePage =()=>{
 	 			</div>
 			: '' }
 
-			<MyPagePageAddChild userData={userData} setUserData={setUserData} />
-		
-			<button className="row mx-auto mt-5 btn btn-success" onClick={handleSubmit}>Spara</button>				
+			{wantToEdit.wantToEdit?
+				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
+			}
+			{wantToEdit.wantToEdit?
+				<div className="row">
+					<button className="col-3 mx-auto mt-5 btn btn-success" onClick={handleSubmit}>Spara</button>
+				</div>:''
+			}
+						
 		</div>
 	);
 }

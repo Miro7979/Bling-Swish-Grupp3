@@ -14,7 +14,6 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 
 	async function findChild(){
 		let child = await User.findOne({phone:data.childPhone});
-		console.log(child );
 		setData({
 			...data,
 			foundChild:child
@@ -22,24 +21,24 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	}
 
 	const addChild=()=>{
-		console.log(data.foundChild);
-		
 		setUserData({
 			...userData,
 			children:[data.foundChild]
 		});
 	}
 
-
   return(
-    <div className="mt-5">
-			<button className="row mx-auto" onClick={()=>setData({...data,wantsToAddChild:true})}>Lägg till barn</button>
-
+    <div className="mt-2">
+			
+			<div className="row">
+				<button className="col-4 mx-auto btn btn-info" onClick={()=>setData({...data,wantsToAddChild:true})}>Lägg till barn</button>
+			</div>
+			
 			{data.wantsToAddChild?
 				<div className="row mt-3">
 					<p className="col-3">Telefon nr:</p> 
 					<div className="col-7">
-						<input type="text" onChange={(e)=>setData({...data,childPhone:e.target.value})} ></input>
+						<input type="text" onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
 					</div>
 					<div className="col-2 search-button" onClick={findChild}>
 						<img src={searchIcon} alt="sök ikon"></img>
