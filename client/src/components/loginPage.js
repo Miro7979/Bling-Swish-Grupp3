@@ -84,7 +84,7 @@ function LogInPage(props) {
 								</Col>
 								<Col lx={12} lg={12} md={12} sm={6}>
 									<div className="forgotPasswordLink">
-										<Link to="/forgotPasswordPage">Glömt lösenord</Link>
+										<Link to="/aterstalllosenord">Glömt lösenord</Link>
 									</div>
 								</Col>
 								<Col lx={12} lg={12} md={12} sm={6}>

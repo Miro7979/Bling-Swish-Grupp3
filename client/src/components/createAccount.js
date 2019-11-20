@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, FormFeedback, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import {User, Notification} from 'the.rest/dist/to-import'
+import {User} from 'the.rest/dist/to-import'
 
 const CreateAccountModal = () => {
   useEffect(() => {
     setModal(true)
-  })
+  },[])
 
   async function gatherUserInfo(){
     if(!name || !email || !password || !phone || !nationalIdNumber){

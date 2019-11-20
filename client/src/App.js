@@ -7,9 +7,10 @@ import AdminPage from './components/Admin/AdminPage';
 import HistoryPage from './components/HistoryPage';
 //import MyPagePage from './components/MyPagePage';
 import PaymentPage from './components/PaymentPage';
-import CreateAccount from './components/createAccount'
 import './App.scss';
 import CreateAccountModal from './components/createAccount'
+import ForgotPasswordModal from './components/ForgotPasswordModal'
+import UpdateNewPasswordModal from './components/UpdateNewPasswordModal'
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 
@@ -48,6 +49,8 @@ function App() {
                 {/* <Route path="/minasidor" component={MyPagePage} /> */}
                 <Route path="/registernewuserpage" component={CreateAccountModal} />
                 <Route path="/betalningshistorik" component={HistoryPage} />
+                <Route path="/aterstalllosenord" component={ForgotPasswordModal}/>
+                <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal}/>
               </Switch>
             </main>
           </div>

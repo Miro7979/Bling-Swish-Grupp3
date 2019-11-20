@@ -56,15 +56,35 @@ app.get('/api/activateaccounts/:encoded', async (req, res) => {
         await user.save()
     }
     console.log("user save", user)
-    res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
+    res.json(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
+
+})
+app.post('/api/updatepassword*', async (req,res) => {
+    let foundUser = await User.findOne({email: req.body.email})
+    console.log(req.body)
+    let foundResetUser = await Reset.findOne({_id: req.body.resetCode});
+    if(!foundResetUser){
+        res.json({result: "Not welcome here"})
+        return;
+    }
+    else if(foundResetUser && Date.now() - foundResetUser.date < 86400000) {
+        foundUser.password = req.body.newPassword
+        await foundUser.save();
+        res.json({result: "Your password is updated!"})
+    }
+    
+
 
 })
 
-app.get('/api/resets/:id', async (req, res) => {
+
+
+app.get('/api/nyttlosenord/:id', async (req, res) => {
     console.log(req.params.id)
     let foundResetUser = await Reset.findOne({_id: req.params.id});
-    if(foundResetUser && foundResetUser.date  < Date.now()){
+    if(foundResetUser && Date.now() - foundResetUser.date < 86400000) {
         console.log("hej")
+        res.json({result: "Enter new password."})
     }
     res.json({result:"hej"})
     return
@@ -87,22 +107,22 @@ app.post('/api/resets', async (req, res) => {
             console.log('här?')
             let savedReset = await reset.save()
             //send email
-            res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+            res.json({result: "Om din användare finns så har vi skickat ett mejl till dig"})
             return;
         }
         else if(time < 86400000){
             console.log("under 24")
-            res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+            res.json( {success: 'Om din användare finns så har vi skickat ett mejl till dig.', resultFromSave, statusCode: 200})
             return
         }
     }
     if(foundUser && !foundResetUser){
         console.log("hittade user men inte reset")
         let savedReset = await reset.save();
-        res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})
+        res.json("Om din användare finns så har vi skickat ett mejl till dig")
         return
     }
-    res.json({ result: "Om din användare finns så har vi skickat ett mejl till dig"})  
+    res.json("Om din användare finns så har vi skickat ett mejl till dig")  
     return; 
 })
 
@@ -154,16 +174,21 @@ app.post('/api/users', async (req, res) => {
 // route to login
 app.post('/api/login*', async (req, res) => {
     let { email, password } = req.body;
-    password = encryptPassword(password);
+    console.log(email, password)
+    //password = encryptPassword(password);
     let user = await User.findOne({ email, password }).exec();
     if (!user) {
         res.send("No user found baby!")
+        return;
     }
     if (user) {
         user.password = 'Forget it!!!';
         req.session.user = user
+        res.json({result: "Yo you are logged in!"})
+        return;
     };
     res.json(user ? user : { error: 'not found 1' });
+    return;
 });
 
 // check if/which user that is logged in
@@ -172,12 +197,14 @@ app.get('/api/login*', (req, res) => {
         [req.session.user] :
         [{ status: 'not logged in' }]
     );
+    return;
 });
 
 // logout
 app.delete('/api/login*', (req, res) => {
     delete req.session.user;
     res.json({ status: 'logged out' });
+    return;
 });
 
 app.get('/api/mytransactions*', async (req, res) => {
@@ -190,6 +217,7 @@ app.get('/api/mytransactions*', async (req, res) => {
     let allMyTransactions = iGot.concat(iSent);
     allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
     res.json(allMyTransactions);
+    return;
 })
 
 app.get('/api/imuser*', async (req, res) => {
@@ -204,14 +232,14 @@ app.post('/api/notifications*', async (req, res) => {
         message: req.body.message,
         user
     });
-    console.log(user._id)
     await notification.save()
-    console.log(notification)
     res.json( notification);
+    return;
 });
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
-    'login': 'Login'
+    'login': 'Login',
+    'updatepassword': 'Updatepassword'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));
