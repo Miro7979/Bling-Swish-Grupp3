@@ -28,6 +28,9 @@ const NavBar = (props) => {
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
+                  <NavLink href="/betalningar">Skicka Pengar</NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink href="/minasidor">Mina Sidor</NavLink>
                 </NavItem>
                 <NavItem>

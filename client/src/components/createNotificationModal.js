@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import {
   Button,
   Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
+  ModalBody
 } from 'reactstrap';
 
 const CreateNotificationModal = (props) => {
@@ -25,13 +23,10 @@ const CreateNotificationModal = (props) => {
     <div className="notisModal">
       <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader className="modalHeader">Bling notis</ModalHeader>
         <ModalBody className="modalBody">
           Du har fått en betalning på ditt Bling konto.
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={toggle}>Ok</Button>
-        </ModalFooter>
+          </ModalBody>
+        <Button className="notisModalBtn" onClick={toggle}>Ok</Button>
       </Modal>
     </div>
   );

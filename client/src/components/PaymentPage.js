@@ -48,9 +48,6 @@ const PaymentPage = () => {
     createNotification();
   }
 
-
-
-
   return (
     <div className="container">
       <Row>
@@ -82,7 +79,6 @@ const PaymentPage = () => {
           <Button onClick={sendTransaction} color="success">Bling</Button>
         </Col>
       </Row>
-      <CreateNotificationModal />
     </div >
   );
 
