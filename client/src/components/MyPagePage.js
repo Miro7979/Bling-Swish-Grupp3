@@ -30,31 +30,19 @@ const MyPagePage =()=>{
 		user.limit=userData.limit;
 		user.children=userData.children;
 
-		//let child= userData.children[0].id;
-		//console.log(userData.children[0]._id);
-		//user.children[0]._id=userData.children[0]._id;
-
 		let child=await User.findOne({_id:userData.children[0]._id});
 		child.limit=userData.children[0].limit;
-		//console.log(child.limit);
+
 		await child.save();
-
 		await user.save();
-
-		
-
-		//let whoIsLoggedIn2 = await Login.findOne();
-		//let user2= (await User.find({name:whoIsLoggedIn2.name}).populate('children','name limit'))[0];
-		//console.log(user2);
 	}
 
 	useEffect(() => {
 		async function loadLoggedInUser(){
-				//console.log('run');
+
 			let whoIsLoggedIn = await Login.findOne();
 			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
-			console.log(user);
-			//return;
+
 			setUserData({
 				...userData,
 				name:user.name,
