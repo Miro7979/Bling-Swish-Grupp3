@@ -149,9 +149,11 @@ app.get('/api/imuser*', async (req, res) => {
     let imUser = await User.find({ _id: user._id });
     res.json(imUser);
 })
+
+
 app.post('/api/notifications*', async (req, res) => {
     let toUser = await User.findOne({ phone: req.body.toUser })
-    let notification = await new Notification({
+    let notification = new Notification({
         message: req.body.message,
         toUser: toUser._id,
         fromUser: req.body.fromUser
@@ -163,14 +165,18 @@ app.post('/api/notifications*', async (req, res) => {
 });
 
 app.post('/api/transaction*', async (req, res) => {
+    console.log(1)
     let toUser = await User.findOne({ phone: req.body.toUser })
-    let transaction = await new Transaction({
+    console.log(2)
+    let transaction = new Transaction({
+        balance: req.body.balance,
         amount: req.body.amount,
         toUser: toUser._id,
         fromUser: req.body.fromUser
     });
-    // console.log(toUser._id)
+    console.log(3)
     await transaction.save()
+    console.log(4)
     console.log(transaction)
     res.json(transaction);
 });
