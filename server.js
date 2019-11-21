@@ -226,14 +226,28 @@ app.get('/api/imuser*', async (req, res) => {
     res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-    let user = await User.findOne({phone: req.body.toUser })
+    let toUser = await User.findOne({ phone: req.body.toUser })
     let notification = await new Notification({
         message: req.body.message,
-        user
+        toUser: toUser._id,
+        fromUser: req.body.fromUser
     });
+    console.log(toUser._id)
     await notification.save()
-    res.json( notification);
-    return;
+    console.log(notification)
+    res.json(notification);
+});
+
+app.post('/api/transaction*', async (req, res) => {
+    let toUser = await User.findOne({ phone: req.body.toUser })
+    let transaction = await new Transaction({
+        amount: req.body.amount,
+        toUser: toUser._id,
+        fromUser: req.body.fromUser
+    });
+    await transaction.save()
+    console.log(transaction)
+    res.json(transaction);
 });
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
