@@ -67,24 +67,23 @@ app.post('/api/updatepassword*', async (req,res) => {
         res.json({result: "Not welcome here"})
         return;
     }
-    else if(foundResetUser && Date.now() - foundResetUser.date < 86400000) {
-        foundUser.password = req.body.newPassword
+    else if(foundUser && foundResetUser && Date.now() - foundResetUser.date < 86400000) {
+        foundUser.password = encryptPassword(req.body.newPassword)
         await foundUser.save();
-        res.json({result: "Your password is updated!"})
+        res.json({result: "Your password is updated!",...foundUser})
     }
     
 
 
 })
 
-
-
-app.get('/api/nyttlosenord/:id', async (req, res) => {
+app.get('/nyttlosenord/:id', async (req, res) => {
     console.log(req.params.id)
     let foundResetUser = await Reset.findOne({_id: req.params.id});
     if(foundResetUser && Date.now() - foundResetUser.date < 86400000) {
         console.log("hej")
         res.json({result: "Enter new password."})
+        return
     }
     res.json({result:"hej"})
     return
@@ -239,7 +238,8 @@ app.post('/api/notifications*', async (req, res) => {
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login',
-    'updatepassword': 'Updatepassword'
+    'updatepassword': 'Updatepassword',
+    'nyttlosenord': "Nyttlosenord"
 }));
 
 //app.use('/api/users', require('./routes/api/users'));
