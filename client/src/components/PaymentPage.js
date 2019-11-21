@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import CreateNotificationModal from './createNotificationModal';
 
+
 const PaymentPage = () => {
 
   const [state] = useContext(Context);
@@ -22,6 +23,21 @@ const PaymentPage = () => {
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
+
+
+  async function testSend() {
+    console.log(number, cash, message)
+    let data = {number: number, cash: cash, message: message}
+
+    const response = await fetch('/api/test-sse', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    console.log(response.body)
+  }
 
 
   async function createNotification() {
@@ -76,7 +92,8 @@ const PaymentPage = () => {
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-          <Button onClick={sendTransaction} color="success">Bling</Button>
+        <Button onClick={sendTransaction} color="success">Bling</Button>
+        <Button onClick={testSend} color="success">testSend</Button>
         </Col>
       </Row>
     </div >

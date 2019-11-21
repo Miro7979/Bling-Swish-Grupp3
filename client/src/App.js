@@ -12,6 +12,8 @@ import CreateAccountModal from './components/createAccount';
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 import Loader from 'react-loader-spinner'
+import SSE from 'easy-server-sent-events/sse';
+
 
 function App() {
   let context = useContext(Context);
@@ -27,7 +29,28 @@ function App() {
       setState((prev) => ({ ...prev, booting: false }))
     }
     checkUserSession()
+    
   }, []);
+
+  async function listenToSSE(){
+
+    // Create an instance
+    // a connect it to the endpoint
+    // '/api/sse' (default)
+
+    const sse = await new SSE();
+  
+    sse.listen('message', (data) => {
+      console.log('message', data);
+    });
+    
+    sse.listen('other', (data) => {
+      console.log('other', data);
+    });
+  
+  }
+  
+  listenToSSE();
 
   return (
     <Context.Provider value={[state, setState]}>

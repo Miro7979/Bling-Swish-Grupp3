@@ -130,8 +130,6 @@ app.post('/api/users', async (req, res) => {
 
 // route to login
 app.post('/api/login*', async (req, res) => {
-    console.log('HOHOHOHOHOHOHO')
-    console.log(req.body)
     let { email, password} = req.body;
     password = encryptPassword(password);
     let user = await User.findOne({ email, password }).exec();
@@ -143,7 +141,6 @@ app.post('/api/login*', async (req, res) => {
         req.session.user = user
     };
     res.json(user ? user : { error: 'not found 1' });
-    testSend(user._id, user.phone)
 });
 
 // check if/which user that is logged in
@@ -203,6 +200,12 @@ app.post('/api/transaction*', async (req, res) => {
     res.json(transaction);
 });
 
+app.post('/api/test-sse', async (req, res) => {
+    let body = await req.body;
+    res.json(body);
+    testSend(body, req.session)
+});
+
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login'
 }));
@@ -219,14 +222,15 @@ app.listen(3001, () => console.log('Listening on port 3001'));
 // We randomly choose between the event types
 // 'message' and 'other' (you can name your event types how you like)
 // and send a message (an object with the properties cool and content)
-function testSend(userId, phoneNbr) {
-  console.log('HAAHAHAHAHAHAHAH')
+function testSend(body, reqSession) {
   send(
     'all',
-    Math.random() < .5 ? 'message' : 'other',
+    'message',
     { 
       cool: true, 
-      content: 'This is a message sent ' + new Date().toLocaleTimeString() + ' userId: ' + userId + 'phoneNbr: ' + phoneNbr 
+      content: 'This is a message sent ' + new Date().toLocaleTimeString(),
+      body: body,
+      reqSession: reqSession
     }
   );
   // log how many openSessions and openConnections we have
@@ -235,6 +239,3 @@ function testSend(userId, phoneNbr) {
     'openConnections', openConnections()
   );
 }
-
-// send an event every 3 seconds
-// setInterval(testSend, 2000);
