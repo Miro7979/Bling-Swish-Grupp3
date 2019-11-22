@@ -135,6 +135,14 @@ const MyPagePage =()=>{
 	 			</div>
 			: '' }
 
+			{wantToEdit.wantToEdit?
+				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
+			}
+			{wantToEdit.wantToEdit?
+				<Row className="mt-5">
+					<button className="col-3 mx-auto btn btn-success" onClick={handleSubmit}>Spara</button>
+				</Row>:''}
+
 		</div>
 	);
 }

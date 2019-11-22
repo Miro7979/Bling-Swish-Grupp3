@@ -34,6 +34,26 @@
     background-color: rgb(175, 175, 175);
   }
 
+  .add-child-component{
+    background-color: rgb(187, 117, 187);
+    border-radius:5px;
+    padding:20px;
+  }
+  .add-child-text{
+    text-align:center;
+    color:black;
+  }
+  .found-child{
+    background-color: rgb(175, 175, 175);
+    padding:10px;
+    border-radius:5px;
+    cursor:pointer;
+    text-align:center;
+  }
+  .found-child:hover{
+    background-color: rgb(146, 146, 146);
+  }
+
 }
 
 @media screen and (min-width: 450px) {
