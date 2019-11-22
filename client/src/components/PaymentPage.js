@@ -7,9 +7,10 @@ import {
   InputGroup,
   Button,
   Label,
-  Input
+  Input,
+  Alert
 } from 'reactstrap';
-import CreateNotificationModal from './createNotificationModal';
+
 
 const PaymentPage = () => {
 
@@ -18,6 +19,8 @@ const PaymentPage = () => {
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
+  const [problem, setProblem] = useState(false);
+  const dismissProblem = () => setProblem(false);
 
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
@@ -27,26 +30,43 @@ const PaymentPage = () => {
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
-      toUser: number,
-      fromUser: state.user._id
+      to: number,
+      from: state.user._id
     }
-    let hejsan = await new Notification(notify)
-    console.log(await hejsan.save(), "notis skickat")
-
+    try {
+      let notis = new Notification(notify)
+      await notis.save();
+    }
+    catch {
+      setProblem(true);
+    } finally {
+      return ''
+    }
   }
 
   async function sendTransaction() {
-
     let transaction = {
       amount: cash,
-      toUser: number,
-      fromUser: state.user._id
+      to: number,
+      from: state.user._id
     }
-
-    let bling = await new Transaction(transaction)
-    console.log(await bling.save(), "transaction skickat")
-    createNotification();
+    if (!number || !cash) {
+      setProblem(true)
+      return
+    }
+    setProblem(false)
+    try {
+      let bling = await new Transaction(transaction)
+      await bling.save();
+      createNotification();
+    }
+    catch {
+      setProblem(true);
+    } finally {
+      return ''
+    }
   }
+
 
   return (
     <div className="container">
@@ -55,6 +75,11 @@ const PaymentPage = () => {
           <Label className="payment-lable">Betala till:</Label>
         </Col>
         <Col xs={12} className="mt-3">
+          <div>
+            <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
+              Din betalning gick inte genom, försök igen.
+            </Alert>
+          </div>
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
@@ -76,7 +101,7 @@ const PaymentPage = () => {
           </InputGroup>
         </Col>
         <Col xs={12} className="mt-3">
-          <Button onClick={sendTransaction} color="success">Bling</Button>
+          <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
     </div >

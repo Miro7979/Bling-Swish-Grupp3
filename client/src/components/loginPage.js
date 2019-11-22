@@ -27,7 +27,7 @@ function LogInPage(props) {
 	async function handleSubmit(e) {
 		e.preventDefault();
 		try {
-			let logInUser = await new Login({ email, password })
+			let logInUser = new Login({ email, password })
 			await logInUser.save()
 			let whoIsLoggedIn = await Login.findOne()
 			if (whoIsLoggedIn._id) {
@@ -87,12 +87,12 @@ function LogInPage(props) {
 									</FormGroup>
 								</Col>
 							</Row>
-							<Row>
+							<Row className="LoginBtnRow">
 								<Col lx={6} lg={6} md={6} sm={6}>
 									<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
 								</Col>
-								<Col lx={6} lg={6} md={6} sm={6}>
-								</Col>
+							</Row>
+							<Row>
 								<Col lx={6} lg={6} md={6} sm={6}>
 									<div className="forgotPasswordLink">
 										<Link to="/forgotPasswordPage">Glömt lösenord</Link>
