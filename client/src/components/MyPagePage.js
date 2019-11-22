@@ -56,14 +56,14 @@ const MyPagePage =()=>{
 		setWantToEdit({
 			wantToEdit:false
 		});
+
+		//console.log(userData);
 	}
 
-	const deleteChild=(name)=>{
-
-		console.log(name);
+	const deleteChild=(id)=>{
 
 		let updatedData= userData.children.filter((object)=>{
-			return object.name !==name;
+			return object._id !==id;
 		});
 		setUserData({
 			...userData,
