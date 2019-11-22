@@ -76,7 +76,7 @@ const AdminPage = (props) => {
           size="sm"
           onClick={sortTable}>Sortera A till ö</Button>
         {/*the table head*/}
-        <Table striped id="myTable" className="mt-3 table-responsive-md" style={{ color: "#FBF4FB" }}>
+        <Table striped id="myTable" className="mt-3 table-responsive-md">
           <thead>
             <tr>
               <th>#</th>
