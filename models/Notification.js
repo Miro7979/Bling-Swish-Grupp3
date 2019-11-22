@@ -5,8 +5,8 @@ let notificationSchema = new Schema({
   message: { type: String, required: true },
   seen: { type: Boolean, default: false },
   date: { type: Date, default: Date.now },
-  toUser: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  fromUser: { type: Schema.Types.ObjectId, ref: 'User' },
+  to: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  from: { type: Schema.Types.ObjectId, ref: 'User' },
   toAll: { type: Boolean, default: false }
 })
 
