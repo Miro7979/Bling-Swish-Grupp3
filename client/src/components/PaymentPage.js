@@ -9,12 +9,11 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import CreateNotificationModal from './createNotificationModal';
+// import CreateNotificationModal from './createNotificationModal';
 
 const PaymentPage = () => {
 
   const [state] = useContext(Context);
-
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
