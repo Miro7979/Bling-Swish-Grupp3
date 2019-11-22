@@ -22,7 +22,7 @@ let transactionsSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  label: {
+  message: {
     type: String
   }
 });

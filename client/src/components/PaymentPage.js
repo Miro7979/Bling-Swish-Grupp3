@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction } from 'the.rest/dist/to-import'
+import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -15,7 +15,7 @@ import {
 
 const PaymentPage = () => {
 
-  const [state] = useContext(Context);
+  const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -47,6 +47,7 @@ const PaymentPage = () => {
   async function sendTransaction() {
     let transaction = {
       amount: cash,
+      message: message || 'Du har fått japp brush',
       to: number,
       from: state.user._id
     }
@@ -57,7 +58,23 @@ const PaymentPage = () => {
     setProblem(false)
     try {
       let bling = await new Transaction(transaction)
-      await bling.save();
+      await bling.save()
+
+      // DO IT MANUALLY
+      // async function checkUserSession() {
+      //   let whoIsLoggedIn = await Login.findOne()
+      //   if (whoIsLoggedIn._id) {
+      //     setState({ ...state, user: whoIsLoggedIn })
+      //     return;
+      //   }
+      // }
+      // checkUserSession()
+      // END OF DO IT MANUALLY
+
+
+      // REMOVE IF UNCERTAIN
+      global.stateUpdater()
+      // REMOVE UNTIL HERE
       createNotification();
     }
     catch {
@@ -70,6 +87,7 @@ const PaymentPage = () => {
   return (
     <div className="container">
       <Row>
+        {'SALDO: ' + state.user.balance}
         <Col xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>

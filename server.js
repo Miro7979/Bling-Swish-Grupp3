@@ -119,16 +119,13 @@ app.post('/api/login*', async (req, res) => {
 
 // check if/which user that is logged in
 app.get('/api/login*', async (req, res) => {
-
   if (req.session.user) {
-    let userdata = await User.findOne({ email: req.session.user.email })
-    req.session.user = userdata
+    let userdata = await User.find({ _id: req.session.user._id })
+    req.session.user = userdata[0]
     res.json([req.session.user])
   } else {
     res.json([{ status: 'not logged in' }])
   }
-
-
 });
 
 // logout
@@ -138,15 +135,15 @@ app.delete('/api/login*', (req, res) => {
 });
 
 app.get('/api/mytransactions*', async (req, res) => {
-    let user = req.session.user;
-    if (!user) { res.json([]); return; }
-    let iGot = await Transaction.find({ to: user._id });
-    let iSent = await Transaction
-        .find({ from: user._id })
-        .map(x => ({ ...x, amount: -x.amount }));
-    let allMyTransactions = iGot.concat(iSent);
-    allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
-    res.json(allMyTransactions);
+  let user = req.session.user;
+  if (!user) { res.json([]); return; }
+  let iGot = await Transaction.find({ to: user._id });
+  let iSent = await Transaction
+    .find({ from: user._id })
+    .map(x => ({ ...x, amount: -x.amount }));
+  let allMyTransactions = iGot.concat(iSent);
+  allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
+  res.json(allMyTransactions);
 })
 
 app.get('/api/imuser*', async (req, res) => {
@@ -156,30 +153,28 @@ app.get('/api/imuser*', async (req, res) => {
   res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-    let to = await User.findOne({ phone: req.body.to })
-    let notification = new Notification({
-        message: req.body.message,
-        to: to._id,
-        from: req.body.from
-    });
-    console.log(to._id)
-    await notification.save()
-    console.log(notification)
-    res.json(notification);
+  let to = await User.findOne({ phone: req.body.to })
+  let notification = new Notification({
+    message: req.body.message,
+    to: to._id,
+    from: req.body.from
+  });
+  await notification.save()
+  res.json(notification);
 });
 
 app.post('/api/transaction*', async (req, res) => {
-    let to = await User.findOne({ phone: req.body.to })
-    let transaction = new Transaction({
-        balance: req.body.balance,
-        amount: req.body.amount,
-        to: to._id,
-        from: req.body.from
-    });
+  let to = await User.findOne({ phone: req.body.to })
+  let transaction = new Transaction({
+    balance: req.body.balance,
+    message: req.body.message,
+    amount: req.body.amount,
+    to: to._id,
+    from: req.body.from
+  });
 
-    await transaction.save()
-    console.log(transaction)
-    res.json(transaction);
+  await transaction.save()
+  res.json(transaction);
 });
 
 require('./modelRaw/UserRaw')
