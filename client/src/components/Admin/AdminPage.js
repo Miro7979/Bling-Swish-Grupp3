@@ -49,6 +49,11 @@ const AdminPage = (props) => {
     }
   }
 
+  const showTransactions = () => {
+    console.log('show transactions');
+    
+  }
+
   const deleteUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
@@ -82,21 +87,34 @@ const AdminPage = (props) => {
               <th>#</th>
               <th>Namn</th>
               <th>Telefonnummer</th>
-              <th>Email </th>
-              <th>Personnummer </th>
+              <th>Email</th>
+              <th>Personnummer</th>
+              <th>Transaktions</th>
               <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {/* display all users in a table */}
-            {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
+            {users.map(({ _id, name, phone, email, nationalIdNumber,transactions }, index) => (
               <tr key={_id}>
                 <th scope="row">{index + 1}</th>
                 <td className="align-middle">{name}</td>
                 <td className="align-middle">{phone}</td>
                 <td className="align-middle">{email}</td>
                 <td className="align-middle">{nationalIdNumber}</td>
+                <td className="align-middle">
+                  <Button
+                    className="edit-btn"
+                    color="info"
+                    size="sm"
+                    data-id={_id}
+                    onClick={showTransactions}
+                  >visa&nbsp;alla</Button>
+                </td>
+
+                {/* <td className="align-middle">{transactions}</td> */}
+
                 <td className="align-middle">
                   <Button
                     className="remove-btn"

@@ -28,7 +28,7 @@ const EditUser = (props) => {
     nationalIdNumber: "Personnummer",
     role: "Roll",
     children: "Barn",
-    notificatations: "Meddelanden"
+    transactions: "Transaktioner"
   };
 
   const handleChange = e => {
