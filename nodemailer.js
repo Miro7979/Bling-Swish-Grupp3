@@ -20,7 +20,7 @@ module.exports =  async function sendMail(user) {
     }
   });
 let mail = btoa(user.email)
-console.log(user.email)
+//console.log(user.email)
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"melli" <melsie78@gmail.com>', // sender address
@@ -29,16 +29,16 @@ console.log(user.email)
     text: 'Activation link', // plain text body
     html: `<a href="/activateaccounts/${mail}">activate</a>` 
   });
-  console.log('is this sending mail?');
+  // console.log('is this sending mail?');
 
-  console.log('Message sent: %s', info.messageId);
-  console.log(info)
-  console.log(info.from)
-  console.log(info.to)
+  // console.log('Message sent: %s', info.messageId);
+  // console.log(info)
+  // console.log(info.from)
+  // console.log(info.to)
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
   // Preview only available when sending through an Ethereal account
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  //console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 

@@ -100,10 +100,11 @@ userSchema.virtual('balance').get(function () {
 });
 
 userSchema.methods.linkResetPassword = function testFunc(params) {
-  console.log(params)
-}
-userSchema.methods.linkActivate = function testFunc(params) {
-  console.log(params)
-}
+   // console.log(params)
+  }
+  userSchema.methods.linkActivate = function testFunc(params) {
+    //console.log(params)
+  }
+//   ['121212121212','12121221212
 
 module.exports = mongoose.model('User', userSchema);

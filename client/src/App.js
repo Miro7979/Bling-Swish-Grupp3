@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
-// import EditUser from './components/Admin/EditUser';
+import EditUser from './components/Admin/EditUser';
 import HistoryPage from './components/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
@@ -44,12 +44,17 @@ function App() {
             <header className="App-header">
               <NavBar />
             </header>
-            <main>
+            <main className="container mt-2">
+              {/* On path="/" a ternary operator should be introduced to alternate
+            between two stages, based on if you´re logged in or not.
+            eg. component={PaymentPage} if logged in 
+          */}
               <Switch className="switch">
                 <Route exact path="/" component={LoginPage} />
                 <Route path="/login" component={LoginPage} />
-                <Route path="/adminpage" component={AdminPage} />
-                {/* <Route exact path="/adminpage/edituser" component={EditUser} /> */}
+                <Route exact path="/adminsida" component={AdminPage} />
+                <Route path="/adminsida/redigera-anvandare" component={EditUser} />
+                <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
                 <Route path="/betalningar" component={PaymentPage} />
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
