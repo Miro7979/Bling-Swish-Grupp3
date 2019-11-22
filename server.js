@@ -201,7 +201,7 @@ app.post('/api/transaction*', async (req, res) => {
 });
 
 app.post('/api/test-sse', async (req, res) => {
-    let body = await req.body;
+    let body = req.body;
     res.json(body);
     testSend(body, req.session)
 });
@@ -212,6 +212,7 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 //app.use('/api/users', require('./routes/api/users'));
 
+app.use(express.static('client/build'))
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));
@@ -223,19 +224,18 @@ app.listen(3001, () => console.log('Listening on port 3001'));
 // 'message' and 'other' (you can name your event types how you like)
 // and send a message (an object with the properties cool and content)
 function testSend(body, reqSession) {
+	
   send(
     'all',
     'message',
     { 
       cool: true, 
       content: 'This is a message sent ' + new Date().toLocaleTimeString(),
-      body: body,
-      reqSession: reqSession
     }
   );
   // log how many openSessions and openConnections we have
-  console.log(
-    'openSessions', openSessions(),
-    'openConnections', openConnections()
-  );
+  // console.log(
+  //   'openSessions', openSessions(),
+  //   'openConnections', openConnections()
+  // );
 }

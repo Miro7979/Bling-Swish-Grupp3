@@ -26,17 +26,15 @@ const PaymentPage = () => {
 
 
   async function testSend() {
-    console.log(number, cash, message)
     let data = {number: number, cash: cash, message: message}
 
-    const response = await fetch('/api/test-sse', {
+    await fetch('/api/test-sse', {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-    console.log(response.body)
   }
 
 

@@ -15,6 +15,30 @@ import Loader from 'react-loader-spinner'
 import SSE from 'easy-server-sent-events/sse';
 
 
+console.log("starting sse");
+
+let sse = new SSE('/api/sse');
+async function listenToSSE(){
+
+  // Create an instance
+  // a connect it to the endpoint
+  // '/api/sse' (default)
+
+
+  sse.listen('message', (data) => {
+    console.log('message', data);
+  });
+  
+  // sse.listen('other', (data) => {
+  //   console.log('other', data);
+  // });
+
+}
+
+listenToSSE();
+console.log(sse);
+
+
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
@@ -31,26 +55,6 @@ function App() {
     checkUserSession()
     
   }, []);
-
-  async function listenToSSE(){
-
-    // Create an instance
-    // a connect it to the endpoint
-    // '/api/sse' (default)
-
-    const sse = await new SSE();
-  
-    sse.listen('message', (data) => {
-      console.log('message', data);
-    });
-    
-    sse.listen('other', (data) => {
-      console.log('other', data);
-    });
-  
-  }
-  
-  listenToSSE();
 
   return (
     <Context.Provider value={[state, setState]}>
