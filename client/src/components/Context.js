@@ -5,5 +5,7 @@ export default React.createContext({
   // (doing DB calls to see what to render)
   booting: true,
   // userdata is null until we fetch actual data
-  user: null
+  user: {
+    role: 'visitor'
+  }
 });
