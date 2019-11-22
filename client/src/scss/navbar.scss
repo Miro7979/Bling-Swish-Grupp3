@@ -1,8 +1,10 @@
 .navbar {
-  background-color: #F0F;
+  background-color: rgb(162, 0, 255);
+
   .navbar-brand,
-  .nav-toggler,
+  .navbar-toggler-icon,
   .nav-link {
     color: aliceblue;
+    opacity: 1;
   }
 }
