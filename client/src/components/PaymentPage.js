@@ -10,9 +10,12 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import CreateNotificationModal from './createNotificationModal';
+
 const PaymentPage = () => {
-  const state = useContext(Context)[0];
-  const [balance, setBalance] = useState(5000);
+
+  const [state] = useContext(Context);
+
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -23,12 +26,13 @@ const PaymentPage = () => {
   const handleCashChange = e => setCash(e.target.value);
   async function createNotification() {
     let notify = {
-      message: message || "Du har fått en betalning på din Bling konto",
+      message: message || "Du har fått en betalning på ditt Bling konto",
       toUser: number,
       fromUser: state.user._id
     }
     let hejsan = await new Notification(notify)
-    console.log(await hejsan.save(), "hej")
+    console.log(await hejsan.save(), "notis skickat")
+
   }
   async function sendTransaction() {
     let transaction = {
@@ -39,12 +43,13 @@ const PaymentPage = () => {
     }
 
     let bling = await new Transaction(transaction)
-    console.log(await bling.save(), "bling")
+    console.log(await bling.save(), "transaction skickat")
+    createNotification();
   }
+
   return (
     <div className="container">
       <Row>
-        <Label onChange={handleBalanceChange} value={balance} className="payment-lable">Din Saldo: {balance} kr</Label>
         <Col xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>

@@ -44,17 +44,17 @@ const pathToModelFolder = path.join(__dirname, 'models');
 
 app.get('/api/activateaccounts/:encoded', async (req, res) => {
     let email = atob(req.params.encoded)
-    let user = await User.findOne({ email })
-    console.log("email", email);
-    console.log("user", user)
-    if (user) {
+    let user = await User.findOne({email})
+    // console.log("email", email);
+    // console.log("user", user)
+    if(user){
         user.activated = true;
         let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
         let notChild = (age >= 18)
         notChild ? user.role = "parent" : user.role = "child"
         await user.save()
     }
-    console.log("user save", user)
+    // console.log("user save", user)
     res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
 
 })
@@ -174,7 +174,6 @@ app.post('/api/transaction*', async (req, res) => {
         toUser: toUser._id,
         fromUser: req.body.fromUser
     });
-    console.log(3)
     await transaction.save()
     console.log(4)
     console.log(transaction)
@@ -187,6 +186,7 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 //app.use('/api/users', require('./routes/api/users'));
 
+app.use(express.static('client/build'));
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));
