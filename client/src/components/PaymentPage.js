@@ -10,7 +10,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import CreateNotificationModal from './createNotificationModal';
+
 
 const PaymentPage = () => {
 
@@ -20,7 +20,7 @@ const PaymentPage = () => {
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
 
-  const handleBalanceChange = e => setBalance(e.target.value);
+  // const handleBalanceChange = e => setBalance(e.target.value);
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
@@ -36,7 +36,7 @@ const PaymentPage = () => {
   }
   async function sendTransaction() {
     let transaction = {
-      balance: balance,
+      // balance: balance,
       amount: cash,
       toUser: number,
       fromUser: state.user._id,
