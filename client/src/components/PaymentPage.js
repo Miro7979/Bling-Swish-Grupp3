@@ -67,7 +67,6 @@ const PaymentPage = () => {
     }
   }
 
-
   return (
     <div className="container">
       <Row>
