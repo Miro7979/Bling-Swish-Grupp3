@@ -138,15 +138,15 @@ app.delete('/api/login*', (req, res) => {
 });
 
 app.get('/api/mytransactions*', async (req, res) => {
-  let user = req.session.user;
-  if (!user) { res.json([]); return; }
-  let iGot = await Transaction.find({ toUser: user._id });
-  let iSent = await Transaction
-    .find({ fromUser: user._id })
-    .map(x => ({ ...x, amount: -x.amount }));
-  let allMyTransactions = iGot.concat(iSent);
-  allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
-  res.json(allMyTransactions);
+    let user = req.session.user;
+    if (!user) { res.json([]); return; }
+    let iGot = await Transaction.find({ to: user._id });
+    let iSent = await Transaction
+        .find({ from: user._id })
+        .map(x => ({ ...x, amount: -x.amount }));
+    let allMyTransactions = iGot.concat(iSent);
+    allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
+    res.json(allMyTransactions);
 })
 
 app.get('/api/imuser*', async (req, res) => {
@@ -156,30 +156,33 @@ app.get('/api/imuser*', async (req, res) => {
   res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-  let toUser = await User.findOne({ phone: req.body.toUser })
-  let notification = await new Notification({
-    message: req.body.message,
-    toUser: toUser._id,
-    fromUser: req.body.fromUser
-  });
-  console.log(toUser._id)
-  await notification.save()
-  console.log(notification)
-  res.json(notification);
+    let to = await User.findOne({ phone: req.body.to })
+    let notification = new Notification({
+        message: req.body.message,
+        to: to._id,
+        from: req.body.from
+    });
+    console.log(to._id)
+    await notification.save()
+    console.log(notification)
+    res.json(notification);
 });
 
 app.post('/api/transaction*', async (req, res) => {
-  let toUser = await User.findOne({ phone: req.body.toUser })
-  let transaction = await new Transaction({
-    amount: req.body.amount,
-    toUser: toUser._id,
-    fromUser: req.body.fromUser
-  });
-  await transaction.save()
-  console.log(transaction)
-  res.json(transaction);
+    let to = await User.findOne({ phone: req.body.to })
+    let transaction = new Transaction({
+        balance: req.body.balance,
+        amount: req.body.amount,
+        to: to._id,
+        from: req.body.from
+    });
+
+    await transaction.save()
+    console.log(transaction)
+    res.json(transaction);
 });
 
+require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
   'login': 'Login'
 }));

@@ -27,7 +27,7 @@ function LogInPage() {
 	async function handleSubmit(e) {
 		e.preventDefault();
 		try {
-			let logInUser = await new Login({ email, password })
+			let logInUser = new Login({ email, password })
 			await logInUser.save()
 			let whoIsLoggedIn = await Login.findOne()
 			if (whoIsLoggedIn._id) {
