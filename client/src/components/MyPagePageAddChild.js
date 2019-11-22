@@ -21,10 +21,28 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	}
 
 	const addChild=()=>{
-		setUserData({
-			...userData,
-			children: [ ...userData.children, data.foundChild ]
-		});
+
+		//console.log(userData.children[0]._id);
+		//console.log(data.foundChild._id);
+		/*
+		if(data.foundChild._id===userData.children[0]._id){
+			console.log('hej');
+		} */
+
+		let duplicate=false
+
+		for(let child of userData.children){			
+			if(child._id===data.foundChild._id){
+				duplicate=true;
+			}
+		}
+		if(duplicate===false){
+			setUserData({
+				...userData,
+				children: [ ...userData.children, data.foundChild ]
+			}); 
+		}
+
 	}
 
   return(

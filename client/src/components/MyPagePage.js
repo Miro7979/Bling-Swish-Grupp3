@@ -37,6 +37,7 @@ const MyPagePage =()=>{
 			});
 		}
 		loadLoggedInUser();
+		// eslint-disable-next-line
 	},[]);
 
 	async function handleSubmit(){
