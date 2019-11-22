@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, FormFeedback, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import { User } from 'the.rest/dist/to-import'
+import { User } from '../../../node_modules/the.rest/dist/to-import';
 
 
 const CreateAccountModal = () => {
   useEffect(() => {
     setModal(true)
-  }, []);
+  }, [])
 
   async function gatherUserInfo() {
-
     if (!name || !email || !password || !phone || !nationalIdNumber) {
       setProblem(true)
       return
     }
+
     let user = {
       name,
       email,
@@ -25,7 +25,7 @@ const CreateAccountModal = () => {
 
     let newUser = new User(user);
     await newUser.save()
-    let foundUser = await User.findOne({ email })
+    let foundUser = await User.findOne({ email: email })
     foundUser ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
@@ -45,7 +45,7 @@ const CreateAccountModal = () => {
   const dismissProblem = () => setProblem(false);
   const dismissCreated = () => setCreated(false);
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
 
   const toggle = () => setModal(!modal);
 
@@ -74,9 +74,11 @@ const CreateAccountModal = () => {
           </InputGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={gatherUserInfo}>
-            Skapa konto
+          <Link to={'/betalningar'}>
+            <Button color="primary" onClick={gatherUserInfo}>
+              Skapa konto
             </Button>
+          </Link>
           <Link to="/">
             <Button color="secondary" onClick={toggle}>
               Avbryt
@@ -84,7 +86,7 @@ const CreateAccountModal = () => {
           </Link>
         </ModalFooter>
       </Modal>
-    </div>
+    </div >
   );
 }
 
