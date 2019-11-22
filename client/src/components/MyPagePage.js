@@ -116,6 +116,24 @@ const MyPagePage =()=>{
 						<p>{userData.limit} kr</p> }
 				</Col>
 			</Row>
+			<Row>
+				<Col xs={3}> Lösenord </Col>
+				<Col xs={6}> 
+					{wantToEdit.wantToEdit?	
+					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
+					<p>{/*{userData.password}*/}********</p> }
+				</Col>
+			</Row>
+
+			{userData.children.length>0? 
+				<div className="mt-4">
+					{userData.children.map((child,index)=>{
+						return(									
+							<MypagePageChild key={index+1} child={child} deleteChild={deleteChild} wantToEdit={wantToEdit}/>
+						);
+					})}
+	 			</div>
+			: '' }
 
 		</div>
 	);

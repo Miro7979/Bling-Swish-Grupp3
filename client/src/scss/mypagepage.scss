@@ -4,25 +4,19 @@
   background-color: rgb(185, 66, 185);
   border-radius:5px;
 
-
   .user-name {
       font-size: 23px;
-    }
-  
-
-  input {
-    color: black;
-    background-color: white;
   }
-  .special{
-    border:solid red 1px;
-  }
-  .specrow{
-    border:solid black 1px;
+  .children-name {
+    font-size: 20px;
   }
 
   .delete-button {
     cursor: pointer;
+    opacity:0.6;
+  }
+  .delete-button:hover {
+    opacity:1;
   }
   .edit-button {
     cursor: pointer;
@@ -31,8 +25,13 @@
   .search-button {
     cursor: pointer;
   }
-  .child-name {
-    font-size: 19px;
+  
+
+  .child-component{
+    border-radius: 5px;
+    margin-top:10px;
+    padding:10px;
+    background-color: rgb(175, 175, 175);
   }
 
 }

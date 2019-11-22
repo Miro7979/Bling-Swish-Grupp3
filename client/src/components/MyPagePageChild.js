@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon.png';
+import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
 
@@ -9,9 +10,40 @@ const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
 	}
 
   return(
-    <div>
+    <div className="child-component">
 
-			<div className="row">
+			<Row>
+				<Col xs={3}>
+					<img src={logo} alt="barn ikon"></img>
+				</Col>
+				<Col xs={7} className="children-name">
+					{child.name}
+				</Col>
+				<Col xs={2}>
+					{wantToEdit.wantToEdit?
+						<img src={deleteIcon} alt="ta bort ikon" className="delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
+				</Col>
+			</Row>
+
+			<Row className="mt-2">
+				<Col xs={3}>
+						Max-Swish
+				</Col>
+				<Col xs={6}>
+					{wantToEdit.wantToEdit?
+						<input type="text" className="form-control" placeholder={child.limit} onChange={changeLimit}></input>:
+						<p>{child.limit} kr</p>}
+				</Col>
+			</Row>
+					   				
+		</div>	
+  );
+}
+export default MyPagePageChild;
+
+/*
+
+<div className="row">
 				<div className="col-3">
 					<img src={logo} alt="barn ikon"></img>
 				</div>			
@@ -31,8 +63,5 @@ const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
 					}						
 				</div>											
 			</div>
-		   				
-		</div>	
-  );
-}
-export default MyPagePageChild;
+
+*/
