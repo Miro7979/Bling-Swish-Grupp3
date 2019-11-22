@@ -22,19 +22,9 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 
 	const addChild=()=>{
 
-		//console.log(userData.children[0]._id);
-		//console.log(data.foundChild._id);
-		/*
-		if(data.foundChild._id===userData.children[0]._id){
-			console.log('hej');
-		} */
-
 		let duplicate=false
-
 		for(let child of userData.children){			
-			if(child._id===data.foundChild._id){
-				duplicate=true;
-			}
+			if(child._id===data.foundChild._id){duplicate=true;}
 		}
 		if(duplicate===false){
 			setUserData({
@@ -42,7 +32,6 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 				children: [ ...userData.children, data.foundChild ]
 			}); 
 		}
-
 	}
 
   return(

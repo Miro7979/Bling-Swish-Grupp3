@@ -1,26 +1,32 @@
 .mypage-component {
   color: white;
-  border: solid white 1px;
   padding: 30px;
+  background-color: rgb(185, 66, 185);
+  border-radius:5px;
 
-  .header {
-    margin-top: 30px;
-    margin-bottom: 30px;
 
-    .name {
+  .user-name {
       font-size: 23px;
-      line-height: 2;
     }
-  }
+  
+
   input {
     color: black;
     background-color: white;
   }
+  .special{
+    border:solid red 1px;
+  }
+  .specrow{
+    border:solid black 1px;
+  }
+
   .delete-button {
     cursor: pointer;
   }
   .edit-button {
     cursor: pointer;
+    float:right;
   }
   .search-button {
     cursor: pointer;

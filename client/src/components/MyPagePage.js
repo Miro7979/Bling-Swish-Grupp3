@@ -6,6 +6,8 @@ import logo from '../images/person-icon.png';
 
 import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
+import {Col,Row,Button} from 'reactstrap';
+
 const MyPagePage =()=>{
 
 	const[userData,setUserData]=useState({
@@ -57,8 +59,6 @@ const MyPagePage =()=>{
 		setWantToEdit({
 			wantToEdit:false
 		});
-
-		//console.log(userData);
 	}
 
 	const deleteChild=(id)=>{
@@ -80,102 +80,44 @@ const MyPagePage =()=>{
 	return(
 		<div className="mypage-component mt-5">
 
-			<div className="row header">
-				<div className="col-3">
+			<Row className="pb-5">
+				<Col>
+					<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>
+				</Col>
+			</Row>
+
+			<Row>
+				<Col xs={3}> 
 					<img src={logo} alt="person ikon"></img>
-				</div>
-				<div className="col-7">
-					<div className="name">{userData.name}</div>
-				</div>
-				<div className="col-2" onClick={()=>setWantToEdit({wantToEdit:true})}>
-					<img src={editIcon} alt="redigera ikon" className="edit-button"></img>
-				</div>
-			</div>
+				</Col>
+				<Col xs={9} className="user-name"> 
+					{userData.name}
+				</Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-4">Telefon:</p>  <output className="col-8">{userData.phone}</output>
-			</div>
-			<div className="row">
-				<p className="col-4">Email:</p>	<output className="col-8">{userData.email}</output>
-			</div>
-			<div className="row">
-				<p className="col-4">PrNr:</p>  <output className="col-8">{userData.nationalIdNumber}</output>
-			</div>
-			<div className="row">
-				<p className="col-4">Roll:</p>  <output className="col-8">{userData.role}</output>
-			</div>
+			<Row className="mt-4">
+				<Col xs={3}> Telefon </Col>
+				<Col xs={9}> {userData.phone} </Col>
+			</Row>
+			<Row>
+				<Col xs={3}> Epost </Col>
+				<Col xs={9}> {userData.email} </Col>
+			</Row>
+			<Row>
+				<Col xs={3}> Pers.Nr. </Col>
+				<Col xs={9}> {userData.nationalIdNumber} </Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-4">MaxSwish:</p>  
-				<div className="col-8">			
+			<Row className="mt-2">
+				<Col xs={3}> Max-Swish </Col>				
+				<Col xs={6}> 
 					{wantToEdit.wantToEdit?	
-						<input type="text" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
-						<output>{userData.limit}</output>
-					}								
-				</div>			
-			</div>
-			
-			{wantToEdit.wantToEdit?			
-				<div className="row">
-					<p className="col-4">Byt Lösen</p>  
-					<div className="col-8">
-						<input type="password" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />
-					</div>		
-				</div> 
-			:''}
-						
-			{userData.children.length>0? 
-				<div className="mt-4">
-					{userData.children.map((child,index)=>{
-						return(									
-							<MypagePageChild key={index+1} child={child} deleteChild={deleteChild} wantToEdit={wantToEdit}/>
-						);
-					})}
-	 			</div>
-			: '' }
+						<input type="text" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
+						<p>{userData.limit} kr</p> }
+				</Col>
+			</Row>
 
-			{wantToEdit.wantToEdit?
-				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
-			}
-			{wantToEdit.wantToEdit?
-				<div className="row">
-					<button className="col-3 mx-auto mt-5 btn btn-success" onClick={handleSubmit}>Spara</button>
-				</div>:''
-			}
-						
 		</div>
 	);
 }
 export default MyPagePage;
-
-/*
-[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
-*/
-
-/*    GAMLA LÖSENORD !!!!!!!!!!!!!!!!!!!!!!!!
-		<div className="row">
-				<p className="col-3">Lösenord:</p>  
-				<div className="col-7">
-					{userData.wantToChangePassword? 
-						<input type="password" onChange={(e)=>setUserData({...userData,password:e.target.value})} autoFocus />:
-						<output>{/*{userData.password}*/  /*}</output>}	
-						</div>			
-						<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangePassword:true})}>
-							<img src={editIcon} alt="ändra ikon"></img>
-						</div>
-					</div> 
-
-*/
-
-/*  GAMLA BEGRÄNSNING !!!!!!!!!!!!!!!
-		<div className="row">
-				<p className="col-3">Begränsning:</p>  
-				<div className="col-7">
-					{userData.wantToChangeLimit?
-						<input type="text" onChange={(e)=>setUserData({...userData,limit:e.target.value})} autoFocus/>:
-						<output>{userData.limit}</output>}
-				</div>
-				<div className="col-2 edit-button" onClick={()=>setUserData({...userData,wantToChangeLimit:true})}>
-					<img src={editIcon} alt="ämdra ikon"></img>
-				</div> 
-					</div>   */
