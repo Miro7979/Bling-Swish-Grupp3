@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
-// import createAccount from '../components/createAccount';
+import { withRouter, Link } from 'react-router-dom';
 import { User } from '../../../../node_modules/the.rest/dist/to-import';
 const request = require('request-promise-native');
 
 
 const EditUser = (props) => {
-  //I WANNA FIND ONE USER TO EDIT OR DELETE
+  //I WANNA FIND ONE USER TO EDIT
   async function getUserInfo() {
-    //get what's in the browser
+    //get what's in the browser, the url but only the part after 3rd slash
     let id = window.location.pathname.split('/')[3]
     let userToEdit = await User.findOne({ _id: id })
-    //changed state...changed values of user aka changed user 
+    //changed state...changed values of user/changed user 
     setUser(userToEdit)
   }
-
   const [user, setUser] = useState(false);
 
   useEffect(() => {
+    //calling function once and unmount again
     getUserInfo();
   }, []);
 
@@ -41,11 +40,12 @@ const EditUser = (props) => {
 
   const handleSubmit = () => {
     let userToSave = new User(user);
-     userToSave.save();
+    userToSave.save();
     // alert updated
-    alert('uppdaterad!')
+    alert('användaren är uppdaterad!')
+    //here put something to get back to the table
+    //return to '/adminsida'
   }
-
 
 
 
@@ -68,7 +68,7 @@ const EditUser = (props) => {
           reset password email
         </Label>
       </FormGroup>
-      <Button onClick={handleSubmit}>Updatera</Button>
+      <Link to={'/adminsida'}><Button onClick={handleSubmit}>Updatera</Button></Link>
     </Form>
   );
 }
