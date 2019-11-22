@@ -23,7 +23,7 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	const addChild=()=>{
 		setUserData({
 			...userData,
-			children:[data.foundChild]
+			children: [ ...userData.children, data.foundChild ]
 		});
 	}
 

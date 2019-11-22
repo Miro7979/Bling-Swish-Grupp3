@@ -17,7 +17,7 @@ const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
 				</div>			
 				<p className="col-7 child-name">{child.name}</p>			
 				{wantToEdit.wantToEdit?
-					<div className="col-2 delete-button" onClick={()=>deleteChild(child.id)}>
+					<div className="col-2 delete-button" onClick={()=>deleteChild(child.name)}>
 						<img src={deleteIcon} alt="ta bort ikon"></img>
 					</div>:''}			
 			</div>

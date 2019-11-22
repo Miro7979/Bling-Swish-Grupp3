@@ -58,10 +58,12 @@ const MyPagePage =()=>{
 		});
 	}
 
-	const deleteChild=(id)=>{
+	const deleteChild=(name)=>{
+
+		console.log(name);
 
 		let updatedData= userData.children.filter((object)=>{
-			return object.id !==id;
+			return object.name !==name;
 		});
 		setUserData({
 			...userData,
