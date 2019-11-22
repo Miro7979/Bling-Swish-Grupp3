@@ -1,24 +1,15 @@
 import React,{useState,useEffect} from 'react';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
-import editIcon from '../images/edit-icon.png';
+import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
 
 import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
-import {Col,Row,Button} from 'reactstrap';
-
 const MyPagePage =()=>{
 
 	const[userData,setUserData]=useState({
-		name:'',
-		password:'',
-		phone:'',
-		email:'',
-		nationalIdNumber:'',
-		role:'',
-		limit:null,
-		children:[]
+		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:null,children:[]
 	});
 
 	useEffect(() => {
@@ -58,17 +49,6 @@ const MyPagePage =()=>{
 
 		setWantToEdit({
 			wantToEdit:false
-		});
-	}
-
-	const deleteChild=(id)=>{
-
-		let updatedData= userData.children.filter((object)=>{
-			return object._id !==id;
-		});
-		setUserData({
-			...userData,
-			children:updatedData
 		});
 	}
 
@@ -129,7 +109,7 @@ const MyPagePage =()=>{
 				<div className="mt-4">
 					{userData.children.map((child,index)=>{
 						return(									
-							<MypagePageChild key={index+1} child={child} deleteChild={deleteChild} wantToEdit={wantToEdit}/>
+							<MypagePageChild key={index+1} child={child} wantToEdit={wantToEdit} userData={userData} setUserData={setUserData}/>
 						);
 					})}
 	 			</div>

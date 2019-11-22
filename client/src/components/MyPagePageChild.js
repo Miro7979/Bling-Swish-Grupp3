@@ -3,10 +3,20 @@ import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon.png';
 import {Col,Row,Button} from 'reactstrap';
 
-const MyPagePageChild=({child,deleteChild,wantToEdit})=>{
+const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
 	const changeLimit=(e)=>{
 		child.limit=e.target.value;
+	}
+	const deleteChild=(id)=>{
+		child.limit='';
+		let updatedData= userData.children.filter((object)=>{
+			return object._id !==id;
+		});
+		setUserData({
+			...userData,
+			children:updatedData
+		});
 	}
 
   return(
