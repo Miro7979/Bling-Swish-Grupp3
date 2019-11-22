@@ -150,15 +150,28 @@ app.get('/api/imuser*', async (req, res) => {
     res.json(imUser);
 })
 app.post('/api/notifications*', async (req, res) => {
-    let user = await User.findOne({email: req.body.user })
+    let toUser = await User.findOne({ phone: req.body.toUser })
     let notification = await new Notification({
         message: req.body.message,
-        user
+        toUser: toUser._id,
+        fromUser: req.body.fromUser
     });
-    console.log(user._id)
+    console.log(toUser._id)
     await notification.save()
     console.log(notification)
-    res.json( notification);
+    res.json(notification);
+});
+
+app.post('/api/transaction*', async (req, res) => {
+    let toUser = await User.findOne({ phone: req.body.toUser })
+    let transaction = await new Transaction({
+        amount: req.body.amount,
+        toUser: toUser._id,
+        fromUser: req.body.fromUser
+    });
+    await transaction.save()
+    console.log(transaction)
+    res.json(transaction);
 });
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
@@ -167,6 +180,7 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 //app.use('/api/users', require('./routes/api/users'));
 
+app.use(express.static('client/build'));
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));

@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, 
 import { Link } from "react-router-dom";
 import { User } from '../../../node_modules/the.rest/dist/to-import';
 
+
 const CreateAccountModal = () => {
   useEffect(() => {
     setModal(true)

@@ -8,9 +8,10 @@ import EditUser from './components/Admin/EditUser';
 import HistoryPage from './components/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
-import CreateAccountModal from './components/createAccount'
+import CreateAccountModal from './components/createAccount';
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
+import Loader from 'react-loader-spinner'
 
 function App() {
   let context = useContext(Context);
@@ -30,7 +31,13 @@ function App() {
 
   return (
     <Context.Provider value={[state, setState]}>
-      {state.booting && 'SPINNER FOR ENTIRE PAGE...'}
+      {state.booting && <Loader className="spinner"
+        type="BallTriangle"
+        color="#FFFF"
+        height={150}
+        width={300}
+        timeout={3000} //3 secs
+      />}
       {!state.booting &&
         <Router>
           <div className="App">
@@ -49,8 +56,10 @@ function App() {
                 <Route path="/adminsida/redigera-anvandare" component={EditUser} />
                 <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
                 <Route path="/betalningar" component={PaymentPage} />
+                <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
-                <Route path="/registernewuserpage" component={CreateAccountModal} />
+               
+
                 <Route path="/betalningshistorik" component={HistoryPage} />
               </Switch>
             </main>
