@@ -46,7 +46,7 @@ function HistoryPage() {
     setUser(convertedUser);
   }
 
-  
+
   async function fetchThisUsersChildren(childrens) {
     let myConvertedChildren = [];
     for(let child of childrens) {
@@ -117,7 +117,7 @@ function HistoryPage() {
   let propsToHistoryList = {theDropdownTitle, transactions};
   
   return (
-    <div className="container history-page">
+    <div className="history-page">
       <HistoryDropdown {...propsToDropDown} />
       <HistoryList {...propsToHistoryList} />
     </div>
