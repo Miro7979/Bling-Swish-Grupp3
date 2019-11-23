@@ -177,6 +177,20 @@ app.post('/api/transaction*', async (req, res) => {
   res.json(transaction);
 });
 
+app.get('/api/my-transactions/:userPhone', async (req, res) => {
+  let allTransactions = await Transaction.find();
+
+  let userPhone = req.params.userPhone;
+
+  let thisUserTransactions = [];
+  for(let transaction of allTransactions){
+    if(transaction.to.phone === userPhone || transaction.from.phone === userPhone){ 
+      thisUserTransactions.push(transaction);
+    }
+  };
+  res.json(thisUserTransactions)
+})
+
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
   'login': 'Login'
