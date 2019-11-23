@@ -16,7 +16,19 @@ import Loader from 'react-loader-spinner'
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
-  console.table(state.user)
+
+
+  // REMOVE THIS IF UNCERTAIN
+  let stateUpdater = async () => {
+    let whoIsLoggedIn = await Login.findOne()
+    if (whoIsLoggedIn._id) {
+      setState({ ...state, user: whoIsLoggedIn })
+      return;
+    }
+  }
+  global.stateUpdater = stateUpdater
+  // REMOVE UNTIL HERE
+
   useEffect(() => {
     async function checkUserSession() {
       let whoIsLoggedIn = await Login.findOne()

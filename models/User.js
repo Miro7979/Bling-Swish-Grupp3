@@ -22,8 +22,6 @@ let userSchema = new Schema({
   role: { type: String, default: 'visitor' },
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  // notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
-  // transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
   activated: { type: Boolean, default: false },
   limit: { type: Number }
 }, {
@@ -100,11 +98,11 @@ userSchema.virtual('balance').get(function () {
 });
 
 userSchema.methods.linkResetPassword = function testFunc(params) {
-   // console.log(params)
-  }
-  userSchema.methods.linkActivate = function testFunc(params) {
-    //console.log(params)
-  }
+  // console.log(params)
+}
+userSchema.methods.linkActivate = function testFunc(params) {
+  //console.log(params)
+}
 //   ['121212121212','12121221212
 
 module.exports = mongoose.model('User', userSchema);
