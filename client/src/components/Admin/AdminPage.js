@@ -11,7 +11,12 @@ const AdminPage = (props) => {
 
   //I wanna find all the users
   useEffect(() => {
+    const abortController = new AbortController();
+
     (async () => setUsers(await User.find()))();
+    return () => {
+      abortController.abort();
+    }
   }, []);
 
   const sortTable = () => {
@@ -79,13 +84,13 @@ const AdminPage = (props) => {
         <Button className="btn edit-btn ml-3"
           color="info"
           size="sm"
-          onClick={sortTable}>Sortera A till ö</Button>
+          onClick={sortTable}>Sortera A till Ö</Button>
         {/*the table head*/}
         <Table striped id="myTable" className="mt-3 table-responsive-md">
           <thead>
             <tr>
               <th>#</th>
-              <th>Namn</th>
+              <th>För-&nbsp;och&nbsp;Efternamn</th>
               <th>Telefonnummer</th>
               <th>Email</th>
               <th>Personnummer</th>
@@ -96,10 +101,10 @@ const AdminPage = (props) => {
           </thead>
           <tbody>
             {/* display all users in a table */}
-            {users.map(({ _id, name, phone, email, nationalIdNumber,transactions }, index) => (
+            {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
               <tr key={_id}>
                 <th scope="row">{index + 1}</th>
-                <td className="align-middle">{name}</td>
+                <td className="align-middle" >{name}</td>
                 <td className="align-middle">{phone}</td>
                 <td className="align-middle">{email}</td>
                 <td className="align-middle">{nationalIdNumber}</td>
