@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { User } from 'the.rest/dist/to-import';
+import deleteIcon from '../../images/delete-icon.png';
+import editIcon from '../../images/edit-icon.png';
+import showProperty from '../../images/show-property.png';
 
 const AdminPage = (props) => {
   const [users, setUsers] = useState([]);
@@ -56,7 +59,7 @@ const AdminPage = (props) => {
 
   const showTransactions = () => {
     console.log('show transactions');
-    
+
   }
 
   const deleteUser = async (e) => {
@@ -76,7 +79,7 @@ const AdminPage = (props) => {
       <Col>
         <Link to={'/adminsida/registrera-en-ny-anvandare'}>
           <Button onClick={toggle}
-            className="btn edit-btn"
+            className="btn create-btn"
             color="info"
             size="sm"
           >skapa en användare</Button>
@@ -93,8 +96,8 @@ const AdminPage = (props) => {
               <th>För-&nbsp;och&nbsp;Efternamn</th>
               <th>Telefonnummer</th>
               <th>Email</th>
-              <th>Personnummer</th>
-              <th>Transaktions</th>
+              <th className="one">Personnummer</th>
+              <th className="one">Utdrag</th>
               <th></th>
               <th></th>
             </tr>
@@ -103,39 +106,39 @@ const AdminPage = (props) => {
             {/* display all users in a table */}
             {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
               <tr key={_id}>
-                <th scope="row">{index + 1}</th>
+                <th className="align-middle" scope="row">{index + 1}</th>
                 <td className="align-middle" >{name}</td>
                 <td className="align-middle">{phone}</td>
-                <td className="align-middle">{email}</td>
-                <td className="align-middle">{nationalIdNumber}</td>
+                <td className="one align-middle">{email}</td>
+                <td className="one align-middle">{nationalIdNumber}</td>
                 <td className="align-middle">
-                  <Button
-                    className="edit-btn"
+                  <span
+                    className="show-more-btn ml-2"
                     color="info"
                     size="sm"
                     data-id={_id}
                     onClick={showTransactions}
-                  >visa&nbsp;alla</Button>
+                  >{' '}<img src={showProperty} alt="sök ikon"></img>
+                  </span>
                 </td>
 
                 {/* <td className="align-middle">{transactions}</td> */}
 
                 <td className="align-middle">
-                  <Button
+                  <span
                     className="remove-btn"
-                    color="danger"
                     size="sm"
                     data-id={_id}
                     onClick={deleteUser}
-                  >ta&nbsp;bort</Button>
+                  ><img src={deleteIcon} alt="ta bort ikon"></img>
+
+                  </span>
                 </td>
                 <td className="align-middle">
-                  <Link to={'/adminsida/redigera-anvandare/' + _id}>
-                    <Button
-                      className="btn edit-btn"
-                      color="info"
-                      size="sm"
-                    >redigera</Button>
+                  <Link className="btn edit-btn"
+                    color="info"
+                    size="sm" to={'/adminsida/redigera-anvandare/' + _id}>
+                    <img src={editIcon} alt="ändra ikon"></img>
                   </Link>
                 </td>
               </tr>
