@@ -10,7 +10,8 @@ import {
   Input,
   Alert
 } from 'reactstrap';
-// import CreateNotificationModal from './createNotificationModal';
+import Favourites from './Favourites';
+import CreateNotificationModal from './createNotificationModal';
 
 
 const PaymentPage = () => {
@@ -84,6 +85,7 @@ const PaymentPage = () => {
               value={number}
               onChange={handleNumberChange} />
           </InputGroup>
+          <Favourites />
         </Col>
         <Col xs={12} className="mt-3">
           <InputGroup>
