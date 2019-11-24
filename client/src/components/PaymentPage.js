@@ -25,10 +25,10 @@ const PaymentPage = () => {
   const handleCashChange = e => setCash(e.target.value);
 
 
-  async function testSend() {
-    let data = {number: number, cash: cash, message: message}
+  async function sendNotification(phoneNumber, message, fromUserId) {
+    let data = {phoneNumber, message, fromUserId, cash};
 
-    await fetch('/api/test-sse', {
+    await fetch('/api/send-sse', {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const PaymentPage = () => {
     }
     let hejsan = await new Notification(notify)
     console.log(await hejsan.save(), "notis skickat")
-
+    sendNotification(number, message, state.user._id);
   }
 
   async function sendTransaction() {
@@ -91,7 +91,6 @@ const PaymentPage = () => {
         </Col>
         <Col xs={12} className="mt-3">
         <Button onClick={sendTransaction} color="success">Bling</Button>
-        <Button onClick={testSend} color="success">testSend</Button>
         </Col>
       </Row>
     </div >

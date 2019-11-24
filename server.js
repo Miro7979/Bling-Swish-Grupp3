@@ -200,10 +200,10 @@ app.post('/api/transaction*', async (req, res) => {
     res.json(transaction);
 });
 
-app.post('/api/test-sse', async (req, res) => {
-    let body = req.body;
+app.post('/api/send-sse', async (req, res) => {
+		let body = req.body;
     res.json(body);
-    testSend(body, req.session)
+    sendNotification(req, body)
 });
 
 app.use(theRest(express, '/api', pathToModelFolder, null, {
@@ -223,19 +223,22 @@ app.listen(3001, () => console.log('Listening on port 3001'));
 // We randomly choose between the event types
 // 'message' and 'other' (you can name your event types how you like)
 // and send a message (an object with the properties cool and content)
-function testSend(body, reqSession) {
-	
+async function sendNotification(req, body) {
+	let {phoneNumber, message, fromUserId, cash} = body;
+
   send(
-    'all',
+    req => req.session.user && req.session.user.phone === phoneNumber,
     'message',
     { 
-      cool: true, 
-      content: 'This is a message sent ' + new Date().toLocaleTimeString(),
+      message: message, 
+			content: 'This is a message sent ' + new Date().toLocaleTimeString() +', from this phonenumber: ' + req.session.user.phone,
+			fromUser: fromUserId,
+			amount: cash
     }
   );
   // log how many openSessions and openConnections we have
-  // console.log(
-  //   'openSessions', openSessions(),
-  //   'openConnections', openConnections()
-  // );
+  console.log(
+    'openSessions', openSessions(),
+    'openConnections', openConnections()
+  );
 }

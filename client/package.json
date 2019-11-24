@@ -9,6 +9,7 @@
     "easy-server-sent-events": "^1.0.8",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
+    "react-amazing-proxy": "^1.0.57",
     "react-dom": "^16.11.0",
     "react-loader-spinner": "^3.1.5",
     "react-router-dom": "^5.1.2",
@@ -16,7 +17,7 @@
     "reactstrap": "^8.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node node_modules/react-amazing-proxy/start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
