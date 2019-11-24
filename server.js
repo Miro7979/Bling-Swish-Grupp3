@@ -60,16 +60,17 @@ app.get('/api/activateaccounts/:encoded', async (req, res) => {
 
 })
 app.post('/api/updatepassword*', async (req,res) => {
-    let foundUser = await User.findOne({email: req.body.email})
-    console.log(req.body)
-    let foundResetUser = await Reset.findOne({_id: req.body.resetCode});
+    let foundUser = await User.findOne({_id: req.body.userId})
+    let foundResetUser = await Reset.findOne({_id: req.body.id});
     if(!foundResetUser){
         res.json({result: "Not welcome here"})
         return;
     }
     else if(foundUser && foundResetUser && Date.now() - foundResetUser.date < 86400000) {
-        foundUser.password = encryptPassword(req.body.newPassword)
+        console.log("hej")
+        foundUser.password = encryptPassword(req.body.password)
         await foundUser.save();
+        console.log(await foundResetUser.delete())
         res.json({result: "Your password is updated!",...foundUser})
     }
     
@@ -248,7 +249,7 @@ app.post('/api/transaction*', async (req, res) => {
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'updatepassword': 'Updatepassword',
-    'nyttlosenord': "Nyttlosenord"
+    'nyttlosenord': "Nyttlosenord",
     'login': 'Login',
 }));
 

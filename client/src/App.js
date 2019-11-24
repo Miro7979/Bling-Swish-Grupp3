@@ -77,7 +77,8 @@ function App() {
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
           {state.user.role === 'parent' && <Redirect to="/betalningar" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
-          {state.user.role === 'visitor' && <Redirect to="/login" />}
+          {/* had to comment this out temporarly to be able to test updateNewPasswordModal */}
+          {/* {state.user.role === 'visitor' && <Redirect to="/login" />} */}
         </Router>
       }
     </Context.Provider>
