@@ -96,10 +96,12 @@ function HistoryPage() {
 
   function organizeTransactions(dropdownTitle) {
     let transactionsArr = [{name: 'Min historik', transactions: user.transactions }]
-    for( let child of user.children) {
-      let {name, transactions} = child;
-      let childObj = {name, transactions};
-      transactionsArr.push(childObj);
+    if(user.children) {
+      for( let child of user.children) {
+        let {name, transactions} = child;
+        let childObj = {name, transactions};
+        transactionsArr.push(childObj);
+      }
     }
 
     let personFromDropdown = transactionsArr.find( ({name}) => name === dropdownTitle);
