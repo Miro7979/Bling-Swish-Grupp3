@@ -11,9 +11,9 @@ import './App.scss';
 import CreateAccountModal from './components/createAccount';
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
-import Loader from 'react-loader-spinner'
 import SSE from 'easy-server-sent-events/sse';
 import NotificationModal from './components/createNotificationModal';
+import Loader from 'react-loader-spinner';
 
 
 
@@ -35,14 +35,14 @@ function App() {
 
 
   // REMOVE THIS IF UNCERTAIN
-  let stateUpdater = async () => {
-    let whoIsLoggedIn = await Login.findOne()
-    if (whoIsLoggedIn._id) {
-      setState({ ...state, user: whoIsLoggedIn })
-      return;
-    }
-  }
-  global.stateUpdater = stateUpdater
+  // let stateUpdater = async () => {
+  //   let whoIsLoggedIn = await Login.findOne()
+  //   if (whoIsLoggedIn._id) {
+  //     setState({ ...state, user: whoIsLoggedIn })
+  //     return;
+  //   }
+  // }
+  // global.stateUpdater = stateUpdater
   // REMOVE UNTIL HERE
 
   useEffect(() => {
