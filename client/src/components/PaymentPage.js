@@ -35,9 +35,7 @@ const PaymentPage = () => {
       },
       body: JSON.stringify(data)
     });
-
     response = response.json();
-    console.log(response);
   }
 
 

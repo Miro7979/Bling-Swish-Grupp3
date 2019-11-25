@@ -7,5 +7,7 @@ export default React.createContext({
   // userdata is null until we fetch actual data
   user: {
     role: 'visitor'
-  }
+  },
+  showNoti: false,
+  reload: false
 });
