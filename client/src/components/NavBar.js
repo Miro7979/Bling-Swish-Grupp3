@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
-import { Redirect } from 'react-router'
+import { Redirect, Link } from 'react-router-dom'
 import Context from './Context';
 import {
   Collapse,
@@ -9,15 +9,13 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
 } from 'reactstrap';
 
 const NavBar = () => {
   let [state] = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
-  console.log(state.user)
+
   return (
     <React.Fragment>
       {state.user.role === 'visitor' ? <Redirect to="/" /> :
@@ -28,13 +26,13 @@ const NavBar = () => {
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/betalningar">Skicka Pengar</NavLink>
+                  <Link className="navlink ml-3" to="/betalningar">Skicka Pengar</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/minasidor">Mina Sidor</NavLink>
+                  <Link className="navlink ml-3" to="/minasidor">Mina Sidor</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
+                  <Link className="navlink ml-3" to="/betalningshistorik">Betalningshistorik</Link>
                 </NavItem>
                 <NavItem>
                   <LogOut />

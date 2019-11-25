@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, setState } from 'react';
 import Context from './Context';
-import { Notification, Transaction } from 'the.rest/dist/to-import'
+import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -59,20 +59,20 @@ const PaymentPage = () => {
       await bling.save()
 
       // DO IT MANUALLY
-      // async function checkUserSession() {
-      //   let whoIsLoggedIn = await Login.findOne()
-      //   if (whoIsLoggedIn._id) {
-      //     setState({ ...state, user: whoIsLoggedIn })
-      //     return;
-      //   }
-      // }
-      // checkUserSession()
+      async function checkUserSession() {
+        let whoIsLoggedIn = await Login.findOne()
+        if (whoIsLoggedIn._id) {
+          setState({ ...state, user: whoIsLoggedIn })
+          return;
+        }
+      }
+      checkUserSession()
       // END OF DO IT MANUALLY
 
 
-      // REMOVE IF UNCERTAIN
-      global.stateUpdater()
-      // REMOVE UNTIL HERE
+      // // REMOVE IF UNCERTAIN
+      // global.stateUpdater()
+      // // REMOVE UNTIL HERE
       createNotification();
     }
     catch {
