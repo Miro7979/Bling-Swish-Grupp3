@@ -20,7 +20,7 @@ const NavBar = (props) => {
 
   return (
     <React.Fragment>
-      {state.user ?
+      {!state.user ?
         <div>
           <Navbar className="navbar" expand="md">
             <NavbarBrand href="/">Bling Swish</NavbarBrand>
