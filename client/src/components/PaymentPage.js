@@ -30,13 +30,16 @@ const PaymentPage = () => {
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = {phoneNumber, message, fromUserId, cash};
 
-    await fetch('/api/send-sse', {
+    let response = await fetch('/api/send-sse', {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
+
+    response = response.json();
+    console.log(response);
   }
 
 

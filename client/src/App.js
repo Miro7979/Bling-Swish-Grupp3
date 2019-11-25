@@ -13,23 +13,25 @@ import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 import Loader from 'react-loader-spinner'
 import SSE from 'easy-server-sent-events/sse';
+import NotificationModal from './components/createNotificationModal';
 
-let sse = new SSE('/api/sse');
-async function listenToSSE(){
 
-  // Create an instance
-  // a connect it to the endpoint
-  // '/api/sse' (default)
-  sse.listen('message', (data) => {
-    console.log('message', data);
-  });
-}
-
-listenToSSE();
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
+  const [showNoti, setShowNoti] = useState(false);
+  
+  
+  let sse = new SSE('/api/sse');
+  async function listenToSSE(){
+    
+    sse.listen('message', (data) => {
+      setShowNoti(true);
+    });
+  }
+
+  listenToSSE();
 
 
   // REMOVE THIS IF UNCERTAIN
@@ -56,8 +58,17 @@ function App() {
     
   }, []);
 
+  const toggleNotificationModal = () => {
+    setShowNoti(false);
+  }
+
+  let propsToNotificationModal = {toggleNotificationModal};
+
   return (
     <Context.Provider value={[state, setState]}>
+      {showNoti ? 
+        <NotificationModal {...propsToNotificationModal}/>
+      : '' }
       {state.booting && <Loader className="spinner"
         type="BallTriangle"
         color="#FFFF"
