@@ -361,13 +361,12 @@ app.post('/api/send-sse', async (req, res) => {
 
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
-    'login': 'Login'
+    'login': 'Login',
     'aktiverakonto': "Aktiverakonto",
     'nyttlosenord': "Nyttlosenord",
-    'updatepassword': 'Updatepassword',
+    'updatepassword': 'Updatepassword'
 }));
 
-        await transaction.save()
 //app.use('/api/users', require('./routes/api/users'));
 
 app.use(express.static('client/build'));
