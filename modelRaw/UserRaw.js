@@ -22,8 +22,6 @@ const schema = new Schema(
     role: { type: String, default: 'visitor' },
     children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    // notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
-    // transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
     activated: { type: Boolean, default: false },
     limit: { type: Number }
   }

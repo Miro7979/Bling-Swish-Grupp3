@@ -1,49 +1,77 @@
-import React,{useState} from 'react';
+import React from 'react';
 import logo from '../images/child-icon.png';
-import editIcon from '../images/edit-icon.png';
 import deleteIcon from '../images/delete-icon.png';
+import {Col,Row} from 'reactstrap';
 
-const MyPagePageChild=({child,deleteChild})=>{
+const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
-  const [editLimit,setEditLimit]=useState({
-		wantToEdit: false
-	});
-	const htmlToggler=()=>{
-		setEditLimit({ 
-			wantToEdit: true
-		});
-	}
 	const changeLimit=(e)=>{
 		child.limit=e.target.value;
 	}
+	const deleteChild=(id)=>{
+		child.limit='';
+		let updatedData= userData.children.filter((object)=>{
+			return object._id !==id;
+		});
+		setUserData({
+			...userData,
+			children:updatedData
+		});
+	}
 
   return(
-    <div>
+    <div className="child-component">
 
-			<div className="row">
-				<div className="col-3">
+			<Row>
+				<Col xs={3}>
 					<img src={logo} alt="barn ikon"></img>
-				</div>			
-				<p className="col-7 child-name">{child.name}</p>
-				<div className="col-2 delete-button" onClick={()=>deleteChild(child.id)}>
-					<img src={deleteIcon} alt="ta bort ikon"></img>
-				</div> 
-			</div>
+				</Col>
+				<Col xs={7} className="children-name">
+					{child.name}
+				</Col>
+				<Col xs={2}>
+					{wantToEdit.wantToEdit?
+						<img src={deleteIcon} alt="ta bort ikon" className="delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
+				</Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-3">Begränsning:</p>
-				<div className="col-7">
-					{editLimit.wantToEdit?
-						<input type="text" onChange={changeLimit} autoFocus></input>:
-						<p>{child.limit}</p>} 
-				</div>		
-				<div className="col-2 edit-button" onClick={htmlToggler}>
-					<img src={editIcon} alt="ändra ikon"></img>
-				</div> 		
-								
-			</div>	
-		   				
+			<Row className="mt-2">
+				<Col xs={3}>
+						Max-Swish
+				</Col>
+				<Col sm={6} xs={7}>
+					{wantToEdit.wantToEdit?
+						<input type="text" className="form-control" placeholder={child.limit} onChange={changeLimit}></input>:
+						<p>{child.limit} kr</p>}
+				</Col>
+			</Row>
+					   				
 		</div>	
   );
 }
 export default MyPagePageChild;
+
+/*
+
+<div className="row">
+				<div className="col-3">
+					<img src={logo} alt="barn ikon"></img>
+				</div>			
+				<p className="col-7 child-name">{child.name}</p>			
+				{wantToEdit.wantToEdit?
+					<div className="col-2 delete-button" onClick={()=>deleteChild(child._id)}>
+						<img src={deleteIcon} alt="ta bort ikon"></img>
+					</div>:''}			
+			</div>
+
+			<div className="row">
+				<p className="col-4">MaxSwish:</p>
+				<div className="col-8">
+					{wantToEdit.wantToEdit?
+						<input type="text" placeholder={child.limit} onChange={changeLimit}></input>:
+						<output>{child.limit}</output>	
+					}						
+				</div>											
+			</div>
+
+*/
