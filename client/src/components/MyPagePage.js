@@ -90,7 +90,7 @@ const MyPagePage =()=>{
 
 			<Row className="mt-2">
 				<Col xs={3}> Max-Swish </Col>				
-				<Col xs={6}> 
+				<Col sm={6} xs={7}> 
 					{wantToEdit.wantToEdit?	
 						<input type="text" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
 						<p>{userData.limit} kr</p> }
@@ -98,7 +98,7 @@ const MyPagePage =()=>{
 			</Row>
 			<Row>
 				<Col xs={3}> Lösenord </Col>
-				<Col xs={6}> 
+				<Col sm={6} xs={7}> 
 					{wantToEdit.wantToEdit?	
 					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
 					<p>{/*{userData.password}*/}********</p> }

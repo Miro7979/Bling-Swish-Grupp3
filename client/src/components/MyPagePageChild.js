@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon.png';
-import {Col,Row,Button} from 'reactstrap';
+import {Col,Row} from 'reactstrap';
 
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
@@ -39,7 +39,7 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 				<Col xs={3}>
 						Max-Swish
 				</Col>
-				<Col xs={6}>
+				<Col sm={6} xs={7}>
 					{wantToEdit.wantToEdit?
 						<input type="text" className="form-control" placeholder={child.limit} onChange={changeLimit}></input>:
 						<p>{child.limit} kr</p>}

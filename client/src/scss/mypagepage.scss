@@ -62,3 +62,15 @@
     margin: auto;
   }
 }
+@media screen and (max-width: 400px) {
+  .delete-button{
+    position:relative;
+    right:10px;
+  }
+}
+@media screen and (max-width: 325px) {
+  .delete-button{
+    position:relative;
+    right:15px;
+  }
+}

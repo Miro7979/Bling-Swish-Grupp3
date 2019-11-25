@@ -1,8 +1,5 @@
 import React,{useState} from 'react';
 import { User } from '../../../node_modules/the.rest/dist/to-import';
-import searchIcon from '../images/search-icon.png';
-import addIcon from '../images/add-icon.png';
-
 import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageAddChild=({userData,setUserData})=>{
@@ -45,7 +42,7 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 			</Row>
 			<Row>
 				<Col xs={9}>
-					<input type="text" className="form-control" placeholder="Ditt barns telefonnummer" 
+					<input type="text" className="form-control" placeholder="Telefonnummer" 
 					onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
 				</Col>
 				<Col xs={3}>
