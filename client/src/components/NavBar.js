@@ -22,7 +22,7 @@ const NavBar = (props) => {
     <React.Fragment>
       {state.user ?
         <div>
-          <Navbar className="navbar" light expand="md">
+          <Navbar className="navbar" expand="md">
             <NavbarBrand href="/">Bling Swish</NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
