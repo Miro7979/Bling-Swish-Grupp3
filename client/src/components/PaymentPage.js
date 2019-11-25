@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
+import { Notification, Transaction } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -10,12 +10,10 @@ import {
   Input,
   Alert
 } from 'reactstrap';
-// import CreateNotificationModal from './createNotificationModal';
-
 
 const PaymentPage = () => {
 
-  const [state, setState] = useContext(Context);
+  const [state] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")

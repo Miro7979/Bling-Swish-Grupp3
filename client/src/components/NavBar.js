@@ -12,15 +12,15 @@ import {
   NavLink,
 } from 'reactstrap';
 
-const NavBar = (props) => {
+const NavBar = () => {
   let [state] = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
+  console.log(state.user)
   return (
     <React.Fragment>
-      {!state.user ?
+      {state.user.role === 'visitor' ? <Redirect to="/" /> :
         <div>
           <Navbar className="navbar" expand="md">
             <NavbarBrand href="/">Bling Swish</NavbarBrand>
@@ -42,7 +42,7 @@ const NavBar = (props) => {
               </Nav>
             </Collapse>
           </Navbar>
-        </div> : <Redirect to="/" />}
+        </div>}
     </React.Fragment>
   );
 }
