@@ -3,9 +3,6 @@ import HistoryDropdown from './HistoryDropdown.js';
 import HistoryList from './HistoryList.js';
 import Context from '../Context';
 
-import {dummyUser} from './dummyUser.js';
-import {dummyUser2} from './dummyUser2.js';
-
 function HistoryPage() {
   
   const [theDropdownTitle, setTheDropdownTitle] = useState([]);
@@ -14,10 +11,9 @@ function HistoryPage() {
   let context = useContext(Context);
 
   let [user, setUser] = useState(context[0].user)
-  // let [user, setUser] = useState(dummyUser)
-  // let [user, setUser] = useState(dummyUser2)
 
   async function fetchThisUserTransactions() {
+
     let myTransactions = await fetch('/api/my-transactions/' + user.phone);
     myTransactions = await myTransactions.json();
 

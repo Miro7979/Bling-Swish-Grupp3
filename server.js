@@ -204,8 +204,14 @@ app.post('/api/transaction*', async (req, res) => {
 });
 
 app.get('/api/my-transactions/:userPhone', async (req, res) => {
-  let allTransactions = await Transaction.find();
-
+  if(!req.session.user) {
+    res.json('Nope!')
+    return;
+  }
+  let err, allTransactions = await Transaction.find()
+  .catch(
+    error => err = error
+  );
   let userPhone = req.params.userPhone;
 
   let thisUserTransactions = [];
@@ -214,8 +220,10 @@ app.get('/api/my-transactions/:userPhone', async (req, res) => {
       thisUserTransactions.push(transaction);
     }
   };
-  res.json(thisUserTransactions)
-})
+  
+  res.json(err || thisUserTransactions);
+});
+
 
 app.post('/api/send-sse', async (req, res) => {
 		let body = req.body;
