@@ -69,7 +69,6 @@ const PaymentPage = () => {
       checkUserSession()
       // END OF DO IT MANUALLY
 
-
       // // REMOVE IF UNCERTAIN
       // global.stateUpdater()
       // // REMOVE UNTIL HERE

@@ -9,13 +9,9 @@ function LogOut() {
   async function handleLogout() {
     let whoIsLoggedIn = await Login.findOne();
     await whoIsLoggedIn.delete();
-    console.log('inside', state);
     let newUser = { role: 'visitor' }
     setState((prev) => ({ ...prev, user: newUser }))
   }
-  console.log('outside', state)
-
-
 
   return (
     <React.Fragment>
