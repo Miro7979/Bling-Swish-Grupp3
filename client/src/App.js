@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
@@ -16,6 +16,18 @@ import Loader from 'react-loader-spinner'
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
+
+
+  // REMOVE THIS IF UNCERTAIN
+  let stateUpdater = async () => {
+    let whoIsLoggedIn = await Login.findOne()
+    if (whoIsLoggedIn._id) {
+      setState({ ...state, user: whoIsLoggedIn })
+      return;
+    }
+  }
+  global.stateUpdater = stateUpdater
+  // REMOVE UNTIL HERE
 
   useEffect(() => {
     async function checkUserSession() {
@@ -45,10 +57,6 @@ function App() {
               <NavBar />
             </header>
             <main className="container mt-2">
-              {/* On path="/" a ternary operator should be introduced to alternate
-            between two stages, based on if you´re logged in or not.
-            eg. component={PaymentPage} if logged in 
-          */}
               <Switch className="switch">
                 <Route exact path="/" component={LoginPage} />
                 <Route path="/login" component={LoginPage} />
@@ -58,12 +66,14 @@ function App() {
                 <Route path="/betalningar" component={PaymentPage} />
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
-               
-
                 <Route path="/betalningshistorik" component={HistoryPage} />
               </Switch>
             </main>
           </div>
+          {state.user.role === 'admin' && <Redirect to="/adminsida" />}
+          {state.user.role === 'parent' && <Redirect to="/betalningar" />}
+          {state.user.role === 'child' && <Redirect to="/betalningar" />}
+          {state.user.role === 'visitor' && <Redirect to="/login" />}
         </Router>
       }
     </Context.Provider>

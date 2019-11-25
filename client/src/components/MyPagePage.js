@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
 import {Col,Row,Button} from 'reactstrap';
@@ -6,7 +6,7 @@ import logo from '../images/person-icon.png';
 
 import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
-const MyPagePage =()=>{
+const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
 		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:null,children:[]
@@ -112,8 +112,8 @@ const MyPagePage =()=>{
 							<MypagePageChild key={index+1} child={child} wantToEdit={wantToEdit} userData={userData} setUserData={setUserData}/>
 						);
 					})}
-	 			</div>
-			: '' }
+				</div>
+				: ''}
 
 			{wantToEdit.wantToEdit?
 				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''

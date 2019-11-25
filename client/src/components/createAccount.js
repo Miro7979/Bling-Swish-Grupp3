@@ -74,7 +74,7 @@ const CreateAccountModal = () => {
           </InputGroup>
         </ModalBody>
         <ModalFooter>
-          <Link to={'/adminsida'}>
+          <Link to={'/betalningar'}>
             <Button color="primary" onClick={gatherUserInfo}>
               Skapa konto
             </Button>
