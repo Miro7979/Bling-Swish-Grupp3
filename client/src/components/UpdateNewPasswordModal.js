@@ -5,14 +5,12 @@ import {Reset, Updatepassword} from '../../../node_modules/the.rest/dist/to-impo
 
 const UpdateNewPasswordModal = (props) => {
   useEffect(() => {
-      findReset()
-    setModal(true)
+      findReset();
+    setModal(true);
   },[])
   async function findReset(){
 			let foundReset = await Reset.findOne({_id: props.match.params.id})
-			console.log(foundReset)
 				if(foundReset && findReset.date && (Date.now() - Date.parse(foundReset.date)) > 86400000){
-					console.log("hej?")
 					setProblem(true)
 					return;
 				}
@@ -73,7 +71,7 @@ const UpdateNewPasswordModal = (props) => {
             {  problem ? "" :
             <ModalFooter>
                 <Button color="primary" onClick={gatherUserInfo}>
-                Skicka återställningslänk
+                Ok
                 </Button>
             <Link to="/">
                 <Button color="secondary" onClick={toggle}>

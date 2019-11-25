@@ -11,6 +11,7 @@ import './App.scss';
 import CreateAccountModal from './components/createAccount'
 import ForgotPasswordModal from './components/ForgotPasswordModal'
 import UpdateNewPasswordModal from './components/UpdateNewPasswordModal'
+import ActivateAccountModal from './components/ActivateAccountModal'
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 import Loader from 'react-loader-spinner'
@@ -71,6 +72,7 @@ function App() {
                 <Route path="/betalningshistorik" component={HistoryPage} />
                 <Route path="/aterstalllosenord" component={ForgotPasswordModal}/>
                 <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal}/>
+                <Route path="/aktiverakonto/:id" component={ActivateAccountModal}/>
               </Switch>
             </main>
           </div>
