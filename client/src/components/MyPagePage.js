@@ -105,7 +105,7 @@ const MyPagePage = () => {
 				</Col>
 			</Row>
 
-			{userData.children.length>0? 
+			{userData.children.length>0?
 				<div className="mt-4">
 					{userData.children.map((child,index)=>{
 						return(									
