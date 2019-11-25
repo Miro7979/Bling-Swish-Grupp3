@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction } from 'the.rest/dist/to-import'
+import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -14,8 +14,7 @@ import {
 
 const PaymentPage = () => {
 
-  const [state] = useContext(Context);
-
+  const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -37,6 +36,7 @@ const PaymentPage = () => {
   async function sendTransaction() {
     let transaction = {
       // balance: balance,
+      message: message || 'Du har fått japp brush',
       amount: cash,
       toUser: number,
       fromUser: state.user._id,
@@ -55,7 +55,7 @@ const PaymentPage = () => {
         </Col>
         <Col xs={12} className="mt-3">
           <InputGroup>
-            <Input className="border-bottom" placeholder="mottagare"
+            <Input className="border-bottom" placeholder="ange telefonnummer"
               value={number}
               onChange={handleNumberChange} />
           </InputGroup>

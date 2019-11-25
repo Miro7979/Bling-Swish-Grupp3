@@ -58,7 +58,7 @@ function App() {
                 <Route path="/betalningar" component={PaymentPage} />
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
-               
+
 
                 <Route path="/betalningshistorik" component={HistoryPage} />
               </Switch>
