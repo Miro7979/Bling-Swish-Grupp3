@@ -11,11 +11,27 @@ import './App.scss';
 import CreateAccountModal from './components/createAccount';
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
+import SSE from 'easy-server-sent-events/sse';
+import NotificationModal from './components/createNotificationModal';
 import Loader from 'react-loader-spinner';
+
+
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
+  const [showNoti, setShowNoti] = useState(false);
+  
+  
+  let sse = new SSE('/api/sse');
+  async function listenToSSE(){
+    
+    sse.listen('message', (data) => {
+      setShowNoti(true);
+    });
+  }
+
+  listenToSSE();
 
 
   // REMOVE THIS IF UNCERTAIN
@@ -39,10 +55,20 @@ function App() {
       setState((prev) => ({ ...prev, booting: false }))
     }
     checkUserSession()
+    
   }, []);
+
+  const toggleNotificationModal = () => {
+    setShowNoti(false);
+  }
+
+  let propsToNotificationModal = {toggleNotificationModal};
 
   return (
     <Context.Provider value={[state, setState]}>
+      {showNoti ? 
+        <NotificationModal {...propsToNotificationModal}/>
+      : '' }
       {state.booting && <Loader className="spinner"
         type="BallTriangle"
         color="#FFFF"

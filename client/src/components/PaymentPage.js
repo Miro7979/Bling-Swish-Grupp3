@@ -25,6 +25,22 @@ const PaymentPage = () => {
   const handleCashChange = e => setCash(e.target.value);
 
 
+  async function sendNotification(phoneNumber, message, fromUserId) {
+    let data = {phoneNumber, message, fromUserId, cash};
+
+    let response = await fetch('/api/send-sse', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    response = response.json();
+    console.log(response);
+  }
+
+
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -34,6 +50,7 @@ const PaymentPage = () => {
     try {
       let notis = new Notification(notify)
       await notis.save();
+      sendNotification(number, message, state.user._id);
     }
     catch {
       setProblem(true);
