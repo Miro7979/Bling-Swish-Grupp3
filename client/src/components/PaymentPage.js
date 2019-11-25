@@ -76,18 +76,18 @@ const PaymentPage = () => {
       await bling.save()
 
       // DO IT MANUALLY
-      async function checkUserSession() {
-        let whoIsLoggedIn = await Login.findOne()
-        if (whoIsLoggedIn._id) {
-          setState({ ...state, user: whoIsLoggedIn })
-          return;
-        }
-      }
-      checkUserSession()
+      // async function checkUserSession() {
+      //   let whoIsLoggedIn = await Login.findOne()
+      //   if (whoIsLoggedIn._id) {
+      //     setState({ ...state, user: whoIsLoggedIn })
+      //     return;
+      //   }
+      // }
+      // checkUserSession()
       // END OF DO IT MANUALLY
 
       // // REMOVE IF UNCERTAIN
-      // global.stateUpdater()
+      global.stateUpdater()
       // // REMOVE UNTIL HERE
       createNotification();
     }

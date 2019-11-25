@@ -35,14 +35,14 @@ function App() {
 
 
   // REMOVE THIS IF UNCERTAIN
-  // let stateUpdater = async () => {
-  //   let whoIsLoggedIn = await Login.findOne()
-  //   if (whoIsLoggedIn._id) {
-  //     setState({ ...state, user: whoIsLoggedIn })
-  //     return;
-  //   }
-  // }
-  // global.stateUpdater = stateUpdater
+  let stateUpdater = async () => {
+    let whoIsLoggedIn = await Login.findOne()
+    if (whoIsLoggedIn._id) {
+      setState({ ...state, user: whoIsLoggedIn })
+      return;
+    }
+  }
+  global.stateUpdater = stateUpdater
   // REMOVE UNTIL HERE
 
   useEffect(() => {
