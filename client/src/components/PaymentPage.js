@@ -49,13 +49,13 @@ const PaymentPage = () => {
     try {
       let notis = new Notification(notify)
       await notis.save();
+      sendNotification(number, message, state.user._id);
     }
     catch {
       setProblem(true);
     } finally {
       return ''
     }
-    sendNotification(number, message, state.user._id);
   }
 
   async function sendTransaction() {
