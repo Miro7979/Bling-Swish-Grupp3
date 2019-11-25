@@ -16,7 +16,7 @@ function LogOut() {
     let whoIsLoggedIn = await Login.findOne()
     state.user.role = 'visitor'
     await whoIsLoggedIn.delete()
-    setState((prev) => ({ ...prev, user: state.user.role }))
+    setState((prev) => ({ ...prev, user: state.user }))
   }
 
   return (

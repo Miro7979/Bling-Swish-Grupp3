@@ -6,11 +6,16 @@
   .nav-link {
     color: aliceblue;
     opacity: 1;
+    cursor: pointer;
   }
 }
 
-a, a:link, .nav-link  {
+a,
+a:link,
+.nav-link,
+.nav-item {
   text-decoration: none;
-  color : #fff;
+  color: #fff;
   margin-right: 10px;
+  cursor: pointer;
 }
