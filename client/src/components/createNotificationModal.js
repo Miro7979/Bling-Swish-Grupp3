@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // import Context from './Context';
 import {
   Button,
   Modal,
   ModalBody
 } from 'reactstrap';
+import Context from './Context';
+
 
 const CreateNotificationModal = (props) => {
   // let [state] = useContext(Context);
@@ -18,8 +20,7 @@ const CreateNotificationModal = (props) => {
   };
 
   const callFunctionsOnApp = () => {
-    let hej = 'hahahaha'
-    props.toggleNotificationModal(hej);
+    props.toggleNotificationModal();
   }
 
   return (

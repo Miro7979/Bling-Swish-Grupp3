@@ -23,14 +23,13 @@ import Loader from 'react-loader-spinner';
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
-  const [showNoti, setShowNoti] = useState(false);
 
 
   let sse = new SSE('/api/sse');
   async function listenToSSE() {
 
     sse.listen('message', (data) => {
-      setShowNoti(true);
+      setState((prev) => ({ ...prev, showNoti: true }))
     });
   }
 
@@ -62,14 +61,14 @@ function App() {
   }, []);
 
   const toggleNotificationModal = () => {
-    setShowNoti(false);
+    setState((prev) => ({ ...prev, showNoti: false, reload: true }))
   }
 
   let propsToNotificationModal = { toggleNotificationModal };
 
   return (
     <Context.Provider value={[state, setState]}>
-      {showNoti ?
+      {state.showNoti ?
         <NotificationModal {...propsToNotificationModal} />
         : ''}
       {state.booting && <Loader className="spinner"

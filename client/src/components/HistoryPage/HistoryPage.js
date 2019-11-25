@@ -9,8 +9,13 @@ function HistoryPage() {
   const [transactions, setTransactions] = useState([]);
   const [dropdownNames, setDropdownNames] = useState([]);
   let context = useContext(Context);
-
   let [user, setUser] = useState(context[0].user)
+  let [state, setState] = useContext(Context);
+
+  if(state.reload === true) {
+    setState((prev) => ({ ...prev, reload: false }));
+    window.location.reload();
+  }
 
   async function fetchThisUserTransactions() {
 
