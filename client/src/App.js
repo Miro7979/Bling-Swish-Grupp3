@@ -21,11 +21,11 @@ function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
   const [showNoti, setShowNoti] = useState(false);
-  
-  
+
+
   let sse = new SSE('/api/sse');
-  async function listenToSSE(){
-    
+  async function listenToSSE() {
+
     sse.listen('message', (data) => {
       setShowNoti(true);
     });
@@ -35,14 +35,14 @@ function App() {
 
 
   // REMOVE THIS IF UNCERTAIN
-  // let stateUpdater = async () => {
-  //   let whoIsLoggedIn = await Login.findOne()
-  //   if (whoIsLoggedIn._id) {
-  //     setState({ ...state, user: whoIsLoggedIn })
-  //     return;
-  //   }
-  // }
-  // global.stateUpdater = stateUpdater
+  let stateUpdater = async () => {
+    let whoIsLoggedIn = await Login.findOne()
+    if (whoIsLoggedIn._id) {
+      setState({ ...state, user: whoIsLoggedIn })
+      return;
+    }
+  }
+  global.stateUpdater = stateUpdater
   // REMOVE UNTIL HERE
 
   useEffect(() => {
@@ -55,20 +55,20 @@ function App() {
       setState((prev) => ({ ...prev, booting: false }))
     }
     checkUserSession()
-    
+
   }, []);
 
   const toggleNotificationModal = () => {
     setShowNoti(false);
   }
 
-  let propsToNotificationModal = {toggleNotificationModal};
+  let propsToNotificationModal = { toggleNotificationModal };
 
   return (
     <Context.Provider value={[state, setState]}>
-      {showNoti ? 
-        <NotificationModal {...propsToNotificationModal}/>
-      : '' }
+      {showNoti ?
+        <NotificationModal {...propsToNotificationModal} />
+        : ''}
       {state.booting && <Loader className="spinner"
         type="BallTriangle"
         color="#FFFF"

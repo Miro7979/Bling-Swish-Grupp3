@@ -1,6 +1,6 @@
-import React, { useContext, useState, setState } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
+import { Notification, Transaction } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -26,10 +26,10 @@ const PaymentPage = () => {
 
 
   async function sendNotification(phoneNumber, message, fromUserId) {
-    let data = {phoneNumber, message, fromUserId, cash};
+    let data = { phoneNumber, message, fromUserId, cash };
 
     let response = await fetch('/api/send-sse', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -62,7 +62,7 @@ const PaymentPage = () => {
   async function sendTransaction() {
     let transaction = {
       amount: cash,
-      message: message || 'Du har fått japp brush',
+      message: message || 'Du har fått pengar på din bling konto',
       to: number,
       from: state.user._id
     }
@@ -75,20 +75,17 @@ const PaymentPage = () => {
       let bling = await new Transaction(transaction)
       await bling.save()
 
-      // DO IT MANUALLY
-      async function checkUserSession() {
-        let whoIsLoggedIn = await Login.findOne()
-        if (whoIsLoggedIn._id) {
-          setState({ ...state, user: whoIsLoggedIn })
-          return;
-        }
-      }
-      checkUserSession()
-      // END OF DO IT MANUALLY
-
-      // // REMOVE IF UNCERTAIN
-      // global.stateUpdater()
-      // // REMOVE UNTIL HERE
+      // // DO IT MANUALLY
+      // async function checkUserSession() {
+      //   let whoIsLoggedIn = await Login.findOne()
+      //   if (whoIsLoggedIn._id) {
+      //     setState({ ...state, user: whoIsLoggedIn })
+      //     return;
+      //   }
+      // }
+      // checkUserSession()
+      // // END OF DO IT MANUALLY
+      global.stateUpdater()
       createNotification();
     }
     catch {
