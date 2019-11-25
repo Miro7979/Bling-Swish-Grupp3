@@ -9,6 +9,8 @@
   }
 }
 
-.navbar-dark .navbar-nav .nav-link {
+a, a:link, .nav-link  {
+  text-decoration: none;
   color : #fff;
+  margin-right: 10px;
 }

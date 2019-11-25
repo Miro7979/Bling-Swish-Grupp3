@@ -5,8 +5,11 @@ td {
 
 .edit-btn,
 .show-more-btn,
-.remove-btn {
+.remove-btn,
+.sort-btn,
+.add-btn {
   cursor: pointer;
+  background-color: transparent;
 }
 
 @media only screen and (max-width: 900px) {
