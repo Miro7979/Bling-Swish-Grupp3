@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { User } from 'the.rest/dist/to-import';
-import deleteIcon from '../../images/delete-icon.png';
+import deleteIcon from '../../images/delete.png';
 import editIcon from '../../images/edit-icon.png';
 import showProperty from '../../images/show-property.png';
+import sortIcon from '../../images/sortA-Z.png';
+import addIcon from '../../images/add-user.png';
 
 const AdminPage = (props) => {
   const [users, setUsers] = useState([]);
@@ -79,15 +81,11 @@ const AdminPage = (props) => {
       <Col>
         <Link to={'/adminsida/registrera-en-ny-anvandare'}>
           <Button onClick={toggle}
-            className="btn create-btn"
-            color="info"
-            size="sm"
-          >skapa en användare</Button>
+            className="add-btn mt-3"
+          ><img src={addIcon} alt="lägga till"></img></Button>
         </Link>
-        <Button className="btn edit-btn ml-3"
-          color="info"
-          size="sm"
-          onClick={sortTable}>Sortera A till Ö</Button>
+        <Button className="sort-btn ml-3 mt-3"
+          onClick={sortTable}><img src={sortIcon} alt="sortera"></img></Button>
         {/*the table head*/}
         <Table striped id="myTable" className="mt-3 table-responsive-md">
           <thead>
