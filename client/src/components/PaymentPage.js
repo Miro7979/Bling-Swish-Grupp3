@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
+import { Notification, Transaction, User } from '../../../node_modules/the.rest/dist/to-import';
 import {
   Row,
   Col,
@@ -8,14 +8,16 @@ import {
   Button,
   Label,
   Input,
-  Alert
+  Alert,
+  Card,
+  CardText,
+  CardTitle
 } from 'reactstrap';
 import Favourites from './Favourites';
-import starIcon from '../images/star-white.png';
-import starIcon from '../images/star-black.png';
+// import starIcon from '../images/star-white.png';
+// import starIcon from '../images/star-black.png';
 
 //import CreateNotificationModal from './createNotificationModal';
-
 
 const PaymentPage = () => {
 
@@ -30,6 +32,15 @@ const PaymentPage = () => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
 
+  const addToFavourites = async (e) => {
+    let favourites = [];
+    let favourite = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
+    favourites.push(favourite)
+    // favourites.push(favourite)
+    //find input e.target.value
+    //save to [favourites]
+    console.log('favourites', favourite);
+  }
 
   async function createNotification() {
     let notify = {
@@ -89,7 +100,7 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="container">
+    <React.Fragment>
       <Row>
         {'SALDO: ' + state.user.balance}
         <Col xs={12} className="mt-3">
@@ -105,10 +116,9 @@ const PaymentPage = () => {
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
               onChange={handleNumberChange}>  </Input>
-            <img src={starIcon} alt="lägg till favorit" />
+            <Button onClick={addToFavourites}>Spara favorit</Button>
 
           </InputGroup>
-          <Favourites />
         </Col>
         <Col xs={12} className="mt-3">
           <InputGroup>
@@ -128,7 +138,8 @@ const PaymentPage = () => {
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
-    </div >
+      <Favourites />
+    </React.Fragment>
   );
 
 

@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
-import { Input, Form, FormGroup, Label } from 'reactstrap';
+import React, { useState, useContext } from 'react';
+import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { User } from '../../../node_modules/the.rest/dist/to-import';
-
-import { starIcon } from '../images/star-black.png';
+// import { starIcon } from '../images/star-black.png';
+import Context from './Context';
 
 const Favourites = () => {
+  let [state, setState] = useContext(Context);
 
   const [favourite, setFavourite] = useState();
   const [favourites, setFavourites] = useState();
-  const [validationError, setValidationError] = useState();
 
 
-  const addToFavourites = async(e) => {
-    let favourites = [];
-    let id = e.target['data-id'].value;
-    let tempFavvo = await User.findOne(id);
-    favourites.tempFavvo.save()
-    //find input e.target.value
-    //save to [favourites]
-    console.log('hi');
 
-  }
+  // const addToFavourites = async (e) => {
+  //   let favourite = (await User.findOne({ email: state.user.email }).populate('favourites', 'name email _id'));
+  //   favourites.push(favourite)
+  //   //find input e.target.value
+  //   //save to [favourites]
+  //   console.log('hi');
+
+  // }
 
   const chooseFavourite = () => {
     //map through all favourites
@@ -31,19 +30,19 @@ const Favourites = () => {
   }
 
   return (
-    <Form>
-      <FormGroup>
-        <Label className="mt-3" for="selectFavourite">Mina favoriter:</Label>
-        {/*map()*/}
-        <Input type="select" name="select" id="selectFavourite">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </Input>
-      </FormGroup>
-    </Form>
+    <Row>
+      <Col sm="4" md="4">
+        {/* {favourites.map(({ _id, name, phone }, index) => ( */}
+          <Card body className="mt-2">
+            {/* <CardTitle>{name}</CardTitle>
+            <CardText>{phone}</CardText> */}
+            <Button className="btn btn-info card-btn mr-2">Välj</Button>
+            <Button className="btn btn-danger card-btn">Ta bort</Button>
+          </Card>
+          {/* ))} */}
+      </Col>
+
+    </Row>
   );
 }
 
