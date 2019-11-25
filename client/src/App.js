@@ -5,7 +5,7 @@ import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
 import EditUser from './components/Admin/EditUser';
-import HistoryPage from './components/HistoryPage';
+import HistoryPage from './components/HistoryPage/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
 import CreateAccountModal from './components/createAccount';
@@ -97,7 +97,7 @@ function App() {
             </main>
           </div>
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
-          {state.user.role === 'parent' && <Redirect to="/betalningar" />}
+          {state.user.role === 'parent' && <Redirect to="/betalningshistorik" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
           {state.user.role === 'visitor' && <Redirect to="/login" />}
         </Router>

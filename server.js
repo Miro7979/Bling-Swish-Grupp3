@@ -203,6 +203,28 @@ app.post('/api/transaction*', async (req, res) => {
   res.json(transaction);
 });
 
+app.get('/api/my-transactions/:userPhone', async (req, res) => {
+  if(!req.session.user) {
+    res.json('Nope!')
+    return;
+  }
+  let err, allTransactions = await Transaction.find()
+  .catch(
+    error => err = error
+  );
+  let userPhone = req.params.userPhone;
+
+  let thisUserTransactions = [];
+  for(let transaction of allTransactions){
+    if(transaction.to.phone === userPhone || transaction.from.phone === userPhone){ 
+      thisUserTransactions.push(transaction);
+    }
+  };
+  
+  res.json(err || thisUserTransactions);
+});
+
+
 app.post('/api/send-sse', async (req, res) => {
 		let body = req.body;
     res.json(body);
