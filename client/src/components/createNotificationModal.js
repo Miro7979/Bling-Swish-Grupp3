@@ -9,7 +9,7 @@ import {
 const CreateNotificationModal = (props) => {
   // let [state] = useContext(Context);
 
-  const {buttonLabel, className} = props;
+  const { className } = props;
 
   const [modal, setModal] = useState(true);
 
@@ -19,7 +19,7 @@ const CreateNotificationModal = (props) => {
 
   const callFunctionsOnApp = () => {
     let hej = 'hahahaha'
-    props.toggleNotificationModal(hej); 
+    props.toggleNotificationModal(hej);
   }
 
   return (
@@ -27,7 +27,7 @@ const CreateNotificationModal = (props) => {
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalBody className="modalBody">
           <h3>Du har fått en betalning på ditt Bling konto.</h3>
-          </ModalBody>
+        </ModalBody>
         <Button className="notisModalBtn" onClick={callFunctionsOnApp}>Ok</Button>
       </Modal>
     </div>
