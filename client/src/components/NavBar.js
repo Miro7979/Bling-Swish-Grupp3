@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import Context from './Context';
 import {
   Collapse,
@@ -8,8 +9,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink,
+  NavItem
 } from 'reactstrap';
 
 const NavBar = (props) => {
@@ -23,18 +23,18 @@ const NavBar = (props) => {
       {state.user ?
         <div>
           <Navbar className="navbar" dark expand="md">
-            <NavbarBrand href="/">Bling Swish</NavbarBrand>
+            <NavbarBrand className="align-middle mt-1" href="/">Bling Swish</NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/betalningar">Skicka Pengar</NavLink>
+                  <Link className="align-middle mt-1" href="/betalningar">Skicka Pengar</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/minasidor">Mina Sidor</NavLink>
+                  <Link className="align-middle mt-1" href="/minasidor">Mina Sidor</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
+                  <Link className="align-middle mt-1" href="/betalningshistorik">Betalningshistorik</Link>
                 </NavItem>
                 <NavItem>
                   <LogOut />
