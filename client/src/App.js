@@ -8,7 +8,10 @@ import EditUser from './components/Admin/EditUser';
 import HistoryPage from './components/HistoryPage/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
-import CreateAccountModal from './components/createAccount';
+import CreateAccountModal from './components/createAccount'
+import ForgotPasswordModal from './components/ForgotPasswordModal'
+import UpdateNewPasswordModal from './components/UpdateNewPasswordModal'
+import ActivateAccountModal from './components/ActivateAccountModal'
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
 import SSE from 'easy-server-sent-events/sse';
@@ -93,13 +96,17 @@ function App() {
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
                 <Route path="/betalningshistorik" component={HistoryPage} />
+                <Route path="/aterstalllosenord" component={ForgotPasswordModal}/>
+                <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal}/>
+                <Route path="/aktiverakonto/:id" component={ActivateAccountModal}/>
               </Switch>
             </main>
           </div>
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
           {state.user.role === 'parent' && <Redirect to="/betalningshistorik" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
-          {state.user.role === 'visitor' && <Redirect to="/login" />}
+          {/* had to comment this out temporarly to be able to test updateNewPasswordModal */}
+          {/* {state.user.role === 'visitor' && <Redirect to="/login" />} */}
         </Router>
       }
     </Context.Provider>

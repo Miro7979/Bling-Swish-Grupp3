@@ -74,11 +74,19 @@ const CreateAccountModal = () => {
           </InputGroup>
         </ModalBody>
         <ModalFooter>
-          <Link to={'/betalningar'}>
+            {
+              created 
+              ?
+              <Link to="/">
+              <Button color="secondary" onClick={toggle}>
+                Gå till logga in
+              </Button>
+            </Link>
+            :
             <Button color="primary" onClick={gatherUserInfo}>
               Skapa konto
             </Button>
-          </Link>
+            }
           <Link to="/">
             <Button color="secondary" onClick={toggle}>
               Avbryt

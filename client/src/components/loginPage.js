@@ -94,7 +94,7 @@ function LogInPage() {
 							</Col>
 							<Col lx={6} lg={6} md={6} sm={6}>
 								<div className="forgotPasswordLink">
-									<Link to="/forgotPasswordPage">Glömt lösenord</Link>
+									<Link to="/aterstalllosenord">Glömt lösenord</Link>
 								</div>
 								<div className="registerNewUserLink">
 									<Link to="/skapaKontoSida">Registrera dig som ny användare</Link>

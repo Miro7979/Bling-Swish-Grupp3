@@ -8,6 +8,7 @@ const app = express();
 const User = require('./models/User');
 const Transaction = require('./models/Transaction');
 const Notification = require('./models/Notification');
+const Reset = require('./models/Reset')
 const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
 const sendMail = require('./nodemailer');
@@ -68,34 +69,121 @@ const aclRules = require('./acl-rules.json');
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 
-app.get('/api/activateaccounts/:encoded', async (req, res) => {
-  let email = atob(req.params.encoded)
-  let user = await User.findOne({ email })
-  // console.log("email", email);
-  // console.log("user", user)
-  if (user) {
-    user.activated = true;
-    let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
-    let notChild = (age >= 18)
-    notChild ? user.role = "parent" : user.role = "child"
-    await user.save()
-  }
-  // console.log("user save", user)
-  res.send(!user ? '<h1>fel</h1>' : '<h1>activated</h1>');
+app.post('/api/aktiverakonto*', async (req, res) => {
+    try{
+        let email = atob(req.body.encoded)
+        let user = await User.findOne({ email })
+        req.body.activated = false
+        if (user) {
+            user.activated = true;
+            let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
+            let notChild = (age >= 18)
+            notChild ? user.role = "parent" : user.role = "child"
+            req.body.activated = true;
+            await user.save()
+        }
+        console.log("user save", user)
+        res.json(req.body);
+    }
+    catch(error){
+        req.json(error)
+    }
 
 })
+app.post('/api/updatepassword*', async (req,res) => {
+    try{
+        let foundUser = await User.findOne({_id: req.body.userId})
+        let foundResetUser = await Reset.findOne({_id: req.body.id});
+        if(!foundResetUser){
+            res.json({result: "Not welcome here"})
+            return;
+        }
+        else if(foundUser && foundResetUser && Date.now() - foundResetUser.date < 86400000) {
+            console.log("hej")
+            foundUser.password = encryptPassword(req.body.password)
+            await foundUser.save();
+            await foundResetUser.delete()
+            res.json({result: "Your password is updated!",...foundUser})
+        }
+    }
+    catch(e){
+        console.log(e)
+    }
+})
 
-//http://localhost:3000/api/activateaccounts/ZGFudGlzZW44OUBnbWFpbC5jb20
-//what to do with this?????
-// app.all('/api/*', (req,res) => {
-//     res.json({url: req.url, ok: true});
-//   });
+
+app.get('/nyttlosenord/:id', async (req, res) => {
+    try{
+        let foundResetUser = await Reset.findOne({_id: req.params.id});
+        if(foundResetUser && Date.now() - foundResetUser.date < 86400000) {
+            console.log("hej")
+            res.json({result: "Enter new password."})
+            return
+        }
+        res.json({result:"hej"})
+        return
+    }
+    catch(e){
+        console.log(e)
+    }
+    })
+app.post('/api/resets', async (req, res) => {
+    try{
+        let foundUser = await User.findOne({email: req.body.email})
+        if(!foundUser){
+            res.json({result: "Om din användare finns så har vi skickat ett mejl."})
+            return
+        }
+        let foundResetUser = await Reset.findOne({userId:foundUser._id});
+        let time =  Date.now()
+        
+        let reset = new Reset({
+            date: Date.now(),
+            userId: foundUser._id 
+        })
+        if(foundResetUser){
+            if((time - foundResetUser.date) > 86400000 ){
+                let savedReset = await reset.save()
+                //send email
+                let subject = "Återställningslänk"
+                let text = "Klicka på länken för att återställa ditt lösenord"
+                let html = `<a href='www.blingswish.se/nyttlosenord/${reset._id}'>Återställ lösenord<a>`
+                let user = {email: foundUser.email, subject, text, html}
+                sendMail(user)
+                res.json({result: "Om din användare finns så har vi skickat ett mejl till dig"})
+                return;
+            }
+            else if(time < 86400000){
+                console.log("under 24")
+                res.json( {success: 'Om din användare finns så har vi skickat ett mejl till dig.', resultFromSave, statusCode: 200})
+                return
+            }
+        }
+        if(foundUser && !foundResetUser){
+            console.log("hittade user men inte reset")
+            let savedReset = await reset.save();
+            let subject = "Återställningslänk"
+            let text = "Klicka på länken för att återställa ditt lösenord"
+            let html = `<a href='www.blingswish.se/nyttlosenord/${reset._id}'>Återställ lösenord<a>`
+            let user = {email: foundUser.email, resetId: reset._id, subject, text, html}
+            sendMail(user)
+            res.json("Om din användare finns så har vi skickat ett mejl till dig")
+            return
+        }
+        res.json("Om din användare finns så har vi skickat ett mejl till dig")  
+        return; 
+    }
+    catch(e){
+        console.log(e)
+    }
+    })
 
 // Set keys to names of rest routes
 const models = {
-  users: require('./models/User'),
-  Transaction: require('./models/Transaction'),
-  Notification: require('./models/Notification')
+    users: require('./models/User'),
+    Transaction: require('./models/Transaction'),
+    Notification: require('./models/Notification'),
+    Reset: require('./models/Reset')
 };
 
 
@@ -107,86 +195,126 @@ const models = {
 // the user/frontend set its role... but for now
 // we should also check length of password etc.
 app.post('/api/users', async (req, res) => {
-  // we should check that the same username does
-  // not exist... let's save that for letter
-  if (
-    typeof req.body.password !== 'string' ||
-    req.body.password.length < 6
-  ) {
-    res.json({ error: 'Password to short' });
-    return;
-  }
-
-  let user = new User({
-    ...req.body,
-    password: encryptPassword(req.body.password),
-  });
-  let error;
-  let resultFromSave = await user.save()
-    .catch(err => error = err + '');
-  res.json(error ? { error } : { success: 'User created', resultFromSave, statusCode: 200 });
-  //!error && sendMail(user)
-});
-
+    try{
+        // we should check that the same username does
+        // not exist... let's save that for letter
+        if (
+            typeof req.body.password !== 'string' ||
+            req.body.password.length < 6
+        ) {
+            res.json({ error: 'Password to short' });
+            return;
+        } 
+        let user = new User({
+            ...req.body,
+            password: encryptPassword(req.body.password),
+        });
+        let mail = btoa(user.email)
+        req.body.user = user;
+        let subject = 'Aktiveringslänk Bling-swish ✔'
+        let text = 'Aktiveringslänk'
+        let html = `<a href='www.blingswish.se/aktiverakonto/${mail}'>Aktivera ditt konto</a>`
+        let userMail = {email: user.email, resetId: reset._id, subject, text, html}
+        let error;
+        let resultFromSave = await user.save()
+        .catch(err => error = err + '');
+        res.json(error ? { error } : { success: 'User created', resultFromSave, statusCode: 200 });
+        !error && sendMail(userMail)
+    }
+    catch(error){
+        console.log(error)
+    }
+    });
+    
 // route to login
 app.post('/api/login*', async (req, res) => {
-  let { email, password } = req.body;
-  password = encryptPassword(password);
-  let user = await User.findOne({ email, password }).exec();
-  if (!user) {
-    res.send("No user found baby!")
-  }
-  if (user) {
-    user.password = 'Forget it!!!';
-    req.session.user = user
-  };
-  res.json(user ? user : { error: 'not found 1' });
-});
-
-// check if/which user that is logged in
+    try{
+        let { email, password } = req.body;
+        password = encryptPassword(password);
+        let user = await User.findOne({ email, password }).exec();
+        if (!user) {
+            res.send("No user found baby!")
+        }
+        if (user) {
+            user.password = 'Forget it!!!';
+            req.session.user = user
+        };
+        res.json(user ? user : { error: 'not found 1' });
+    }
+    catch(e){
+        console.log(e)
+    }
+    });
+    
+    // check if/which user that is logged in
 app.get('/api/login*', async (req, res) => {
-  if (req.session.user) {
-    let userdata = await User.find({ _id: req.session.user._id })
-    req.session.user = userdata[0]
-    res.json([req.session.user])
-  } else {
-    res.json([{ status: 'not logged in' }])
-  }
-});
-
+    try{
+        if (req.session.user) {
+            let userdata = await User.find({ _id: req.session.user._id })
+            req.session.user = userdata[0]
+            res.json([req.session.user])
+        } else {
+            res.json([{ status: 'not logged in' }])
+        }
+    }
+    catch(e){
+        console.log(e)
+    }
+    });
+    
 // logout
 app.delete('/api/login*', (req, res) => {
-  delete req.session.user;
-  res.json({ status: 'logged out' });
+    try{
+        delete req.session.user;
+        res.json({ status: 'logged out' });
+    }
+    catch(e){
+        console.log(e)
+    }
 });
 
 app.get('/api/mytransactions*', async (req, res) => {
-  let user = req.session.user;
-  if (!user) { res.json([]); return; }
-  let iGot = await Transaction.find({ to: user._id });
-  let iSent = await Transaction
-    .find({ from: user._id })
-    .map(x => ({ ...x, amount: -x.amount }));
-  let allMyTransactions = iGot.concat(iSent);
-  allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
-  res.json(allMyTransactions);
-})
-
+    try{
+        let user = req.session.user;
+        if (!user) { res.json([]); return; }
+        let iGot = await Transaction.find({ to: user._id });
+        let iSent = await Transaction
+        .find({ from: user._id })
+        .map(x => ({ ...x, amount: -x.amount }));
+        let allMyTransactions = iGot.concat(iSent);
+        allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1);
+        res.json(allMyTransactions);
+    }
+    catch(e){
+        console.log(e)
+    }
+    })
+    
 app.get('/api/imuser*', async (req, res) => {
-  let user = req.session.user;
-  if (!user) { res.json([]); return; }
-  let imUser = await User.find({ _id: user._id });
-  res.json(imUser);
+    try{
+        let user = req.session.user;
+        if (!user) { res.json([]); return; }
+        let imUser = await User.find({ _id: user._id });
+        res.json(imUser);
+    }
+    catch(e){
+        console.log(e)
+    }
 })
 app.post('/api/notifications*', async (req, res) => {
-  let to = await User.findOne({ phone: req.body.to })
-  let notification = new Notification({
-    message: req.body.message,
-    to: to._id,
-    from: req.body.from
-  });
-  await notification.save()
-  res.json(notification);
+    try{
+        let to = await User.findOne({ phone: req.body.to })
+        let notification = new Notification({
+            message: req.body.message,
+            to: to._id,
+            from: req.body.from
+        });
+        await notification.save()
+        res.json(notification);
+    }
+    catch(e){
+        console.log(e)
+    }
 });
 
 app.post('/api/transaction*', async (req, res) => {
@@ -233,7 +361,10 @@ app.post('/api/send-sse', async (req, res) => {
 
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
-  'login': 'Login'
+    'login': 'Login',
+    'aktiverakonto': "Aktiverakonto",
+    'nyttlosenord': "Nyttlosenord",
+    'updatepassword': 'Updatepassword'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));
