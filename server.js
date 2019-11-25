@@ -13,6 +13,7 @@ const salt = 'grupp3BlingKathching'; // unique secret
 const moment = require('moment');
 const sendMail = require('./nodemailer');
 const atob = require('atob');
+const sse = require('easy-server-sent-events');
 
 function encryptPassword(password) {
   return crypto.createHmac('sha256', salt)
@@ -27,7 +28,6 @@ mongoose.connect('mongodb://localhost/bling', {
 });
 
 // connect middleware
-app.use(express.json()) // body parser
 app.use(session({
   secret: salt, // a unique secret
   resave: false,
@@ -35,6 +35,32 @@ app.use(session({
   cookie: { secure: false }, // true on htttps server
   store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
+
+// You can change the following options:
+// endpoint: which endpoint you want to use
+// script: at which route a clientside library should be served
+// These are the default values (they will be set even if omitted):
+const options = {
+  endpoint: '/api/sse',
+  script: '/sse.js'
+};
+
+// Calling the module returns an object with four properties:
+// SSE:
+//     the middleware - use with an express app
+// send: 
+//     a function that sends events from the server:
+//     send(to, eventType, data)
+// openSessions: 
+//     a function returns how many sessions are open
+// openConnections: 
+//     a function that returns how man connections that are open
+const {SSE, send, openSessions, openConnections} = sse(options);
+app.use(SSE);
+
+
+
+app.use(express.json()) // body parser
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
@@ -292,35 +318,85 @@ app.post('/api/notifications*', async (req, res) => {
 });
 
 app.post('/api/transaction*', async (req, res) => {
-    try{
-        let to = await User.findOne({ phone: req.body.to })
-        let transaction = new Transaction({
-            balance: req.body.balance,
-            message: req.body.message,
-            amount: req.body.amount,
-            to: to._id,
-            from: req.body.from
-        });
-        
+  let to = await User.findOne({ phone: req.body.to })
+  let transaction = new Transaction({
+    balance: req.body.balance,
+    message: req.body.message,
+    amount: req.body.amount,
+    to: to._id,
+    from: req.body.from
+  });
+
+  await transaction.save()
+  res.json(transaction);
+});
+
+app.get('/api/my-transactions/:userPhone', async (req, res) => {
+  if(!req.session.user) {
+    res.json('Nope!')
+    return;
+  }
+  let err, allTransactions = await Transaction.find()
+  .catch(
+    error => err = error
+  );
+  let userPhone = req.params.userPhone;
+
+  let thisUserTransactions = [];
+  for(let transaction of allTransactions){
+    if(transaction.to.phone === userPhone || transaction.from.phone === userPhone){ 
+      thisUserTransactions.push(transaction);
+    }
+  };
+  
+  res.json(err || thisUserTransactions);
+});
+
+
+app.post('/api/send-sse', async (req, res) => {
+		let body = req.body;
+    res.json(body);
+    sendNotification(req, body)
+});
+
+require('./modelRaw/UserRaw')
+app.use(theRest(express, '/api', pathToModelFolder, null, {
+    'login': 'Login'
+    'aktiverakonto': "Aktiverakonto",
+    'nyttlosenord': "Nyttlosenord",
+    'updatepassword': 'Updatepassword',
+}));
+
         await transaction.save()
-        res.json(transaction);
-    }
-    catch(e){
-        console.log(e)
-    }
-    });
-    
-    require('./modelRaw/UserRaw')
-    app.use(theRest(express, '/api', pathToModelFolder, null, {
-        'updatepassword': 'Updatepassword',
-        'nyttlosenord': "Nyttlosenord",
-        'login': 'Login',
-        'aktiverakonto': "Aktiverakonto",
-    }));
-    
 //app.use('/api/users', require('./routes/api/users'));
 
 app.use(express.static('client/build'));
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));
+
+
+// Example of using send(to, eventType, data)
+// Here we send messages to all connected clients
+// We randomly choose between the event types
+// 'message' and 'other' (you can name your event types how you like)
+// and send a message (an object with the properties cool and content)
+async function sendNotification(req, body) {
+	let {phoneNumber, message, fromUserId, cash} = body;
+
+  send(
+    req => req.session.user && req.session.user.phone === phoneNumber,
+    'message',
+    { 
+      message: message, 
+			content: 'This is a message sent ' + new Date().toLocaleTimeString() +', from this phonenumber: ' + req.session.user.phone,
+			fromUser: fromUserId,
+			amount: cash
+    }
+  );
+  // log how many openSessions and openConnections we have
+  console.log(
+    'openSessions', openSessions(),
+    'openConnections', openConnections()
+  );
+}

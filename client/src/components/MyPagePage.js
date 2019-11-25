@@ -1,138 +1,129 @@
 import React, { useState, useEffect } from 'react';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
-import editIcon from '../images/edit-icon.png';
+import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
 
 import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 
 const MyPagePage = () => {
 
-	const [userData, setUserData] = useState({
-		name: '',
-		password: '',
-		wantToChangePassword: false,
-		phone: '',
-		email: '',
-		nationalIdNumber: '',
-		role: '',
-		limit: null,
-		wantToChangeLimit: false,
-		children: []
+	const[userData,setUserData]=useState({
+		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:null,children:[]
 	});
 
-	async function handleSubmit() {
-		console.log(userData);
-		let whoIsLoggedIn = await Login.findOne();
-		let user = await User.findOne({ name: whoIsLoggedIn.name });
-		//console.log(user.name);	
-
-		user.password = userData.password;
-		user.limit = userData.limit;
-		user.children = userData.children;
-		await user.save();
-	}
-
 	useEffect(() => {
-		async function loadLoggedInUser() {
-			//console.log('run');
+		async function loadLoggedInUser(){
+
 			let whoIsLoggedIn = await Login.findOne();
-			let user = (await User.find({ name: whoIsLoggedIn.name }).populate('children', 'name limit'))[0];
-			//console.log(user);
-			//return;
+			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
 			setUserData({
 				...userData,
-				name: user.name,
-				password: user.password,
-				phone: user.phone,
-				email: user.email,
-				nationalIdNumber: user.nationalIdNumber,
-				role: user.role,
-				children: user.children
+				name:user.name,
+				password:user.password,
+				phone:user.phone,
+				email:user.email,
+				nationalIdNumber:user.nationalIdNumber,
+				role:user.role,
+				limit:user.limit,
+				children:user.children
 			});
 		}
 		loadLoggedInUser();
-	}, [userData]);
+		// eslint-disable-next-line
+	},[]);
 
-	const deleteChild = (id) => {
+	async function handleSubmit(){
+		let whoIsLoggedIn = await Login.findOne();
+		let user= await User.findOne({name:whoIsLoggedIn.name});
 
-		let updatedData = userData.children.filter((object) => {
-			return object.id !== id;
-		});
-		setUserData({
-			...userData,
-			children: updatedData
+		user.password=userData.password;
+		user.limit=userData.limit;
+		user.children=userData.children;
+
+		let child=await User.findOne({_id:userData.children[0]._id});
+		child.limit=userData.children[0].limit;
+
+		await child.save();
+		await user.save();
+
+		setWantToEdit({
+			wantToEdit:false
 		});
 	}
 
+	const[wantToEdit,setWantToEdit]=useState({
+		wantToEdit:false
+	});
 
-	return (
-		<div className="mypage-component container">
 
-			<div className="header row">
-				<div className="col-3 header-cols">
+	return(
+		<div className="mypage-component mt-5">
+
+			<Row className="pb-5">
+				<Col>
+					<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>
+				</Col>
+			</Row>
+
+			<Row>
+				<Col xs={3}> 
 					<img src={logo} alt="person ikon"></img>
-				</div>
-				<div className="col-9 header-cols">
-					<div className="name">{userData.name}</div>
-				</div>
-			</div>
+				</Col>
+				<Col xs={9} className="user-name"> 
+					{userData.name}
+				</Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-3">Telefon:</p>  <output className="col-9">{userData.phone}</output>
-			</div>
-			<div className="row">
-				<p className="col-3">Email:</p>	<output className="col-9">{userData.email}</output>
-			</div>
-			<div className="row">
-				<p className="col-3">PrNr:</p>  <output className="col-9">{userData.nationalIdNumber}</output>
-			</div>
-			<div className="row">
-				<p className="col-3">Roll:</p>  <output className="col-9">{userData.role}</output>
-			</div>
+			<Row className="mt-4">
+				<Col xs={3}> Telefon </Col>
+				<Col xs={9}> {userData.phone} </Col>
+			</Row>
+			<Row>
+				<Col xs={3}> Epost </Col>
+				<Col xs={9}> {userData.email} </Col>
+			</Row>
+			<Row>
+				<Col xs={3}> Pers.Nr. </Col>
+				<Col xs={9}> {userData.nationalIdNumber} </Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-3">Lösenord:</p>
-				<div className="col-7">
-					{userData.wantToChangePassword ?
-						<input type="password" onChange={(e) => setUserData({ ...userData, password: e.target.value })} autoFocus /> :
-						<output>{/*{userData.password}*/}</output>}
-				</div>
-				<div className="col-2 edit-button" onClick={() => setUserData({ ...userData, wantToChangePassword: true })}>
-					<img src={editIcon} alt="ändra ikon"></img>
-				</div>
-			</div>
+			<Row className="mt-2">
+				<Col xs={3}> Max-Swish </Col>				
+				<Col sm={6} xs={7}> 
+					{wantToEdit.wantToEdit?	
+						<input type="text" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
+						<p>{userData.limit} kr</p> }
+				</Col>
+			</Row>
+			<Row>
+				<Col xs={3}> Lösenord </Col>
+				<Col sm={6} xs={7}> 
+					{wantToEdit.wantToEdit?	
+					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
+					<p>{/*{userData.password}*/}********</p> }
+				</Col>
+			</Row>
 
-			<div className="row">
-				<p className="col-3">Begränsning:</p>
-				<div className="col-7">
-					{userData.wantToChangeLimit ?
-						<input type="text" onChange={(e) => setUserData({ ...userData, limit: e.target.value })} autoFocus /> :
-						<output>{userData.limit}</output>}
-				</div>
-				<div className="col-2 edit-button" onClick={() => setUserData({ ...userData, wantToChangeLimit: true })}>
-					<img src={editIcon} alt="ämdra ikon"></img>
-				</div>
-			</div>
-
-			{userData.children.length > 0 ?
+			{userData.children.length>0?
 				<div className="mt-4">
-					{userData.children.map((child, index) => {
-						return (
-							<MypagePageChild key={index + 1} child={child} deleteChild={deleteChild} />
+					{userData.children.map((child,index)=>{
+						return(									
+							<MypagePageChild key={index+1} child={child} wantToEdit={wantToEdit} userData={userData} setUserData={setUserData}/>
 						);
 					})}
 				</div>
 				: ''}
 
-			<MyPagePageAddChild userData={userData} setUserData={setUserData} />
+			{wantToEdit.wantToEdit?
+				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
+			}
+			{wantToEdit.wantToEdit?
+				<Row className="mt-5">
+					<button className="col-3 mx-auto btn btn-success" onClick={handleSubmit}>Spara</button>
+				</Row>:''}
 
-			<button className="row mx-auto mt-5" onClick={handleSubmit}>Spara</button>
 		</div>
 	);
 }
 export default MyPagePage;
-
-/*
-[{id:'99972345',name:'Henrik Peersson',limit:400},{id:'89898986',name:'Maja Persson',limit:400}]
-*/

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, Login } from 'the.rest/dist/to-import'
+import { Notification, Transaction } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -10,12 +10,10 @@ import {
   Input,
   Alert
 } from 'reactstrap';
-// import CreateNotificationModal from './createNotificationModal';
-
 
 const PaymentPage = () => {
 
-  const [state, setState] = useContext(Context);
+  const [state] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -27,6 +25,22 @@ const PaymentPage = () => {
   const handleCashChange = e => setCash(e.target.value);
 
 
+  async function sendNotification(phoneNumber, message, fromUserId) {
+    let data = { phoneNumber, message, fromUserId, cash };
+
+    let response = await fetch('/api/send-sse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    response = response.json();
+    console.log(response);
+  }
+
+
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -36,6 +50,7 @@ const PaymentPage = () => {
     try {
       let notis = new Notification(notify)
       await notis.save();
+      sendNotification(number, message, state.user._id);
     }
     catch {
       setProblem(true);
@@ -47,7 +62,7 @@ const PaymentPage = () => {
   async function sendTransaction() {
     let transaction = {
       amount: cash,
-      message: message || 'Du har fått japp brush',
+      message: message || 'Du har fått pengar på din bling konto',
       to: number,
       from: state.user._id
     }
@@ -60,7 +75,7 @@ const PaymentPage = () => {
       let bling = await new Transaction(transaction)
       await bling.save()
 
-      // DO IT MANUALLY
+      // // DO IT MANUALLY
       // async function checkUserSession() {
       //   let whoIsLoggedIn = await Login.findOne()
       //   if (whoIsLoggedIn._id) {
@@ -69,12 +84,8 @@ const PaymentPage = () => {
       //   }
       // }
       // checkUserSession()
-      // END OF DO IT MANUALLY
-
-
-      // REMOVE IF UNCERTAIN
+      // // END OF DO IT MANUALLY
       global.stateUpdater()
-      // REMOVE UNTIL HERE
       createNotification();
     }
     catch {

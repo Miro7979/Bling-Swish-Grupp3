@@ -5,7 +5,7 @@ import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
 import EditUser from './components/Admin/EditUser';
-import HistoryPage from './components/HistoryPage';
+import HistoryPage from './components/HistoryPage/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
 import CreateAccountModal from './components/createAccount'
@@ -14,11 +14,27 @@ import UpdateNewPasswordModal from './components/UpdateNewPasswordModal'
 import ActivateAccountModal from './components/ActivateAccountModal'
 import Context from './components/Context';
 import { Login } from 'the.rest/dist/to-import';
-import Loader from 'react-loader-spinner'
+import SSE from 'easy-server-sent-events/sse';
+import NotificationModal from './components/createNotificationModal';
+import Loader from 'react-loader-spinner';
+
+
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
+  const [showNoti, setShowNoti] = useState(false);
+
+
+  let sse = new SSE('/api/sse');
+  async function listenToSSE() {
+
+    sse.listen('message', (data) => {
+      setShowNoti(true);
+    });
+  }
+
+  listenToSSE();
 
 
   // REMOVE THIS IF UNCERTAIN
@@ -42,10 +58,20 @@ function App() {
       setState((prev) => ({ ...prev, booting: false }))
     }
     checkUserSession()
+
   }, []);
+
+  const toggleNotificationModal = () => {
+    setShowNoti(false);
+  }
+
+  let propsToNotificationModal = { toggleNotificationModal };
 
   return (
     <Context.Provider value={[state, setState]}>
+      {showNoti ?
+        <NotificationModal {...propsToNotificationModal} />
+        : ''}
       {state.booting && <Loader className="spinner"
         type="BallTriangle"
         color="#FFFF"
@@ -77,7 +103,7 @@ function App() {
             </main>
           </div>
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
-          {state.user.role === 'parent' && <Redirect to="/betalningar" />}
+          {state.user.role === 'parent' && <Redirect to="/betalningshistorik" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
           {/* had to comment this out temporarly to be able to test updateNewPasswordModal */}
           {/* {state.user.role === 'visitor' && <Redirect to="/login" />} */}
