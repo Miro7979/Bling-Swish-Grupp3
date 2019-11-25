@@ -11,7 +11,9 @@ import {
   Alert
 } from 'reactstrap';
 import Favourites from './Favourites';
-import CreateNotificationModal from './createNotificationModal';
+import starIcon from '../images/star-white.png';
+
+//import CreateNotificationModal from './createNotificationModal';
 
 
 const PaymentPage = () => {
@@ -101,7 +103,9 @@ const PaymentPage = () => {
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
-              onChange={handleNumberChange} />
+              onChange={handleNumberChange}>  </Input>
+            <img src={starIcon} alt="lägg till favorit" />
+
           </InputGroup>
           <Favourites />
         </Col>
