@@ -40,6 +40,7 @@ const PaymentPage = () => {
     //find input e.target.value
     //save to [favourites]
     console.log('favourites', favourite);
+    console.log('hallo');
   }
 
   async function createNotification() {
