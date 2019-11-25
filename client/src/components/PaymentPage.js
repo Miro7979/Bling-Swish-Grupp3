@@ -8,10 +8,7 @@ import {
   Button,
   Label,
   Input,
-  Alert,
-  Card,
-  CardText,
-  CardTitle
+  Alert
 } from 'reactstrap';
 import Favourites from './Favourites';
 // import starIcon from '../images/star-white.png';
@@ -23,24 +20,20 @@ const PaymentPage = () => {
 
   const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
+  const [favourites, setFavourites] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
   const [problem, setProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
-
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
 
   const addToFavourites = async (e) => {
-    let favourites = [];
-    let favourite = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
-    favourites.push(favourite)
-    // favourites.push(favourite)
-    //find input e.target.value
-    //save to [favourites]
-    console.log('favourites', favourite);
-    console.log('hallo');
+    console.log(number);
+    let favourite = await User.find({ phone: number })[0].populate('favorites', 'name phone _id');
+    setFavourites(favourite)
+    console.log('favourites', favourites);
   }
 
   async function createNotification() {
@@ -116,7 +109,7 @@ const PaymentPage = () => {
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
-              onChange={handleNumberChange}>  </Input>
+              onChange={handleNumberChange}/> 
             <Button onClick={addToFavourites}>Spara favorit</Button>
 
           </InputGroup>
@@ -139,7 +132,7 @@ const PaymentPage = () => {
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
-      <Favourites />
+      <Favourites data={favourites} />
     </React.Fragment>
   );
 

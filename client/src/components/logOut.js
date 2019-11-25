@@ -21,7 +21,7 @@ function LogOut() {
 
   return (
     <React.Fragment>
-      {state.user ? <Link className="align-middle mt-1" onClick={handleLogout} style={{ cursor: 'pointer' }} >Logga ut</Link> : <Redirect to="/" />}
+      {state.user ? <Link className="align-middle mt-1" to ="" onClick={handleLogout} style={{ cursor: 'pointer' }} >Logga ut</Link> : <Redirect to="/" />}
     </React.Fragment>
   )
 };
