@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import Favourites from './Favourites';
 import starIcon from '../images/star-white.png';
+import starIcon from '../images/star-black.png';
 
 //import CreateNotificationModal from './createNotificationModal';
 
