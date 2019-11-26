@@ -8,5 +8,7 @@ export default React.createContext({
   user: {
     favourites: [],
     role: 'visitor'
-  }
+  },
+  showNoti: false,
+  reload: false
 });

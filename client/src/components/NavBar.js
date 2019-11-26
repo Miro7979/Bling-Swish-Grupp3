@@ -1,7 +1,7 @@
+
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
-import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import Context from './Context';
 import {
   Collapse,
@@ -9,20 +9,19 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem
+  NavItem,
 } from 'reactstrap';
 import logo from '../images/logo.png';
 import menuIcon from '../images/menu-icon.png';
 
-const NavBar = (props) => {
+const NavBar = () => {
   let [state] = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <React.Fragment>
-      {state.user ?
+      {state.user.role === 'visitor' ? '' :
         <div>
           <Navbar className="navbar" dark expand="md">
             <NavbarBrand className="align-middle mt-1" href="/"><img src={logo}></img></NavbarBrand>
@@ -30,13 +29,13 @@ const NavBar = (props) => {
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Link className="align-middle mt-1" to="/betalningar">Skicka Pengar</Link>
+                  <Link className="navlink ml-3" to="/betalningar">Skicka Pengar</Link>
                 </NavItem>
                 <NavItem>
-                  <Link className="align-middle mt-1" to="/minasidor">Mina Sidor</Link>
+                  <Link className="navlink ml-3" to="/minasidor">Mina Sidor</Link>
                 </NavItem>
                 <NavItem>
-                  <Link className="align-middle mt-1" to="/betalningshistorik">Betalningshistorik</Link>
+                  <Link className="navlink ml-3" to="/betalningshistorik">Betalningshistorik</Link>
                 </NavItem>
                 <NavItem>
                   <LogOut />
@@ -44,10 +43,9 @@ const NavBar = (props) => {
               </Nav>
             </Collapse>
           </Navbar>
-        </div> : <Redirect to="/" />}
+        </div>}
     </React.Fragment>
   );
 }
 
 export default NavBar;
-

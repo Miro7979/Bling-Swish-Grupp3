@@ -1,16 +1,16 @@
 .modal-content {
-	border-radius: 5px !important;
-	border-color: black;
-	background-color: rgb(238, 248, 248) !important;
+	border-radius: 15px 15px;
 }
 .notisModal {
-	color: black;
-	background-color: rgb(238, 248, 248) !important;
+	background-color: rgb(0, 0, 0);
+	background-color: rgb(255, 255, 255) !important;
 }
 .modalBody {
-	color: black;
-	background-color: rgb(238, 248, 248) !important;
+	border-radius: 10px !important;
+	color: rgb(128, 0, 128);
+	background-color: rgb(255, 255, 255) !important;
 }
 .notisModalBtn {
-	background-color: rgb(191, 207, 207) !important;
+	background-color: rgb(98, 206, 103) !important;
+	border-radius: 0 0 10px 10px;
 }

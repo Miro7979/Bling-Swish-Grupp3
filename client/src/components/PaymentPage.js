@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
 import { Notification, Transaction, User } from '../../../node_modules/the.rest/dist/to-import';
+import { Notification, Transaction } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -11,14 +12,10 @@ import {
   Alert
 } from 'reactstrap';
 import Favourites from './Favourites';
-// import starIcon from '../images/star-white.png';
-// import starIcon from '../images/star-black.png';
 
-//import CreateNotificationModal from './createNotificationModal';
+const PaymentPage = () => {
 
-const PaymentPage = (props) => {
-
-  const [state, setState] = useContext(Context);
+  const [state] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -41,6 +38,18 @@ const PaymentPage = (props) => {
   
   }
 
+  async function sendNotification(phoneNumber, message, fromUserId) {
+    let data = { phoneNumber, message, fromUserId, cash };
+    await fetch('/api/send-sse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+  };
+
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -50,6 +59,7 @@ const PaymentPage = (props) => {
     try {
       let notis = new Notification(notify)
       await notis.save();
+      sendNotification(number, message, state.user._id);
     }
     catch {
       setProblem(true);
@@ -61,7 +71,7 @@ const PaymentPage = (props) => {
   async function sendTransaction() {
     let transaction = {
       amount: cash,
-      message: message || 'Du har fått japp brush',
+      message: message || 'Du har fått pengar på din bling konto',
       to: number,
       from: state.user._id
     }
@@ -74,9 +84,7 @@ const PaymentPage = (props) => {
       let bling = await new Transaction(transaction)
       await bling.save()
 
-      // REMOVE IF UNCERTAIN
       global.stateUpdater()
-      // REMOVE UNTIL HERE
       createNotification();
     }
     catch {
@@ -89,11 +97,13 @@ const PaymentPage = (props) => {
   return (
     <React.Fragment>
       <Row>
-        {'SALDO: ' + state.user.balance}
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
+          {'Saldo på min konto: ' + state.user.balance}
+        </Col>
+        <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <div>
             <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
               Din betalning gick inte genom, försök igen.
@@ -107,21 +117,21 @@ const PaymentPage = (props) => {
 
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <InputGroup>
             <Input placeholder="belopp"
               value={cash}
               onChange={handleCashChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <InputGroup>
             <Input placeholder="meddelande"
               value={message}
               onChange={handleMessageChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
