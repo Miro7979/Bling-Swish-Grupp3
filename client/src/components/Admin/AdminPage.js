@@ -111,7 +111,7 @@ const AdminPage = (props) => {
                 <td className="one align-middle">{nationalIdNumber}</td>
                 <td className="align-middle">
                   <span
-                    className="show-more-btn ml-2"
+                    className="one show-more-btn ml-2"
                     color="info"
                     size="sm"
                     data-id={_id}
