@@ -68,7 +68,10 @@ function App(props) {
 
   const commonRoute = () => {
     let path = window.location.pathname;
-    if (path.indexOf('/resetpassword') === 0) { return true; }
+    if (path.indexOf('/aterstalllosenord') === 0) { return true; }
+    if (path.indexOf('/nyttlosenord') === 0) { return true; }
+    if (path.indexOf('/aktiverakonto') === 0) { return true; }
+
   }
 
   return (
@@ -109,7 +112,7 @@ function App(props) {
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
           {state.user.role === 'parent' && <Redirect to="/betalningar" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
-          {state.user.role === 'visitor' && <Redirect to="/login" />}
+          {state.user.role === 'visitor' && !commonRoute() && <Redirect to="/login" />}
         </Router>
       }
     </Context.Provider>

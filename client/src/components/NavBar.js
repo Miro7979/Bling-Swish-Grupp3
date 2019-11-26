@@ -19,7 +19,7 @@ const NavBar = () => {
 
   return (
     <React.Fragment>
-      {state.user.role === 'visitor' ? <Redirect to="/" /> :
+      {state.user.role === 'visitor' ? '' :
         <div>
           <Navbar className="navbar" expand="md">
             <NavbarBrand href="/">Bling Swish</NavbarBrand>

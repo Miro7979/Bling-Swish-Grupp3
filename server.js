@@ -82,8 +82,8 @@ app.post('/api/aktiverakonto*', async (req, res) => {
             notChild ? user.role = "parent" : user.role = "child"
             req.body.activated = true;
             await user.save()
+            return
         }
-        console.log("user save", user)
         res.json(req.body);
     }
     catch (error) {
@@ -100,7 +100,6 @@ app.post('/api/updatepassword*', async (req, res) => {
             return;
         }
         else if (foundUser && foundResetUser && Date.now() - foundResetUser.date < 86400000) {
-            console.log("hej")
             foundUser.password = encryptPassword(req.body.password)
             await foundUser.save();
             await foundResetUser.delete()
@@ -117,7 +116,6 @@ app.get('/nyttlosenord/:id', async (req, res) => {
     try {
         let foundResetUser = await Reset.findOne({ _id: req.params.id });
         if (foundResetUser && Date.now() - foundResetUser.date < 86400000) {
-            console.log("hej")
             res.json({ result: "Enter new password." })
             return
         }
@@ -155,13 +153,11 @@ app.post('/api/resets', async (req, res) => {
                 return;
             }
             else if (time < 86400000) {
-                console.log("under 24")
                 res.json({ success: 'Om din användare finns så har vi skickat ett mejl till dig.', resultFromSave, statusCode: 200 })
                 return
             }
         }
         if (foundUser && !foundResetUser) {
-            console.log("hittade user men inte reset")
             let savedReset = await reset.save();
             let subject = "Återställningslänk"
             let text = "Klicka på länken för att återställa ditt lösenord"
@@ -394,9 +390,5 @@ async function sendNotification(req, body) {
             amount: cash
         }
     );
-    // log how many openSessions and openConnections we have
-    console.log(
-        'openSessions', openSessions(),
-        'openConnections', openConnections()
-    );
+
 }
