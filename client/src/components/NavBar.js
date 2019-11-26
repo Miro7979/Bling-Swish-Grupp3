@@ -1,7 +1,7 @@
 
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
-import { Redirect, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Context from './Context';
 import {
   Collapse,

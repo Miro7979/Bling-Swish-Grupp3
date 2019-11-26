@@ -8,13 +8,14 @@ const ActivateAccountModal = (props) => {
   useEffect(() => {
     findingTheActivationCode()
     setModal(true)
-  },[findingTheActivationCode()])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function findingTheActivationCode() {
     let encoded = props.match.params.id
-    let user = await new Aktiverakonto({encoded})
+    let user = await new Aktiverakonto({ encoded })
     await user.save()
-    user.activated ? setCreated(true) : setProblem(true)   
+    user.activated ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
   const [created, setCreated] = useState(false);
@@ -38,8 +39,8 @@ const ActivateAccountModal = (props) => {
         </Alert>
         </ModalBody>
         <ModalFooter>
-          { created 
-            ? 
+          {created
+            ?
             <Link to="/">
               <Button color="secondary" onClick={toggle}>
                 Gå till logga in
