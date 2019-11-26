@@ -3,12 +3,7 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
-
-import {
-  NavLink,
-} from 'reactstrap';
 import Context from './Context';
-
 
 function LogOut() {
   let [state, setState] = useContext(Context);
