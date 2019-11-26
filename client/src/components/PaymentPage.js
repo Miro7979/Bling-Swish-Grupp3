@@ -84,11 +84,13 @@ const PaymentPage = () => {
   return (
     <div className="container">
       <Row>
-        {'Saldo på min konto: ' + state.user.balance}
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
+          {'Saldo på min konto: ' + state.user.balance}
+        </Col>
+        <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <div>
             <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
               Din betalning gick inte genom, försök igen.
@@ -100,21 +102,21 @@ const PaymentPage = () => {
               onChange={handleNumberChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <InputGroup>
             <Input placeholder="belopp"
               value={cash}
               onChange={handleCashChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <InputGroup>
             <Input placeholder="meddelande"
               value={message}
               onChange={handleMessageChange} />
           </InputGroup>
         </Col>
-        <Col xs={12} className="mt-3">
+        <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>

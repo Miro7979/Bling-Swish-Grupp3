@@ -20,7 +20,7 @@ import Loader from 'react-loader-spinner';
 
 
 
-function App() {
+function App(props) {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 

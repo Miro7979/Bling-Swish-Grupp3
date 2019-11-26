@@ -50,19 +50,19 @@ function LogInPage() {
 				<div className="logInContent mt-5">
 					<div className="logInHeader">
 						<Row>
-							<Col lx={6} lg={6} md={6} sm={6} >
+							<Col sm={{ size: 6, offset: 3 }} >
 								<h2 className="h2LogInHeader">Välkommen till Bling</h2>
 							</Col>
 						</Row>
 						<Row>
-							<Col lx={6} lg={6} md={6} sm={6} >
+							<Col sm={{ size: 6, offset: 3 }} >
 								<h4 className="h4LogInHeader">Vänligen logga in på ditt konto</h4>
 							</Col>
 						</Row>
 					</div>
 					<Form>
 						<Row form>
-							<Col lx={6} lg={6} md={6} sm={6}>
+							<Col sm={{ size: 6, offset: 3 }} >
 								<div>
 									<Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
 										Email eller lösenord är felaktigt, vänligen försök igen.
@@ -87,12 +87,12 @@ function LogInPage() {
 							</Col>
 						</Row>
 						<Row>
-							<Col lx={6} lg={6} md={6} sm={6}>
+							<Col sm={{ size: 6, offset: 3 }} >
 								<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
 							</Col>
-							<Col lx={6} lg={6} md={6} sm={6}>
+							<Col sm={{ size: 6, offset: 3 }} >
 							</Col>
-							<Col lx={6} lg={6} md={6} sm={6}>
+							<Col sm={{ size: 6, offset: 3 }} >
 								<div className="forgotPasswordLink">
 									<Link to="/aterstalllosenord">Glömt lösenord</Link>
 								</div>
