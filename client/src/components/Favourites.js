@@ -10,7 +10,7 @@ const Favourites = (props) => {
 
   let [state, setState] = useContext(Context);
 
-  const [favourite, setFavourite] = useState();
+  const [setFavourite] = useState();
   const [favourites, setFavourites] = useState([]);
 
   const deleteFavourite = async (e) => {
@@ -22,27 +22,28 @@ const Favourites = (props) => {
     setFavourite(loggedInUser)
 
   }
-  const selectFavourite = () => {
-    //map through all favourites
-    //find which one is in input field
-    //grab the value and save to input field
-    console.log('bye');
-    setFavourite({ user: favourite })
-  }
+  // const selectFavourite = () => {
+  //   //map through all favourites
+  //   //find which one is in input field
+  //   //grab the value and save to input field
+  //   console.log('bye');
+  //   setFavourite({ user: favourite })
+  // }
 
   useEffect(() => {
     async function displayFavourites() {
       let favourite = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
       if (favourite[0]._id) {
-        console.log(favourite);
-        
+
         setFavourites(favourite[0].favorites)
         return;
       }
       setState((prev) => ({ ...prev, booting: false }))
     }
     displayFavourites()
-  }, [])
+  },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [])
 
   return (
     <Row>

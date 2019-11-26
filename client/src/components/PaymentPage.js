@@ -34,7 +34,7 @@ const PaymentPage = (props) => {
     loggedInUser.favorites.push(favouriteFound._id);
     await loggedInUser.save();
     setFavourites(favourites)
-  
+
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
@@ -97,7 +97,7 @@ const PaymentPage = (props) => {
     <React.Fragment>
       <Row>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
-          {'Saldo på min konto: ' + state.user.balance}
+          {'Saldo på min konto: ' + state.user.balance + ' SEK'}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
