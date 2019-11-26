@@ -1,3 +1,4 @@
+
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
 import { Redirect, Link } from 'react-router-dom'
@@ -18,7 +19,7 @@ const NavBar = () => {
 
   return (
     <React.Fragment>
-      {state.user ?
+      {state.user.role === 'visitor' ? <Redirect to="/" /> :
         <div>
           <Navbar className="navbar" expand="md">
             <NavbarBrand href="/">Bling Swish</NavbarBrand>
@@ -40,10 +41,9 @@ const NavBar = () => {
               </Nav>
             </Collapse>
           </Navbar>
-        </div> : <Redirect to="/" />}
+        </div>}
     </React.Fragment>
   );
 }
 
 export default NavBar;
-

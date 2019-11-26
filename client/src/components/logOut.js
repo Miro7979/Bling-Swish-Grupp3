@@ -9,13 +9,14 @@ function LogOut() {
   async function handleLogout() {
     let whoIsLoggedIn = await Login.findOne();
     await whoIsLoggedIn.delete();
+
     let newUser = { role: 'visitor' }
     setState((prev) => ({ ...prev, user: newUser }))
   }
 
   return (
     <React.Fragment>
-      {state.user ? <Link className="navLink ml-3" onClick={handleLogout} to="/" >Logga ut</Link> : <Redirect to="/" />}
+      {state.user ? <Link className="navLink ml-3" onClick={handleLogout} to="/" >Logga ut</Link> : <Redirect to="/login" />}
     </React.Fragment>
   )
 };

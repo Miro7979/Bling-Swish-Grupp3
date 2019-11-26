@@ -27,7 +27,6 @@ const PaymentPage = () => {
 
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, fromUserId, cash };
-
     let response = await fetch('/api/send-sse', {
       method: 'POST',
       headers: {
@@ -36,8 +35,7 @@ const PaymentPage = () => {
       body: JSON.stringify(data)
     });
     response = response.json();
-  }
-
+  };
 
   async function createNotification() {
     let notify = {
@@ -73,16 +71,6 @@ const PaymentPage = () => {
       let bling = await new Transaction(transaction)
       await bling.save()
 
-      // // DO IT MANUALLY
-      // async function checkUserSession() {
-      //   let whoIsLoggedIn = await Login.findOne()
-      //   if (whoIsLoggedIn._id) {
-      //     setState({ ...state, user: whoIsLoggedIn })
-      //     return;
-      //   }
-      // }
-      // checkUserSession()
-      // // END OF DO IT MANUALLY
       global.stateUpdater()
       createNotification();
     }
