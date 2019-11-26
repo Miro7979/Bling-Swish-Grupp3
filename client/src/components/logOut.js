@@ -15,7 +15,7 @@ function LogOut() {
 
   return (
     <React.Fragment>
-      {state.user ? <Link className="navLink ml-3" onClick={handleLogout} to="/" >Logga ut</Link> : <Redirect to="/login" />}
+      {state.user ? <Link className="navLink ml-3" onClick={handleLogout} to="/" >Logga ut</Link> : <Redirect to="/" />}
     </React.Fragment>
   )
 };
