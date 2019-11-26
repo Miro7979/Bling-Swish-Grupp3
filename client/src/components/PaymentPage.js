@@ -84,7 +84,7 @@ const PaymentPage = () => {
   return (
     <div className="container">
       <Row>
-        {'SALDO: ' + state.user.balance}
+        {'Saldo på min konto: ' + state.user.balance}
         <Col xs={12} className="mt-3">
           <Label className="payment-lable">Betala till:</Label>
         </Col>
