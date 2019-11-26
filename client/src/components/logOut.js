@@ -9,6 +9,7 @@ function LogOut() {
   async function handleLogout() {
     let whoIsLoggedIn = await Login.findOne();
     await whoIsLoggedIn.delete();
+
     let newUser = { role: 'visitor' }
     setState((prev) => ({ ...prev, user: newUser }))
   }

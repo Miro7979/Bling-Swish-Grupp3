@@ -20,7 +20,7 @@ import Loader from 'react-loader-spinner';
 
 
 
-function App() {
+function App(props) {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 
@@ -36,7 +36,7 @@ function App() {
   listenToSSE();
 
 
-  // REMOVE THIS IF UNCERTAIN
+
   let stateUpdater = async () => {
     let whoIsLoggedIn = await Login.findOne()
     if (whoIsLoggedIn._id) {
@@ -45,7 +45,7 @@ function App() {
     }
   }
   global.stateUpdater = stateUpdater
-  // REMOVE UNTIL HERE
+
 
   useEffect(() => {
     async function checkUserSession() {
@@ -65,6 +65,14 @@ function App() {
   }
 
   let propsToNotificationModal = { toggleNotificationModal };
+
+  const commonRoute = () => {
+    let path = window.location.pathname;
+    if (path.indexOf('/aterstalllosenord') === 0) { return true; }
+    if (path.indexOf('/nyttlosenord') === 0) { return true; }
+    if (path.indexOf('/aktiverakonto') === 0) { return true; }
+
+  }
 
   return (
     <Context.Provider value={[state, setState]}>
@@ -95,17 +103,16 @@ function App() {
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
                 <Route path="/minasidor" component={MyPagePage} />
                 <Route path="/betalningshistorik" component={HistoryPage} />
-                <Route path="/aterstalllosenord" component={ForgotPasswordModal}/>
-                <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal}/>
-                <Route path="/aktiverakonto/:id" component={ActivateAccountModal}/>
+                <Route path="/aterstalllosenord" component={ForgotPasswordModal} />
+                <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal} />
+                <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
               </Switch>
             </main>
           </div>
           {state.user.role === 'admin' && <Redirect to="/adminsida" />}
-          {state.user.role === 'parent' && <Redirect to="/betalningshistorik" />}
+          {state.user.role === 'parent' && <Redirect to="/betalningar" />}
           {state.user.role === 'child' && <Redirect to="/betalningar" />}
-          {/* had to comment this out temporarly to be able to test updateNewPasswordModal */}
-          {/* {state.user.role === 'visitor' && <Redirect to="/login" />} */}
+          {state.user.role === 'visitor' && !commonRoute() && <Redirect to="/login" />}
         </Router>
       }
     </Context.Provider>
