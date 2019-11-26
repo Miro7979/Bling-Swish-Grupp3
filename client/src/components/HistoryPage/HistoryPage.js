@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import HistoryDropdown from './HistoryDropdown.js';
 import HistoryList from './HistoryList.js';
 import Context from '../Context';
+import {User} from '../../../../node_modules/the.rest/dist/to-import';
 
 function HistoryPage() {
   
@@ -53,7 +54,7 @@ function HistoryPage() {
     for(let child of childrens) {
       let myChildTransactions = await fetch('/api/my-transactions/' + child.phone);
       myChildTransactions = await myChildTransactions.json();
-
+      
       let {name, children} = child;
       children = [];
       let transactionsHash = [];
@@ -72,14 +73,33 @@ function HistoryPage() {
     return myConvertedChildren;
   }
 
+  async function populateUserChildren() {
+    let hej = await User.find({phone: user.phone})[0].populate('children', 'name transactions phone');
+    let children = await hej[0].children;
+    user.children = children;
+    setUser(user);
+  }
 
-  useEffect(() => {
-    fetchThisUserTransactions();
-    insertNamesToDropdown();
-    organizeTransactions();
+
+  useEffect( () => {
+
+    async function populateUserChildren() {
+      let hej = await User.find({phone: user.phone})[0].populate('children', 'name transactions phone');
+      let children = await hej[0].children;
+      user.children = children;
+      setUser(user);
+      callAwaitedFunctions();
+    }
+    populateUserChildren();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function callAwaitedFunctions() {
+    fetchThisUserTransactions();
+    insertNamesToDropdown();
+    organizeTransactions();
+  }
 
 
   function insertNamesToDropdown() {
@@ -95,10 +115,11 @@ function HistoryPage() {
     setDropdownNames(dropdownNames);
   }
 
-  function organizeTransactions(dropdownTitle) {
+  async function organizeTransactions(dropdownTitle) {
     let transactionsArr = [{name: 'Min historik', transactions: user.transactions }]
-    if(user.children) {
-      for( let child of user.children) {
+
+    if(await user.children) {
+      for( let child of await user.children) {
         let {name, transactions} = child;
         let childObj = {name, transactions};
         transactionsArr.push(childObj);
@@ -119,6 +140,7 @@ function HistoryPage() {
   let propsToDropDown = {createDropdown, dropdownNames, organizeTransactions};
   let propsToHistoryList = {theDropdownTitle, transactions};
   
+
   return (
     <div className="history-page">
       <HistoryDropdown {...propsToDropDown} />
