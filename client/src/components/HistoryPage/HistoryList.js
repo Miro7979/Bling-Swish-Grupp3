@@ -2,9 +2,11 @@ import React from 'react';
 
 function HistoryList(props) {
 
+
   return (
     <div className="history-list">
       <h1 className="list-h1">{props.theDropdownTitle}</h1>
+      
 
       {props.transactions.length > 0 ? '' :
         <h3 className="history-list-no-transactions">- Inga transaktioner genomförda -</h3>
