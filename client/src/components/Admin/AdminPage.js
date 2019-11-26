@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { User } from 'the.rest/dist/to-import';
+import deleteIcon from '../../images/delete.png';
+import editIcon from '../../images/edit-icon.png';
+import showProperty from '../../images/show-property.png';
+import sortIcon from '../../images/sortA-Z.png';
+import addIcon from '../../images/add-user.png';
 
 const AdminPage = (props) => {
   const [users, setUsers] = useState([]);
@@ -11,7 +16,12 @@ const AdminPage = (props) => {
 
   //I wanna find all the users
   useEffect(() => {
+    const abortController = new AbortController();
+
     (async () => setUsers(await User.find()))();
+    return () => {
+      abortController.abort();
+    }
   }, []);
 
   const sortTable = () => {
@@ -49,6 +59,11 @@ const AdminPage = (props) => {
     }
   }
 
+  const showTransactions = () => {
+    console.log('show transactions');
+
+  }
+
   const deleteUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
@@ -66,24 +81,21 @@ const AdminPage = (props) => {
       <Col>
         <Link to={'/adminsida/registrera-en-ny-anvandare'}>
           <Button onClick={toggle}
-            className="btn edit-btn"
-            color="info"
-            size="sm"
-          >skapa en användare</Button>
+            className="add-btn mt-3"
+          ><img src={addIcon} alt="lägga till"></img></Button>
         </Link>
-        <Button className="btn edit-btn ml-3"
-          color="info"
-          size="sm"
-          onClick={sortTable}>Sortera A till ö</Button>
+        <Button className="sort-btn ml-3 mt-3"
+          onClick={sortTable}><img src={sortIcon} alt="sortera"></img></Button>
         {/*the table head*/}
-        <Table striped id="myTable" className="mt-3 table-responsive-md" style={{ color: "#FBF4FB" }}>
+        <Table striped id="myTable" className="mt-3 table-responsive-md">
           <thead>
             <tr>
               <th>#</th>
-              <th>Namn</th>
+              <th>För-&nbsp;och&nbsp;Efternamn</th>
               <th>Telefonnummer</th>
-              <th>Email </th>
-              <th>Personnummer </th>
+              <th>Email</th>
+              <th className="one">Personnummer</th>
+              <th className="one">Utdrag</th>
               <th></th>
               <th></th>
             </tr>
@@ -92,27 +104,39 @@ const AdminPage = (props) => {
             {/* display all users in a table */}
             {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
               <tr key={_id}>
-                <th scope="row">{index + 1}</th>
-                <td className="align-middle">{name}</td>
+                <th className="align-middle" scope="row">{index + 1}</th>
+                <td className="align-middle" >{name}</td>
                 <td className="align-middle">{phone}</td>
-                <td className="align-middle">{email}</td>
-                <td className="align-middle">{nationalIdNumber}</td>
+                <td className="one align-middle">{email}</td>
+                <td className="one align-middle">{nationalIdNumber}</td>
                 <td className="align-middle">
-                  <Button
+                  <span
+                    className="one show-more-btn ml-2"
+                    color="info"
+                    size="sm"
+                    data-id={_id}
+                    onClick={showTransactions}
+                  >{' '}<img src={showProperty} alt="sök ikon"></img>
+                  </span>
+                </td>
+
+                {/* <td className="align-middle">{transactions}</td> */}
+
+                <td className="align-middle">
+                  <span
                     className="remove-btn"
-                    color="danger"
                     size="sm"
                     data-id={_id}
                     onClick={deleteUser}
-                  >ta&nbsp;bort</Button>
+                  ><img src={deleteIcon} alt="ta bort ikon"></img>
+
+                  </span>
                 </td>
                 <td className="align-middle">
-                  <Link to={'/adminsida/redigera-anvandare/' + _id}>
-                    <Button
-                      className="btn edit-btn"
-                      color="info"
-                      size="sm"
-                    >redigera</Button>
+                  <Link className="btn edit-btn"
+                    color="info"
+                    size="sm" to={'/adminsida/redigera-anvandare/' + _id}>
+                    <img src={editIcon} alt="ändra ikon"></img>
                   </Link>
                 </td>
               </tr>

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Row } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
 import { User } from '../../../../node_modules/the.rest/dist/to-import';
 // const request = require('request-promise-native');
 
 
 const EditUser = (props) => {
+  const [user, setUser] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const dismissUpdate = () => setUpdate(false);
+
   //I WANNA FIND ONE USER TO EDIT
   async function getUserInfo() {
     //get what's in the browser, the url but only the part after 3rd slash
@@ -14,7 +18,6 @@ const EditUser = (props) => {
     //changed state...changed values of user/changed user 
     setUser(userToEdit)
   }
-  const [user, setUser] = useState(false);
 
   useEffect(() => {
     //calling function once and unmount again
@@ -28,7 +31,7 @@ const EditUser = (props) => {
     nationalIdNumber: "Personnummer",
     role: "Roll",
     children: "Barn",
-    notificatations: "Meddelanden"
+    transactions: "Transaktioner"
   };
 
   const handleChange = e => {
@@ -41,16 +44,17 @@ const EditUser = (props) => {
   const handleSubmit = () => {
     let userToSave = new User(user);
     userToSave.save();
-    // alert updated
-    alert('användaren är uppdaterad!')
-    //here put something to get back to the table
-    //return to '/adminsida'
+    setUpdate(true)
   }
 
 
 
   return !user ? null : (
     <Form>
+      <div>
+        <Row>
+        </Row>
+      </div>
       {Object.keys(inputLabels).map(key => {
         let label = inputLabels[key];
         return (
@@ -62,13 +66,15 @@ const EditUser = (props) => {
           </FormGroup>
         );
       })}
-      <FormGroup check>
-        <Label check>
-          <Input type="checkbox" />{' '}
-          reset password email
-        </Label>
-      </FormGroup>
-      <Link to={'/adminsida'}><Button onClick={handleSubmit}>Updatera</Button></Link>
+      {
+        update ?
+          <Link to="/adminsida"><Button>Gå tillbaka</Button></Link>
+          :
+          <Button onClick={handleSubmit}>Updatera</Button>
+      }
+      <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
+        Användaren är nu updaterad.
+      </Alert>
     </Form>
   );
 }

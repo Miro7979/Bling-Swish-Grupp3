@@ -1,0 +1,21 @@
+.card-cols {
+  display: flex;
+  flex-direction: row;
+}
+// .btn-row{
+// display: flex;
+// flex-direction: row;
+// justify-content: space-between;
+// }
+
+.card {
+  display: flex;
+  flex-direction: row;
+  color: black;
+  border-radius: 13px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 6px;
+  flex-basis: auto; /* default auto */
+  width: 33%;
+}

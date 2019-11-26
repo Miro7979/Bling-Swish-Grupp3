@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction } from 'the.rest/dist/to-import'
+import { Notification, Transaction, User } from '../../../node_modules/the.rest/dist/to-import';
 import {
   Row,
   Col,
@@ -10,8 +10,9 @@ import {
   Input,
   Alert
 } from 'reactstrap';
+import Favourites from './Favourites';
 
-const PaymentPage = () => {
+const PaymentPage = (props) => {
 
   const [state] = useContext(Context);
   const [number, setNumber] = useState("");
@@ -19,11 +20,22 @@ const PaymentPage = () => {
   const [message, setMessage] = useState("")
   const [problem, setProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
-
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
 
+  const [favourites, setFavourites] = useState([]);
+
+  async function addToFavourites(e) {
+    //find input + e.target.value
+    //save to [favourites]
+    let favouriteFound = await User.findOne({ phone: number })
+    let loggedInUser = await User.findOne({ phone: state.user.phone });
+    loggedInUser.favorites.push(favouriteFound._id);
+    await loggedInUser.save();
+    setFavourites(favourites)
+  
+  }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, fromUserId, cash };
@@ -82,7 +94,7 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="container">
+    <React.Fragment>
       <Row>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
           {'Saldo på min konto: ' + state.user.balance}
@@ -100,6 +112,8 @@ const PaymentPage = () => {
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
               onChange={handleNumberChange} />
+            <Button onClick={addToFavourites}>Spara favorit</Button>
+
           </InputGroup>
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3">
@@ -120,7 +134,8 @@ const PaymentPage = () => {
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
-    </div >
+      <Favourites data={props.favourite} />
+    </React.Fragment>
   );
 
 

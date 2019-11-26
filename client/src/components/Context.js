@@ -6,6 +6,7 @@ export default React.createContext({
   booting: true,
   // userdata is null until we fetch actual data
   user: {
+    favourites: [],
     role: 'visitor'
   },
   showNoti: false,

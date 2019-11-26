@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import Context from './Context';
 
-
 function LogOut() {
   let [state, setState] = useContext(Context);
   async function handleLogout() {
