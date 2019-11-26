@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
 import { Notification, Transaction, User } from '../../../node_modules/the.rest/dist/to-import';
-import { Notification, Transaction } from 'the.rest/dist/to-import'
 import {
   Row,
   Col,
@@ -13,7 +12,7 @@ import {
 } from 'reactstrap';
 import Favourites from './Favourites';
 
-const PaymentPage = () => {
+const PaymentPage = (props) => {
 
   const [state] = useContext(Context);
   const [number, setNumber] = useState("");
