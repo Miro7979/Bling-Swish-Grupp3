@@ -66,6 +66,11 @@ function App(props) {
 
   let propsToNotificationModal = { toggleNotificationModal };
 
+  const commonRoute = () => {
+    let path = window.location.pathname;
+    if (path.indexOf('/resetpassword') === 0) { return true; }
+  }
+
   return (
     <Context.Provider value={[state, setState]}>
       {state.showNoti ?
