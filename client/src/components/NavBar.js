@@ -11,6 +11,8 @@ import {
   Nav,
   NavItem
 } from 'reactstrap';
+import logo from '../images/logo.png';
+import menuIcon from '../images/menu-icon.png';
 
 const NavBar = (props) => {
   let [state] = useContext(Context);
@@ -23,7 +25,7 @@ const NavBar = (props) => {
       {state.user ?
         <div>
           <Navbar className="navbar" dark expand="md">
-            <NavbarBrand className="align-middle mt-1" href="/">Bling Swish</NavbarBrand>
+            <NavbarBrand className="align-middle mt-1" href="/"><img src={logo}></img></NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>

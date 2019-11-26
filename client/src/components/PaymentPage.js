@@ -28,13 +28,17 @@ const PaymentPage = (props) => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
 
+  const [favourites, setFavourites] = useState([]);
+
   async function addToFavourites(e) {
-    //find input e.target.value
+    //find input + e.target.value
     //save to [favourites]
     let favouriteFound = await User.findOne({ phone: number })
     let loggedInUser = await User.findOne({ phone: state.user.phone });
-    loggedInUser && loggedInUser.favorites.push(favouriteFound._id)
+    loggedInUser.favorites.push(favouriteFound._id);
     await loggedInUser.save();
+    setFavourites(favourites)
+  
   }
 
   async function createNotification() {
@@ -69,18 +73,6 @@ const PaymentPage = (props) => {
     try {
       let bling = await new Transaction(transaction)
       await bling.save()
-
-      // DO IT MANUALLY
-      // async function checkUserSession() {
-      //   let whoIsLoggedIn = await Login.findOne()
-      //   if (whoIsLoggedIn._id) {
-      //     setState({ ...state, user: whoIsLoggedIn })
-      //     return;
-      //   }
-      // }
-      // checkUserSession()
-      // END OF DO IT MANUALLY
-
 
       // REMOVE IF UNCERTAIN
       global.stateUpdater()
@@ -133,7 +125,7 @@ const PaymentPage = (props) => {
           <Button onClick={sendTransaction} color="success">Skicka</Button>
         </Col>
       </Row>
-      <Favourites />
+      <Favourites data={props.favourite} />
     </React.Fragment>
   );
 
