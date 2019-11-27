@@ -9,7 +9,7 @@ import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
 const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
-		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:null,children:[]
+		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[]
 	});
 
 	useEffect(() => {
