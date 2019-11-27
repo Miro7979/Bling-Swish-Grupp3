@@ -1,24 +1,27 @@
 .navlink {
-	color: white;
+	color: purple;
 	text-align: center !important;
 }
 .navbar {
-  background-color: rgb(162, 0, 255);
+	background-color: white;
 
-  .navbar-brand,
-  .nav-link {
-    color: aliceblue;
-    opacity: 1;
-    cursor: pointer;
-  }
+	.navbar-brand,
+	.nav-link {
+		color: purple;
+		opacity: 1;
+		cursor: pointer;
+	}
 }
 
 a,
 a:link,
 .nav-link,
 .nav-item {
-  text-decoration: none;
-  color: #fff;
-  margin-right: 10px;
-  cursor: pointer;
+	text-decoration: none;
+	color: purple;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.custom-toggler.navbar-toggler {
+	border-color: purple;
 }
