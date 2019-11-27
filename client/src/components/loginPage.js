@@ -88,8 +88,8 @@ function LogInPage() {
 							</Col>
 						</Row>
 						<Row>
-							<Col sm={{ size: 6, offset: 3 }} >
-								<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
+							<Col xl={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} >
+								<Button onClick={handleSubmit} className="logInBtn  mt-3">Logga in</Button>
 							</Col>
 							<Col sm={{ size: 6, offset: 3 }} >
 							</Col>
