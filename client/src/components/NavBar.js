@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
 import { Link } from 'react-router-dom'
 import Context from './Context';
+import BlingSwishLogo from '../images/blingswishNavbar.png';
 import {
   Collapse,
   Navbar,
@@ -11,7 +12,6 @@ import {
   Nav,
   NavItem,
 } from 'reactstrap';
-import logo from '../images/logo.png';
 
 const NavBar = () => {
   let [state] = useContext(Context);
@@ -23,7 +23,7 @@ const NavBar = () => {
       {state.user.role === 'visitor' ? '' :
         <div>
           <Navbar className="navbar" dark expand="md">
-            <NavbarBrand className="align-middle mt-1" href="/"><img src={logo} alt="logo"></img></NavbarBrand>
+            <NavbarBrand className="align-middle mt-1" href="/"><img className="navLogo" src={BlingSwishLogo} alt="logo"></img></NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>

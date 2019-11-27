@@ -112,7 +112,7 @@ const PaymentPage = (props) => {
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
               onChange={handleNumberChange} />
-            <Button onClick={addToFavourites}>Spara favorit</Button>
+            <Button className="favoBtn" onClick={addToFavourites}>Spara som favorit</Button>
 
           </InputGroup>
         </Col>

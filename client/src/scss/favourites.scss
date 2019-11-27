@@ -1,6 +1,6 @@
 .card-cols {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 // .btn-row{
 // display: flex;
@@ -9,13 +9,18 @@
 // }
 
 .card {
-  display: flex;
-  flex-direction: row;
-  color: black;
-  border-radius: 13px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 6px;
-  flex-basis: auto; /* default auto */
-  width: 33%;
+	display: flex;
+	flex-direction: row;
+	color: black;
+	border-radius: 13px;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 6px;
+	flex-basis: auto; /* default auto */
+	width: 33%;
+}
+.favoBtn {
+	border: 2px 2px 0px 2px;
+	background-color: purple;
+	border-color: white;
 }
