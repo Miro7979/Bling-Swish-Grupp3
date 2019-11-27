@@ -48,7 +48,6 @@ const MyPagePage = () => {
 		}
 	}
 
-	// --- LIMIT ERROR --- //
 
 	async function handleSubmit(){
 
