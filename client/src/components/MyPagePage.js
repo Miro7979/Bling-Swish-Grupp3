@@ -33,7 +33,27 @@ const MyPagePage = () => {
 		// eslint-disable-next-line
 	},[]);
 
+
+	// --- PASSWORD ERROR --- //
+	const[passwordError,setPasswordError]=useState({
+		passwordError:false
+	});
+	const changePassword=(e)=>{
+		let regularx = /^[\w ]+$/;
+		if(e.target.value.length<6){ setPasswordError({passwordError:true}); }
+		else if(!regularx.test(e.target.value)){ setPasswordError({ passwordError:true}); }
+		else{ 
+			setPasswordError({ passwordError:false }); 
+			setUserData({...userData,password:e.target.value}) 
+		}
+	}
+
+	// --- LIMIT ERROR --- //
+
 	async function handleSubmit(){
+
+		alert(userData.password);
+
 		let whoIsLoggedIn = await Login.findOne();
 		let user= await User.findOne({name:whoIsLoggedIn.name});
 
@@ -100,10 +120,20 @@ const MyPagePage = () => {
 				<Col xs={3}> Lösenord </Col>
 				<Col sm={6} xs={7}> 
 					{wantToEdit.wantToEdit?	
-					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
+					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={changePassword} />:
 					<p>{/*{userData.password}*/}********</p> }
 				</Col>
 			</Row>
+			{passwordError.passwordError?
+				<div>
+					<Row>
+						<Col>
+							<p className="error-text">! Lösenord måste vara minst sex tecken långt och endast inehålla bokstäver och siffror </p>
+						</Col>
+					</Row>
+				</div>:''
+			}
+			
 
 			{userData.children.length>0?
 				<div className="mt-4">
