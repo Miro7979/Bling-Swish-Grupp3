@@ -1,3 +1,17 @@
+#forgotPasswordLink,
+#skapaKontoSida {
+	color: white;
+}
+.blingLogo {
+	position: absolute;
+	size: 50px;
+	left: 50%;
+	right: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	height: 250px;
+	width: 250px;
+}
 .logInPageContent {
 	position: absolute;
 	left: 50%;
@@ -9,6 +23,7 @@
 	margin-top: 100px;
 }
 .logInHeader {
+	margin-top: 100px;
 	text-align: center;
 	color: white;
 	margin-bottom: 20px;
