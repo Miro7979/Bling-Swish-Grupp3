@@ -33,7 +33,7 @@ const PaymentPage = (props) => {
     let loggedInUser = await User.findOne({ phone: state.user.phone });
     loggedInUser.favorites.push(favouriteFound._id);
     await loggedInUser.save();
-    setFavourites(favourites)
+    setFavourites({number: favourites})
 
   }
 
