@@ -4,7 +4,7 @@ import MyPagePageAddChild from './MyPagePageAddChild.js';
 import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
 
-import { User, Login } from '../../../node_modules/the.rest/dist/to-import';
+import { User, Login } from 'the.rest/dist/to-import';
 
 const MyPagePage = () => {
 

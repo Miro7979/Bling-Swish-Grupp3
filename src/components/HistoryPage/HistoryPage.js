@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import HistoryDropdown from './HistoryDropdown.js';
 import HistoryList from './HistoryList.js';
 import Context from '../Context';
-import { User } from '../../../../node_modules/the.rest/dist/to-import';
+import { User } from 'the.rest/dist/to-import';
 
 function HistoryPage() {
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input, Alert, Row } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
-import { User } from '../../../../node_modules/the.rest/dist/to-import';
+import { User } from 'the.rest/dist/to-import';
 // const request = require('request-promise-native');
 
 

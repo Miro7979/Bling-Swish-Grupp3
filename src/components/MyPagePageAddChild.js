@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { User } from '../../../node_modules/the.rest/dist/to-import';
+import { User } from 'the.rest/dist/to-import';
 import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageAddChild=({userData,setUserData})=>{

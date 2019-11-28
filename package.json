@@ -1,71 +1,69 @@
 {
-	"name": "bling-swish-grupp3",
-	"version": "1.0.0",
-	"private": true,
-  "dependencies": {
-    "axios": "^0.19.0",
-		"bootstrap": "^4.3.1",
-		"chai": "^4.2.0",
-    "cors": "^2.8.5",
-    "open": "^6.4.0",
-    "request": "^2.88.0",
-    "easy-server-sent-events": "^1.0.8",
-    "node-sass": "^4.13.0",
-    "react": "^16.11.0",
-    "react-amazing-proxy": "^1.0.61",
-    "react-dom": "^16.11.0",
-    "react-loader-spinner": "^3.1.5",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
-		"reactstrap": "^8.1.1",
-		"atob": "^2.1.2",
-		"btoa": "^1.2.1",
-		"connect-mongo": "^3.1.0",
-		"express": "^4.17.1",
-		"express-session": "^1.17.0",
-		"moment": "^2.24.0",
-		"mongoose": "^5.7.6",
-		"nodemailer": "^6.3.1",
-		"react-number-format": "^4.3.1",
-		"request-promise-native": "^1.0.8",
-		"session": "^0.1.0",
-		"the.rest": "^1.0.32"
-  },
-	"description": "",
-	"main": "server.js",
-	"scripts": {
-    "start": "node node_modules/react-amazing-proxy/start",
-		"server": "node server.js",
-		"build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Miro7979/Bling-Swish-Grupp3.git"
-	},
-	"author": "Grupp3",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/Miro7979/Bling-Swish-Grupp3/issues"
-	},
-	"homepage": "https://github.com/Miro7979/Bling-Swish-Grupp3#readme",
-
-	"keywords": [],
-	"eslintConfig": {
-    "extends": "react-app"
-	},
-	
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+		"name": "bling-swish-grupp3",
+		"version": "1.0.0",
+		"private": true,
+		"dependencies": {
+				"axios": "^0.19.0",
+				"bootstrap": "^4.3.1",
+				"chai": "^4.2.0",
+				"cors": "^2.8.5",
+				"open": "^6.4.0",
+				"request": "^2.88.0",
+				"easy-server-sent-events": "^1.0.8",
+				"node-sass": "^4.13.0",
+				"react": "^16.11.0",
+				"react-amazing-proxy": "^1.0.61",
+				"react-dom": "^16.11.0",
+				"react-loader-spinner": "^3.1.5",
+				"react-router-dom": "^5.1.2",
+				"react-scripts": "3.2.0",
+				"reactstrap": "^8.1.1",
+				"atob": "^2.1.2",
+				"btoa": "^1.2.1",
+				"connect-mongo": "^3.1.0",
+				"express": "^4.17.1",
+				"express-session": "^1.17.0",
+				"moment": "^2.24.0",
+				"mongoose": "^5.7.6",
+				"nodemailer": "^6.3.1",
+				"react-number-format": "^4.3.1",
+				"request-promise-native": "^1.0.8",
+				"session": "^0.1.0",
+				"the.rest": "^1.0.32"
+		},
+		"description": "",
+		"main": "server.js",
+		"scripts": {
+				"start": "node node_modules/react-amazing-proxy/start",
+				"server": "node server.js",
+				"build": "react-scripts build",
+				"test": "react-scripts test",
+				"eject": "react-scripts eject"
+		},
+		"repository": {
+				"type": "git",
+				"url": "git+https://github.com/Miro7979/Bling-Swish-Grupp3.git"
+		},
+		"author": "Grupp3",
+		"license": "ISC",
+		"bugs": {
+				"url": "https://github.com/Miro7979/Bling-Swish-Grupp3/issues"
+		},
+		"homepage": "https://github.com/Miro7979/Bling-Swish-Grupp3#readme",
+		"keywords": [],
+		"eslintConfig": {
+				"extends": "react-app"
+		},
+		"browserslist": {
+				"production": [
+						">0.2%",
+						"not dead",
+						"not op_mini all"
+				],
+				"development": [
+						"last 1 chrome version",
+						"last 1 firefox version",
+						"last 1 safari version"
+				]
+		}
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Card, Button, CardTitle, CardBody, Row, Col } from 'reactstrap';
-import { User } from '../../../node_modules/the.rest/dist/to-import';
+import { User } from 'the.rest/dist/to-import';
 // import { starIcon } from '../images/star-black.png';
 import Context from './Context';
 

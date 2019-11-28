@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import { Aktiverakonto } from '../../../node_modules/the.rest/dist/to-import';
+import { Aktiverakonto } from 'the.rest/dist/to-import';
 
 
 const ActivateAccountModal = (props) => {

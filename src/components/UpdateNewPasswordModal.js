@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, Input, Container, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import { Reset, Updatepassword } from '../../../node_modules/the.rest/dist/to-import';
+import { Reset, Updatepassword } from 'the.rest/dist/to-import';
 
 const UpdateNewPasswordModal = (props) => {
   useEffect(() => {
