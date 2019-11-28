@@ -366,7 +366,7 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 //app.use('/api/users', require('./routes/api/users'));
 
-app.use(express.static('client/build'));
+app.use(express.static('./client/build'));
 
 // start the web server
 app.listen(3001, () => console.log('Listening on port 3001'));

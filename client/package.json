@@ -9,7 +9,7 @@
     "easy-server-sent-events": "^1.0.8",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
-    "react-amazing-proxy": "^1.0.57",
+    "react-amazing-proxy": "^1.0.61",
     "react-dom": "^16.11.0",
     "react-loader-spinner": "^3.1.5",
     "react-router-dom": "^5.1.2",

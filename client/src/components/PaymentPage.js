@@ -131,7 +131,7 @@ const PaymentPage = (props) => {
           </InputGroup>
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3">
-          <Button onClick={sendTransaction} color="success">Skicka</Button>
+          <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
       <Favourites data={props.favourite} />
