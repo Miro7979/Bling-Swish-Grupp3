@@ -6,7 +6,11 @@ import {Col,Row} from 'reactstrap';
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
 	const changeLimit=(e)=>{
-		child.limit=e.target.value;
+		let regularx = /^\d+$/;
+		if(regularx.test(e.target.value)){
+			console.log('cool');
+		}
+		//child.limit=e.target.value;
 	}
 	const deleteChild=(id)=>{
 		child.limit='';

@@ -27,9 +27,14 @@
   }
   
   .error-text{
-    color:red;
+    color:orange;
     font-size:12px;
   }
+  .error-container{
+    border:solid black 1px;
+    height:40px;
+  }
+
   
 
   .child-component{

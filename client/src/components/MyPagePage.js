@@ -127,7 +127,7 @@ const MyPagePage = () => {
 				<div>
 					<Row>
 						<Col>
-							<p className="error-text">! Lösenord måste vara minst sex tecken långt och endast inehålla bokstäver och siffror </p>
+							<p className="error-text">! Lösenord måste vara minst sex tecken långt och får endast inehålla bokstäver samt siffror </p>
 						</Col>
 					</Row>
 				</div>:''

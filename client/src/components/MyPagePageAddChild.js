@@ -7,15 +7,18 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	const[data,setData]=useState({
 		wantsToAddChild:false,
 		childPhone:null,
-		foundChild:''
+		foundChild:'',
+		error:''
 	});
 
 	async function findChild(){
 		let child = await User.findOne({phone:data.childPhone});
-		setData({
-			...data,
-			foundChild:child
-		});	
+		if(child===undefined){
+			setData({...data,foundChild:'',error:'Inga användare med det nummret'});	
+		}
+		else{
+			setData({...data,error:'',foundChild:child});	
+		}
 	}
 
 	const addChild=()=>{
@@ -49,6 +52,13 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 					<Button color="info" onClick={findChild}> Sök </Button>
 				</Col>
 			</Row>
+
+			{data.error?
+				<Row className="mt-4">
+					<Col xs={8} className="mx-auto">
+						<p className="error-text">{data.error}</p>
+					</Col>
+				</Row>:''}
 
 			{data.foundChild?
 				<Row className="mt-4">
