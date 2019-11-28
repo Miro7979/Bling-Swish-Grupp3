@@ -1,7 +1,9 @@
+
 import React, { useState, useContext } from 'react';
 import LogOut from './logOut';
-import { Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
 import Context from './Context';
+import BlingSwishLogo from '../images/blingswishNavbar.png';
 import {
   Collapse,
   Navbar,
@@ -9,29 +11,30 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
 } from 'reactstrap';
 
-const NavBar = (props) => {
+const NavBar = () => {
   let [state] = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <React.Fragment>
-      {state.user ?
+      {state.user.role === 'visitor' ? '' :
         <div>
-          <Navbar className="navbar" light expand="md">
-            <NavbarBrand href="/">Bling Swish</NavbarBrand>
+          <Navbar className="navbar" dark expand="md">
+            <NavbarBrand className="align-middle mt-1" href="/"><img className="navLogo" src={BlingSwishLogo} alt="logo"></img></NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/minasidor">Mina Sidor</NavLink>
+                  <Link className="navlink ml-3" to="/betalningar">Skicka Pengar</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/betalningshistorik">Betalningshistorik</NavLink>
+                  <Link className="navlink ml-3" to="/minasidor">Mina Sidor</Link>
+                </NavItem>
+                <NavItem>
+                  <Link className="navlink ml-3" to="/betalningshistorik">Betalningshistorik</Link>
                 </NavItem>
                 <NavItem>
                   <LogOut />
@@ -39,10 +42,9 @@ const NavBar = (props) => {
               </Nav>
             </Collapse>
           </Navbar>
-        </div> : <Redirect to="/" />}
+        </div>}
     </React.Fragment>
   );
 }
 
 export default NavBar;
-

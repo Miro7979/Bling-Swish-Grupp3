@@ -1,6 +1,12 @@
 {
 	"apiPath": "/api",
 	"rules": {
+		"sse": {
+			"visitor": "get",
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},
 		"login": {
 			"visitor": "post, get",
 			"child": "delete get",
@@ -36,6 +42,9 @@
 			  "child": "all",
 			  "parent": "all",
 			  "admin": "all"
+		  },
+		  "resets": {
+			  "visitor": "all"
 		  }
 	}
 }

@@ -1,82 +1,82 @@
-import React, { useState , useEffect} from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, FormGroup, Label, Input, Alert, Row } from 'reactstrap';
+import { withRouter, Link } from 'react-router-dom';
+import { User } from '../../../../node_modules/the.rest/dist/to-import';
+// const request = require('request-promise-native');
+
 
 const EditUser = (props) => {
-  const [state, setState] = useState({
-    user: {}
-  })
+  const [user, setUser] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const dismissUpdate = () => setUpdate(false);
+
+  //I WANNA FIND ONE USER TO EDIT
+  async function getUserInfo() {
+    //get what's in the browser, the url but only the part after 3rd slash
+    let id = window.location.pathname.split('/')[3]
+    let userToEdit = await User.findOne({ _id: id })
+    //changed state...changed values of user/changed user 
+    setUser(userToEdit)
+  }
 
   useEffect(() => {
-    async function getUser() {
-      let endpoint = 'http://localhost:3001/api/users:_id';
-      const response = await fetch(endpoint);
-
-
-      const user = await response.json();
-      console.log(user);
-
-      setState((prev) => (
-        { ...prev, user: user, loading: false }
-      ))
-    }
-    getUser();
+    //calling function once and unmount again
+    getUserInfo();
   }, []);
 
-  //     notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
+  let inputLabels = {
+    name: "Namn",
+    phone: "Telefonnummer",
+    email: "Email",
+    nationalIdNumber: "Personnummer",
+    role: "Roll",
+    children: "Barn",
+    transactions: "Transaktioner"
+  };
 
-  return (
+  const handleChange = e => {
+    let key = e.target.getAttribute('type');
+    let editedUser = { ...user };
+    editedUser[key] = e.target.value;
+    setUser(editedUser);
+  }
+
+  const handleSubmit = () => {
+    let userToSave = new User(user);
+    userToSave.save();
+    setUpdate(true)
+  }
+
+
+
+  return !user ? null : (
     <Form>
-      
-      <FormGroup>
-        <Label for="userName">Namn</Label>
-        <Input type="name" name="name" id="userName" placeholder="kundens namn här" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="userPhone">Telefonnummer</Label>
-        <Input type="phone" name="phone" id="userPhone" placeholder="kundens telefonnummer här" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="userEmail"></Label>
-        <Input type="email" name="email" id="userEmail" placeholder="kundens email här" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="userIdNumber">Personnummer</Label>
-        <Input type="idNumber" name="idNumber" id="userIdNumber" placeholder="kundens personnummer här" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="userPassword">Personnummer</Label>
-        <Input type="password" name="password" id="userPassword" placeholder="kundens personnummer här" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="selectRole">Roll:</Label>
-        <Input type="select" name="select" id="selectRole">
-          <option>Välj</option>
-          <option>kundkund</option>
-          <option>förälderkund</option>
-          <option>barnkund</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="selectKids">Har barn:</Label>
-        <Input type="select" name="select" id="selectKids">
-          <option>Välj</option>
-          <option>inga</option>
-          <option>1 barn</option>
-          <option>2 barn</option>
-          <option>3 barn</option>
-          <option>4 barn</option>
-        </Input>
-      </FormGroup>
-      <FormGroup check>
-        <Label check>
-          <Input type="checkbox" />{' '}
-          reset password email
-        </Label>
-      </FormGroup>
-      <Button>Skicka</Button>
-      <Button>Skicka</Button>
+      <div>
+        <Row>
+        </Row>
+      </div>
+      {Object.keys(inputLabels).map(key => {
+        let label = inputLabels[key];
+        return (
+          <FormGroup key={key}>
+            <Label className="d-block">
+              {label}
+              <Input type={key} value={user[key]} onChange={handleChange}></Input>
+            </Label>
+          </FormGroup>
+        );
+      })}
+      {
+        update ?
+          <Link to="/adminsida"><Button>Gå tillbaka</Button></Link>
+          :
+          <Button onClick={handleSubmit}>Updatera</Button>
+      }
+      <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
+        Användaren är nu updaterad.
+      </Alert>
     </Form>
   );
 }
 
-export default EditUser;
+export default withRouter(EditUser);

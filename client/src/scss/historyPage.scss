@@ -1,0 +1,124 @@
+// HistoryPage
+.history-page {
+  .history-page-no-children {
+    margin-left: 15px;
+    margin-top: 50px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .history-page-no-children {
+      font-size: 30px;
+      text-align: center;
+    }
+  }
+  padding-bottom: 50px;
+}
+
+// HistoryDropdown
+.history-dropdown {
+  .dropdown-list {
+    text-align: right;
+  }
+  .dropdown-toggle::after {
+    margin-left: 0.6em !important;
+  }
+  .dropdown-list > .btn-secondary {
+    background-color: rgb(183, 108, 226);
+    border: solid 1px rgb(183, 108, 226);
+  }
+  .dropdown-list {
+    margin-top: 15px;
+  }
+}
+
+// HistoryList
+.history-list {
+  .list-h1 {
+    margin-left: 15px;
+  }
+  .history-list-no-transactions {
+    border: solid 1px rgb(255, 255, 255);
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 25px 0;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .history-list-row {
+    border: solid 1px rgb(255, 255, 255);
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 5px 0 0 0;
+  }
+  .list-col {
+    border-radius: 10px;
+  }
+  .list-row {
+    border-radius: 10px;
+    padding-left: 10px;
+  }
+  .empty-placeholder {
+    height: 1.5em;
+  }
+  .list-amount {
+    display: flex;
+    justify-content: center;
+  }
+  .list-message {
+    text-align: center;
+    background-color: rgb(183, 108, 226);
+    border-radius: 0 0 10px 10px;
+  }
+  .list-message > p {
+    margin-bottom: 6px;
+    color: rgb(250, 215, 255);
+  }
+  .red-dot {
+    height: 12px;
+    width: 12px;
+    background-color: rgb(255, 104, 142);
+    border-radius: 50%;
+    margin-top: 7px;
+    margin-left: 5px;
+  }
+  .green-dot {
+    height: 12px;
+    width: 12px;
+    background-color: rgb(102, 252, 102);
+    border-radius: 50%;
+    margin-top: 7px;
+    margin-left: 5px;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .list-h1 {
+      display: none;
+    }
+    .red-dot {
+      height: 8px;
+      width: 8px;
+      background-color: rgb(255, 104, 142);
+      border-radius: 50%;
+      margin-top: 8px;
+      margin-left: 3px;
+    }
+    .green-dot {
+      height: 8px;
+      width: 8px;
+      background-color: rgb(102, 252, 102);
+      border-radius: 50%;
+      margin-top: 8px;
+      margin-left: 3px;
+    }
+    .history-list-row p {
+      font-size: 14px;
+    }
+    .history-list-no-transactions {
+      font-size: 20px;
+    }
+  }
+}

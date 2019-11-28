@@ -1,0 +1,26 @@
+.navbar {
+	background-color: rgb(251, 249, 249);
+
+	.navbar-brand,
+	.nav-link,
+	.navlink,
+	#navLink {
+		color: purple;
+		opacity: 1;
+		cursor: pointer;
+	}
+}
+a,
+a:link,
+.nav-item {
+	text-decoration: none;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.navbar-toggler {
+	background-color: purple;
+}
+.navLogo {
+	height: 100px;
+	width: 100px;
+}
