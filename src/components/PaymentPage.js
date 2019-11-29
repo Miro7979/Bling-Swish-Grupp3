@@ -97,7 +97,7 @@ const PaymentPage = (props) => {
     <React.Fragment>
       <Row>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
-          {'Saldo på min konto: ' + state.user.balance + ' SEK'}
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance + ' kr på ditt konto.'}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
