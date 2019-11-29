@@ -20,8 +20,8 @@ import {
 function LogInPage() {
 	let setState = useContext(Context)[1]
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('test2@test.se');
+	const [password, setPassword] = useState('123456');
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
@@ -41,8 +41,6 @@ function LogInPage() {
 		finally {
 			return ''
 		}
-
-
 	};
 
 	return (
@@ -66,8 +64,7 @@ function LogInPage() {
 							<Col sm={{ size: 6, offset: 3 }} >
 								<div>
 									<Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
-										Email eller lösenord är felaktigt, vänligen försök igen.
-					        	</Alert>
+										Email eller lösenord är felaktigt, vänligen försök igen.</Alert>
 								</div>
 								<FormGroup>
 									<Label for="emailLabel">Email</Label>
