@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import NavBar from './components/NavBar';
 import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
@@ -20,7 +20,7 @@ import Loader from 'react-loader-spinner';
 
 
 
-function App(props) {
+function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 
@@ -61,50 +61,89 @@ function App(props) {
 
   let propsToNotificationModal = { toggleNotificationModal };
 
-  // const commonRoute = () => {
-  //   let path = window.location.pathname;
-  //   if (path.indexOf('/aterstalllosenord') === 0) { return true; }
-  //   if (path.indexOf('/nyttlosenord') === 0) { return true; }
-  //   if (path.indexOf('/aktiverakonto') === 0) { return true; }
 
-  // }
+  function redirector() {
+    let thisPath = window.location.pathname
 
+    // if role is visitor
+    if (state.user.role === 'visitor') {
+      let allowedPaths = ['/aterstalllosenord', '/skapaKontoSida', '/aktiverakonto']
+      let redirect = true;
+      allowedPaths.map(path => {
+        if (thisPath === path) {
+          redirect = false
+        }
+        return null
+      })
 
+      if (redirect) {
+        return <Redirect to="/login" />
+      } else {
+        return null
+      }
+    }
+    // end of visitor
+
+    // if role is admin
+    if (state.user.role === 'admin') {
+      return <Redirect to="/adminsida" />
+    }
+
+    // if role is parent/child
+    if (state.user.role === 'parent' || state.user.role === 'child') {
+      // This path is the standard path if you ARE logged in
+      let allowedPaths = ['/betalningar', '/betalningshistorik', '/minasidor']
+      let redirect = true;
+      allowedPaths.map(path => {
+        if (thisPath === path) {
+          redirect = false
+        }
+        return null
+      })
+
+      if (redirect) {
+        return <Redirect to="/betalningar" />
+      } else {
+        return null
+      }
+    }
+  }
 
   return (
     <Context.Provider value={[state, setState]}>
       {state.showNoti ?
         <NotificationModal {...propsToNotificationModal} />
         : ''}
-      {state.booting && <Loader className="spinner"
+      {state.booting ? <Loader className="spinner"
         type="Bars"
         color="#FFFF"
         height={150}
         timeout={3000} //3 secs
-      />}
-      <Router>
-        <div className="App">
-          <header className="App-header">
-            <NavBar />
-          </header>
-          <main className="container mt-2">
-            <Switch className="switch">
-              <Route exact path="/" component={LoginPage} />
-              <Route path="/login" component={LoginPage} />
-              <Route exact path="/adminsida" component={AdminPage} />
-              <Route path="/adminsida/redigera-anvandare" component={EditUser} />
-              <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
-              <Route path="/betalningar" component={PaymentPage} />
-              <Route path="/skapaKontoSida" component={CreateAccountModal} />
-              <Route path="/minasidor" component={MyPagePage} />
-              <Route path="/betalningshistorik" component={HistoryPage} />
-              <Route path="/aterstalllosenord" component={ForgotPasswordModal} />
-              <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal} />
-              <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
-            </Switch>
-          </main>
-        </div>
-      </Router>
+      /> :
+        <Router>
+          <div className="App">
+            <header className="App-header">
+              <NavBar />
+            </header>
+            <main className="container mt-2">
+              <Switch className="switch">
+                <Route exact path="/" component={LoginPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route exact path="/adminsida" component={AdminPage} />
+                <Route path="/adminsida/redigera-anvandare" component={EditUser} />
+                <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
+                <Route path="/betalningar" component={PaymentPage} />
+                <Route path="/skapaKontoSida" component={CreateAccountModal} />
+                <Route path="/minasidor" component={MyPagePage} />
+                <Route path="/betalningshistorik" component={HistoryPage} />
+                <Route path="/aterstalllosenord" component={ForgotPasswordModal} />
+                <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal} />
+                <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
+              </Switch>
+              {redirector()}
+            </main>
+          </div>
+        </Router>
       }
     </Context.Provider>
   );
