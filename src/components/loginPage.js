@@ -20,8 +20,8 @@ import {
 function LogInPage() {
 	let setState = useContext(Context)[1]
 
-	const [email, setEmail] = useState('test2@test.se');
-	const [password, setPassword] = useState('123456');
+	const [email, setEmail] = useState();
+	const [password, setPassword] = useState();
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
