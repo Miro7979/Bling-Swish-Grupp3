@@ -4,13 +4,18 @@ import MyPagePageAddChild from './MyPagePageAddChild.js';
 import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
 import goBackLogo from '../images/goback-icon.png';
-
 import { User, Login } from 'the.rest/dist/to-import';
 
 const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
 		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[]
+	});	
+	const[wantToEdit,setWantToEdit]=useState({
+		wantToEdit:false
+	});
+	const[passwordError,setPasswordError]=useState({
+		passwordError:false
 	});
 
 	useEffect(() => {
@@ -19,33 +24,16 @@ const MyPagePage = () => {
 			let whoIsLoggedIn = await Login.findOne();
 			let user= (await User.find({name:whoIsLoggedIn.name}).populate('children','name limit'))[0];
 			setUserData({
-				...userData,
-				name:user.name,
-				password:user.password,
-				phone:user.phone,
-				email:user.email,
-				nationalIdNumber:user.nationalIdNumber,
-				role:user.role,
-				limit:user.limit,
-				children:user.children
+				...userData, name:user.name, password:user.password, phone:user.phone, email:user.email, 
+				nationalIdNumber:user.nationalIdNumber, role:user.role, limit:user.limit, children:user.children
 			});
 		}
 		loadLoggedInUser();
 		// eslint-disable-next-line
 	},[]);
 
-
-	// --- PASSWORD ERROR --- //
-	const[passwordError,setPasswordError]=useState({
-		passwordError:false
-	});
-
- 
-
-
 	async function handleSubmit(){
 
-		//alert(userData.password);
 		let regularx = /^[\w ]+$/;
 		if(userData.password.length<6){ setPasswordError({passwordError:true}); }
 		else if(!regularx.test(userData.password)){ setPasswordError({ passwordError:true}); }
@@ -53,8 +41,6 @@ const MyPagePage = () => {
 			setPasswordError({ passwordError:false }); 
 			alert('passed tha test');
 		}
-
-
 /*
 		let whoIsLoggedIn = await Login.findOne();
 		let user= await User.findOne({name:whoIsLoggedIn.name});
@@ -77,11 +63,6 @@ const MyPagePage = () => {
 		*/
 	}
 
-	const[wantToEdit,setWantToEdit]=useState({
-		wantToEdit:false
-	});
-
-
 	return(
 		<div className="mypage-component mt-5">
 
@@ -89,9 +70,7 @@ const MyPagePage = () => {
 				<Col>
 					{wantToEdit.wantToEdit?
 						<img src={goBackLogo} alt="pil ikon" className="button" onClick={()=>setWantToEdit({wantToEdit:false})}></img>:
-						<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>
-				}
-					
+						<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>}			
 				</Col>
 			</Row>
 
@@ -132,26 +111,19 @@ const MyPagePage = () => {
 							<p className="error-text">! Lösenord måste vara minst sex tecken långt och får endast inehålla bokstäver samt siffror </p>
 						</Col>
 					</Row>
-				</div>:''
-			}
-			
-			
-			<Row className="mt-2">
+				</div>:''}
+					
+			<Row className="mt-3">
 				<Col className="text-center text-dark"> Beloppsgräns (per månad) </Col>	
 			</Row>
-			<Row className="mt-1">		
-	
-					{wantToEdit.wantToEdit?	
-				
-				
-						<Col xs={4} className="mx-auto"> 
-						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />
-						</Col>
-						:
-						<Col className="text-center">
-						{userData.limit?<p>{userData.limit} sek</p>:<p className="limit-text">Ingen gräns satt</p>}
-						</Col> }
-				
+			<Row className="mt-1">			
+			{wantToEdit.wantToEdit?			
+				<Col xs={4} className="mx-auto"> 
+					<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />
+				</Col>:
+				<Col className="text-center">
+					{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
+				</Col> }
 			</Row>
 
 			{userData.children.length>0?
@@ -161,8 +133,7 @@ const MyPagePage = () => {
 							<MypagePageChild key={index+1} child={child} wantToEdit={wantToEdit} userData={userData} setUserData={setUserData}/>
 						);
 					})}
-				</div>
-				: ''}
+				</div>:''}
 
 			{wantToEdit.wantToEdit?
 				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
