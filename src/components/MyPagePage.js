@@ -39,19 +39,23 @@ const MyPagePage = () => {
 	const[passwordError,setPasswordError]=useState({
 		passwordError:false
 	});
-	const changePassword=(e)=>{
-		let regularx = /^[\w ]+$/;
-		if(e.target.value.length<6){ setPasswordError({passwordError:true}); }
-		else if(!regularx.test(e.target.value)){ setPasswordError({ passwordError:true}); }
-		else{ 
-			setPasswordError({ passwordError:false }); 
-			setUserData({...userData,password:e.target.value}) 
-		}
-	}
+
+ 
 
 
 	async function handleSubmit(){
 
+		//alert(userData.password);
+		let regularx = /^[\w ]+$/;
+		if(userData.password.length<6){ setPasswordError({passwordError:true}); }
+		else if(!regularx.test(userData.password)){ setPasswordError({ passwordError:true}); }
+		else{ 
+			setPasswordError({ passwordError:false }); 
+			alert('passed tha test');
+		}
+
+
+/*
 		let whoIsLoggedIn = await Login.findOne();
 		let user= await User.findOne({name:whoIsLoggedIn.name});
 
@@ -70,6 +74,7 @@ const MyPagePage = () => {
 		setWantToEdit({
 			wantToEdit:false
 		});
+		*/
 	}
 
 	const[wantToEdit,setWantToEdit]=useState({
@@ -100,23 +105,23 @@ const MyPagePage = () => {
 			</Row>
 
 			<Row className="mt-4">
-				<Col xs={3}> Telefon </Col>
+				<Col xs={3} className="text-dark"> Telefon </Col>
 				<Col xs={9}> {userData.phone} </Col>
 			</Row>
 			<Row>
-				<Col xs={3}> Epost </Col>
+				<Col xs={3} className="text-dark"> Epost </Col>
 				<Col xs={9}> {userData.email} </Col>
 			</Row>
 			<Row>
-				<Col xs={3}> Pers.Nr. </Col>
+				<Col xs={3} className="text-dark"> Pers.Nr. </Col>
 				<Col xs={9}> {userData.nationalIdNumber} </Col>
 			</Row>
 
-			<Row>
-				<Col xs={3} className="password-text"> Lösenord </Col>
+			<Row style={{height:'40px'}}>
+				<Col xs={3} className="password-text text-dark"> Lösenord </Col>
 				<Col sm={6} xs={7}> 
 					{wantToEdit.wantToEdit?	
-					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={changePassword} />:
+					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
 					<p className="password-text">{/*{userData.password}*/}********</p> }
 				</Col>
 			</Row>
@@ -132,15 +137,21 @@ const MyPagePage = () => {
 			
 			
 			<Row className="mt-2">
-				<Col className="text-center"> Beloppsgräns (per månad) </Col>	
+				<Col className="text-center text-dark"> Beloppsgräns (per månad) </Col>	
 			</Row>
 			<Row className="mt-1">		
-				<Col xs={3}></Col>	
-				<Col sm={6} xs={7}> 
+	
 					{wantToEdit.wantToEdit?	
-						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
-						<p>{userData.limit?<p>{userData.limit}</p>:<p className="limit-text">Ingen gräns satt</p>}</p> }
-				</Col>
+				
+				
+						<Col xs={4} className="mx-auto"> 
+						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />
+						</Col>
+						:
+						<Col className="text-center">
+						{userData.limit?<p>{userData.limit} sek</p>:<p className="limit-text">Ingen gräns satt</p>}
+						</Col> }
+				
 			</Row>
 
 			{userData.children.length>0?

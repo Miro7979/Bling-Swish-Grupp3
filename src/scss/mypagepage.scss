@@ -11,7 +11,8 @@
     font-size: 20px;
   }
   .password-text{
-    line-height:2.2;
+    position:relative;
+    top:7px;
   }
   .limit-text{
     font-style:italic;
@@ -23,6 +24,9 @@
     -webkit-appearance: none; 
     margin: 0; 
   }
+
+  .checkrow{border:solid black 1px;}
+  .checkcol{border:solid red 1px;}
 
   .button {
     cursor: pointer;
