@@ -10,12 +10,25 @@
   .children-name {
     font-size: 20px;
   }
+  .password-text{
+    line-height:2.2;
+  }
+  .limit-text{
+    font-style:italic;
+    color:orange;
+  }
 
-  .delete-button {
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+
+  .button {
     cursor: pointer;
     opacity:0.6;
   }
-  .delete-button:hover {
+  .button:hover {
     opacity:1;
   }
   .edit-button {

@@ -3,6 +3,7 @@ import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
 import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
+import goBackLogo from '../images/goback-icon.png';
 
 import { User, Login } from 'the.rest/dist/to-import';
 
@@ -51,8 +52,6 @@ const MyPagePage = () => {
 
 	async function handleSubmit(){
 
-		alert(userData.password);
-
 		let whoIsLoggedIn = await Login.findOne();
 		let user= await User.findOne({name:whoIsLoggedIn.name});
 
@@ -60,10 +59,12 @@ const MyPagePage = () => {
 		user.limit=userData.limit;
 		user.children=userData.children;
 
-		let child=await User.findOne({_id:userData.children[0]._id});
-		child.limit=userData.children[0].limit;
-
-		await child.save();
+		if(userData.children.length>0){
+			let child=await User.findOne({_id:userData.children[0]._id});
+			child.limit=userData.children[0].limit;
+			await child.save();
+		}
+	
 		await user.save();
 
 		setWantToEdit({
@@ -81,7 +82,11 @@ const MyPagePage = () => {
 
 			<Row className="pb-5">
 				<Col>
-					<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>
+					{wantToEdit.wantToEdit?
+						<img src={goBackLogo} alt="pil ikon" className="button" onClick={()=>setWantToEdit({wantToEdit:false})}></img>:
+						<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>
+				}
+					
 				</Col>
 			</Row>
 
@@ -107,20 +112,12 @@ const MyPagePage = () => {
 				<Col xs={9}> {userData.nationalIdNumber} </Col>
 			</Row>
 
-			<Row className="mt-2">
-				<Col xs={3}> Max-Swish </Col>				
-				<Col sm={6} xs={7}> 
-					{wantToEdit.wantToEdit?	
-						<input type="text" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
-						<p>{userData.limit} kr</p> }
-				</Col>
-			</Row>
 			<Row>
-				<Col xs={3}> Lösenord </Col>
+				<Col xs={3} className="password-text"> Lösenord </Col>
 				<Col sm={6} xs={7}> 
 					{wantToEdit.wantToEdit?	
 					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={changePassword} />:
-					<p>{/*{userData.password}*/}********</p> }
+					<p className="password-text">{/*{userData.password}*/}********</p> }
 				</Col>
 			</Row>
 			{passwordError.passwordError?
@@ -133,6 +130,18 @@ const MyPagePage = () => {
 				</div>:''
 			}
 			
+			
+			<Row className="mt-2">
+				<Col className="text-center"> Beloppsgräns (per månad) </Col>	
+			</Row>
+			<Row className="mt-1">		
+				<Col xs={3}></Col>	
+				<Col sm={6} xs={7}> 
+					{wantToEdit.wantToEdit?	
+						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:
+						<p>{userData.limit?<p>{userData.limit}</p>:<p className="limit-text">Ingen gräns satt</p>}</p> }
+				</Col>
+			</Row>
 
 			{userData.children.length>0?
 				<div className="mt-4">

@@ -45,7 +45,7 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 			</Row>
 			<Row>
 				<Col xs={9}>
-					<input type="text" className="form-control" placeholder="Telefonnummer" 
+					<input type="number" className="form-control" placeholder="Telefonnummer" 
 					onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
 				</Col>
 				<Col xs={3}>

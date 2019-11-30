@@ -35,7 +35,7 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 				</Col>
 				<Col xs={2}>
 					{wantToEdit.wantToEdit?
-						<img src={deleteIcon} alt="ta bort ikon" className="delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
+						<img src={deleteIcon} alt="ta bort ikon" className="button" onClick={()=>deleteChild(child._id)}></img>:''}
 				</Col>
 			</Row>
 
