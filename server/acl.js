@@ -10,24 +10,19 @@ module.exports = ({ apiPath, rules }) => {
 			// This is an api route.
 			// Get the users role and the entity requested
 			// (if not logged in set the role visitorr)
-		//	console.log(req.params)
 			let userRole = req.session.user ?
 				req.session.user.role || 'visitor' : 'visitor';
 			let url = req.url;
-			//console.log("url",req.url)
 			let method = req.method.toLowerCase();
 			url += url.slice(-1) !== '/' ? '/' : '';
 			let entity = url.split(apiPath).join('').split('/')[0];
-			//console.log("entity", req.params, req.query.encoded)
 			if(entity.includes("activateaccounts")){
-			//	console.log("tjubre")
 				next();
 				return;
 			}
 			// Loop through our rules
 			for (let rule in rules) {
 				if (rule === entity) {
-				//	console.log(rule)
 					// Found the rule
 					// loop through roles
 					for (let role in rules[rule]) {
