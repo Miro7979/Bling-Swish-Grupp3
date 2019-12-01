@@ -105,11 +105,13 @@ const MyPagePage = () => {
 				</div>:''}
 					
 			<Row className="mt-1">
-				<Col xs={4} className="text-center text-dark"> Beloppsgräns<br></br>/månad </Col>	
-			
-			{wantToEdit.wantToEdit?			
+				<Col xs={4} className="text-center text-dark"> Beloppsgräns<br></br>/månad </Col>				
+				{wantToEdit.wantToEdit?			
 				<Col sm={7} xs={8}> 
-					<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />
+					{userData.role==='parent'?
+						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:						
+						<div>{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}</div>						
+					}
 				</Col>:
 				<Col sm={7} xs={8}>
 					{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
@@ -126,7 +128,9 @@ const MyPagePage = () => {
 				</div>:''}
 
 			{wantToEdit.wantToEdit?
-				<MyPagePageAddChild userData={userData} setUserData={setUserData} />:''
+				<div>
+					{userData.role==='parent'? <MyPagePageAddChild userData={userData} setUserData={setUserData} />:''}
+				</div>:''
 			}
 			{wantToEdit.wantToEdit?
 				<Row className="mt-5">
