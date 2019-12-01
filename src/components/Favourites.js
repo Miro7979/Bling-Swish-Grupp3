@@ -1,26 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Card, Button, CardTitle, CardBody, Row, Col } from 'reactstrap';
+import React, { useContext, useEffect } from 'react';
+import { Card, Button, CardBody, Row, Col } from 'reactstrap';
 import { User } from 'the.rest/dist/to-import';
 // import { starIcon } from '../images/star-black.png';
 import Context from './Context';
 
 
 
-const Favourites = (props) => {
+const Favourites = () => {
 
   let [state, setState] = useContext(Context);
 
-  const [setFavourite] = useState();
-  const [favourites, setFavourites] = useState([]);
-
   const deleteFavourite = async (e) => {
-    let favList = favourites.filter(favourite => favourite._id !== e.id)
+    let favList = state.user.favourites.filter(favourite => favourite._id !== e.id)
     let loggedInUser = await User.findOne({ phone: state.user.phone });
     loggedInUser.favorites = favList;
     await loggedInUser.save();
-    setFavourites(favList)
-    setFavourite(loggedInUser)
-
+    //state is the same but override user and add the favourites
+    setState((prev) => ({ ...prev, user: { ...prev.user, favourites: favList } }))
   }
   const selectFavourite = () => {
     //   //map through all favourites
@@ -32,13 +28,15 @@ const Favourites = (props) => {
 
   useEffect(() => {
     async function displayFavourites() {
-      let favourite = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
-      if (favourite[0]._id) {
+      let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
+      //if users true and they have have an id
+      if (users[0] && users[0]._id) {
 
-        setFavourites(favourite[0].favorites)
-        return;
+        setState((prev) => ({ ...prev, user: { ...prev.user, favourites: users[0].favorites } }))
+
+        // return;
       }
-      setState((prev) => ({ ...prev, booting: false }))
+      // setState((prev) => ({ ...prev, booting: false }))
     }
     displayFavourites()
   },
@@ -47,16 +45,30 @@ const Favourites = (props) => {
 
   return (
     <Row>
-      <Col sm={{ size: 6, offset: 3 }} className="card-cols">
-        {favourites.map(favourite => {
+      <Col sm={{ size: 6, offset: 3 }}>
+        {/*check if favourites exists, if false make empty array*/}
+        {(state.user.favourites || []).map(favourite => {
           return (
-            <Card key={favourite._id} body className="mt-2">
-              <CardTitle>{favourite.name}</CardTitle>
-              <CardBody>{favourite.phone}</CardBody>
-              <Row className="btn-row">
-                <Button onClick={selectFavourite} size="sm" className="card-btn-select btn btn-info  mr-2">Välj</Button>
-                <Button onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id} className="card-btn-delete btn btn-danger">Ta bort</Button>
-              </Row>
+            <Card key={favourite._id} body className="mt-3 p-0">
+              <CardBody className="p-3">
+                <Row>
+                  <Col className="pl-3 pr-0">
+                    {favourite.name}
+                  </Col>
+                  <Col className="pl-3 pr-0">
+                    {favourite.phone}
+                  </Col>
+                </Row>
+                <Row className="btn-row mt-3">
+                  <Col className="pl-3 pr-0">
+                    <Button onClick={selectFavourite} size="sm" className="btn btn-info" id="select-btn">Välj</Button>
+                  </Col>
+                  <Col className="pl-3 pr-0">
+                    <Button onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id} className="card-btn-delete btn btn-danger">Ta&nbsp;bort</Button>
+                  </Col>
+
+                </Row>
+              </CardBody>
             </Card>
           )
         })}
