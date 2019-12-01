@@ -39,28 +39,19 @@ const MyPagePage = () => {
 		else if(!regularx.test(userData.password)){ setPasswordError({ passwordError:true}); }
 		else{ 
 			setPasswordError({ passwordError:false }); 
-			alert('passed tha test');
+			let whoIsLoggedIn = await Login.findOne();
+			let user= await User.findOne({name:whoIsLoggedIn.name});
+			user.password=userData.password;
+			user.limit=userData.limit;
+			user.children=userData.children;
+			if(userData.children.length>0){
+				let child=await User.findOne({_id:userData.children[0]._id});
+				child.limit=userData.children[0].limit;
+				await child.save();
+			}		
+			await user.save();
+			setWantToEdit({wantToEdit:false});
 		}
-/*
-		let whoIsLoggedIn = await Login.findOne();
-		let user= await User.findOne({name:whoIsLoggedIn.name});
-
-		user.password=userData.password;
-		user.limit=userData.limit;
-		user.children=userData.children;
-
-		if(userData.children.length>0){
-			let child=await User.findOne({_id:userData.children[0]._id});
-			child.limit=userData.children[0].limit;
-			await child.save();
-		}
-	
-		await user.save();
-
-		setWantToEdit({
-			wantToEdit:false
-		});
-		*/
 	}
 
 	return(
@@ -75,36 +66,36 @@ const MyPagePage = () => {
 			</Row>
 
 			<Row>
-				<Col xs={3}> 
+				<Col xs={4}> 
 					<img src={logo} alt="person ikon"></img>
 				</Col>
-				<Col xs={9} className="user-name"> 
+				<Col xs={8} className="user-name"> 
 					{userData.name}
 				</Col>
 			</Row>
 
 			<Row className="mt-4">
-				<Col xs={3} className="text-dark"> Telefon </Col>
-				<Col xs={9}> {userData.phone} </Col>
+				<Col xs={4} className="text-dark"> Telefon </Col>
+				<Col xs={8}> {userData.phone} </Col>
 			</Row>
 			<Row>
-				<Col xs={3} className="text-dark"> Epost </Col>
-				<Col xs={9}> {userData.email} </Col>
+				<Col xs={4} className="text-dark"> Pers.Nr. </Col>
+				<Col xs={8}> {userData.nationalIdNumber} </Col>
 			</Row>
 			<Row>
-				<Col xs={3} className="text-dark"> Pers.Nr. </Col>
-				<Col xs={9}> {userData.nationalIdNumber} </Col>
+				<Col xs={4} className="text-dark"> Epost </Col>
+				<Col xs={8}> {userData.email} </Col>
 			</Row>
 
-			<Row style={{height:'40px'}}>
-				<Col xs={3} className="password-text text-dark"> Lösenord </Col>
-				<Col sm={6} xs={7}> 
+			<Row  className="mt-1" style={{height:'40px'}}>
+				<Col xs={4} className="password-text text-dark"> Lösenord </Col>
+				<Col sm={7} xs={8}> 
 					{wantToEdit.wantToEdit?	
 					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
 					<p className="password-text">{/*{userData.password}*/}********</p> }
 				</Col>
 			</Row>
-			{passwordError.passwordError?
+			{wantToEdit.wantToEdit&&passwordError.passwordError?
 				<div>
 					<Row>
 						<Col>
@@ -113,15 +104,14 @@ const MyPagePage = () => {
 					</Row>
 				</div>:''}
 					
-			<Row className="mt-3">
-				<Col className="text-center text-dark"> Beloppsgräns (per månad) </Col>	
-			</Row>
-			<Row className="mt-1">			
+			<Row className="mt-1">
+				<Col xs={4} className="text-center text-dark"> Beloppsgräns<br></br>/månad </Col>	
+			
 			{wantToEdit.wantToEdit?			
-				<Col xs={4} className="mx-auto"> 
+				<Col sm={7} xs={8}> 
 					<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />
 				</Col>:
-				<Col className="text-center">
+				<Col sm={7} xs={8}>
 					{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
 				</Col> }
 			</Row>

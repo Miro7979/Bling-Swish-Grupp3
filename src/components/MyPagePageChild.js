@@ -6,11 +6,9 @@ import {Col,Row} from 'reactstrap';
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
 	const changeLimit=(e)=>{
-		let regularx = /^\d+$/;
-		if(regularx.test(e.target.value)){
-			console.log('cool');
+		if(e.target.value>0){
+			child.limit=e.target.value;
 		}
-		//child.limit=e.target.value;
 	}
 	const deleteChild=(id)=>{
 		child.limit='';
@@ -27,10 +25,10 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
     <div className="child-component">
 
 			<Row>
-				<Col xs={3}>
+				<Col xs={4}>
 					<img src={logo} alt="barn ikon"></img>
 				</Col>
-				<Col xs={7} className="children-name">
+				<Col xs={6} className="children-name">
 					{child.name}
 				</Col>
 				<Col xs={2}>
@@ -39,15 +37,19 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 				</Col>
 			</Row>
 
-			<Row className="mt-2">
-				<Col xs={3}>
-						Max-Swish
+			<Row className="mt-3" style={{height:'40px'}}>
+				<Col xs={4} className="text-dark text-center">
+						Beloppsgräns<br></br>/månad
+				</Col>		
+				
+				{wantToEdit.wantToEdit?
+				<Col sm={7} xs={8}>
+					<input type="number" className="form-control vertical-center" placeholder={child.limit} onChange={changeLimit}></input>
+				</Col>:
+				<Col xs={8}>
+					{child.limit?<p>{child.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
 				</Col>
-				<Col sm={6} xs={7}>
-					{wantToEdit.wantToEdit?
-						<input type="text" className="form-control" placeholder={child.limit} onChange={changeLimit}></input>:
-						<p>{child.limit} kr</p>}
-				</Col>
+				}
 			</Row>
 					   				
 		</div>	

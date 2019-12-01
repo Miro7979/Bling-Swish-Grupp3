@@ -36,7 +36,7 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	}
 
   return(
-    <div className="mt-5 add-child-component">
+    <div className="mt-3 add-child-component">
 			
 			<Row>
 				<Col>
