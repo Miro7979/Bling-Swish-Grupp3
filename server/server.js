@@ -177,7 +177,7 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-    users: require('./models/User'),
+    Users: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')
