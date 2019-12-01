@@ -59,11 +59,6 @@ const AdminPage = (props) => {
     }
   }
 
-  const showTransactions = () => {
-    console.log('show transactions');
-
-  }
-
   const deleteUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
@@ -82,10 +77,11 @@ const AdminPage = (props) => {
         <Link to={'/adminsida/registrera-en-ny-anvandare'}>
           <Button onClick={toggle}
             className="add-btn mt-3"
-          ><img src={addIcon} alt="lägga till"></img></Button>
+          ><img src={addIcon} alt="lägga till" />
+          </Button>
         </Link>
         <Button className="sort-btn ml-3 mt-3"
-          onClick={sortTable}><img src={sortIcon} alt="sortera"></img></Button>
+          onClick={sortTable}><img src={sortIcon} alt="sortera" /></Button>
         {/*the table head*/}
         <Table striped id="myTable" className="mt-3 table-responsive-md">
           <thead>
@@ -110,32 +106,30 @@ const AdminPage = (props) => {
                 <td className="one align-middle">{email}</td>
                 <td className="one align-middle">{nationalIdNumber}</td>
                 <td className="align-middle">
-                  <span
+                  <Link
                     className="one show-more-btn ml-2"
                     color="info"
                     size="sm"
                     data-id={_id}
-                    onClick={showTransactions}
-                  >{' '}<img src={showProperty} alt="sök ikon"></img>
-                  </span>
+                    to="/betalningshistorik"
+                  >{' '}<img src={showProperty} alt="sök ikon" />
+                  </Link>
                 </td>
-
-                {/* <td className="align-middle">{transactions}</td> */}
-
                 <td className="align-middle">
                   <span
                     className="remove-btn"
                     size="sm"
                     data-id={_id}
                     onClick={deleteUser}
-                  ><img src={deleteIcon} alt="ta bort ikon"></img>
-
+                  ><img src={deleteIcon} alt="ta bort ikon" />
                   </span>
                 </td>
                 <td className="align-middle">
-                  <Link className="btn edit-btn"
+                  <Link
+                    className="btn edit-btn"
                     color="info"
-                    size="sm" to={'/adminsida/redigera-anvandare/' + _id}>
+                    size="sm"
+                    to={'/adminsida/redigera-anvandare/' + _id}>
                     <img src={editIcon} alt="ändra ikon"></img>
                   </Link>
                 </td>
