@@ -28,30 +28,29 @@ const Favourites = () => {
     //   setFavourite({ user: favourite })
   }
 
-
-  async function displayFavourites() {
-    try {
-
-      let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
-      //if users true and they have have an id
-      if (users[0] && users[0]._id) {
-
-        setState((prev) => ({ ...prev, user: { ...prev.user, favourites: users[0].favorites } }))
-
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    setState((prev) => ({ ...prev, booting: false }))
-  }
-  displayFavourites()
-
   useEffect(() => {
-    displayFavourites();
-    
-  })
-  
+    async function displayFavourites() {
+      try {
+
+        let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
+        //if users true and they have have an id
+        if (users[0] && users[0]._id) {
+
+          setState((prev) => ({ ...prev, user: { ...prev.user, favourites: users[0].favorites } }))
+
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setState((prev) => ({ ...prev, booting: false }))
+    }
+    displayFavourites()
+  },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [])
+
+
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
