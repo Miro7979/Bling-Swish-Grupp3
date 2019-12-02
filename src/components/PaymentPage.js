@@ -11,6 +11,7 @@ import {
   Alert
 } from 'reactstrap';
 import Favourites from './Favourites';
+import CreateNotificationModal from './createNotificationModal';
 
 const PaymentPage = (props) => {
 
@@ -96,8 +97,8 @@ const PaymentPage = (props) => {
   return (
     <React.Fragment>
       <Row>
-        <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
-          {'Saldo på min konto: ' + state.user.balance + ' SEK'}
+        <Col sm={{ size: 6, offset: 3 }} className=" userBalance mt-3" >
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance + ' kr på ditt konto.'}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
@@ -112,7 +113,7 @@ const PaymentPage = (props) => {
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
               onChange={handleNumberChange} />
-            <Button onClick={addToFavourites}>Spara favorit</Button>
+            <Button className="favoBtn" onClick={addToFavourites}>Spara som favorit</Button>
 
           </InputGroup>
         </Col>
@@ -131,7 +132,7 @@ const PaymentPage = (props) => {
           </InputGroup>
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-3">
-          <Button onClick={sendTransaction} color="success">Skicka</Button>
+          <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
       <Favourites data={props.favourite} />

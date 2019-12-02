@@ -22,13 +22,13 @@ const Favourites = (props) => {
     setFavourite(loggedInUser)
 
   }
-  // const selectFavourite = () => {
-  //   //map through all favourites
-  //   //find which one is in input field
-  //   //grab the value and save to input field
-  //   console.log('bye');
-  //   setFavourite({ user: favourite })
-  // }
+  const selectFavourite = () => {
+    //   //map through all favourites
+    //   //find which one is in input field
+    //   //grab the value and save to input field
+    console.log('bye');
+    //   setFavourite({ user: favourite })
+  }
 
   useEffect(() => {
     async function displayFavourites() {
@@ -47,14 +47,14 @@ const Favourites = (props) => {
 
   return (
     <Row>
-      <Col className="card-cols">
+      <Col sm={{ size: 6, offset: 3 }} className="card-cols">
         {favourites.map(favourite => {
           return (
-            <Card key={favourite._id} body className="mt-2" sm={12} md={12}>
+            <Card key={favourite._id} body className="mt-2">
               <CardTitle>{favourite.name}</CardTitle>
               <CardBody>{favourite.phone}</CardBody>
               <Row className="btn-row">
-                {/* <Button onClick={selectFavourite} size="sm" className="card-btn-select btn btn-info  mr-2">Välj</Button> */}
+                <Button onClick={selectFavourite} size="sm" className="card-btn-select btn btn-info  mr-2">Välj</Button>
                 <Button onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id} className="card-btn-delete btn btn-danger">Ta bort</Button>
               </Row>
             </Card>

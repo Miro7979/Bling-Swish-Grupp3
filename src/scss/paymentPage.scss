@@ -1,4 +1,19 @@
+.payment-lable {
+	font-size: 2rem;
+}
+.sendTransactionBtn {
+	background-color: rgb(114, 231, 123);
+	border-color: white;
+	position: relative;
+	width: 100%;
+	align-content: center;
+}
+.userBalance {
+	text-align: center;
+}
 
-.payment-lable{
-  font-size: 2rem;
+@media all and (max-width: 400px) and (min-width: 300px) {
+	.userBalance {
+		font-size: 15px;
+	}
 }

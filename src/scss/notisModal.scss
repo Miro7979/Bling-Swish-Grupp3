@@ -11,6 +11,22 @@
 	background-color: rgb(255, 255, 255) !important;
 }
 .notisModalBtn {
-	background-color: rgb(98, 206, 103) !important;
+	background-color: rgb(175, 12, 175) !important;
 	border-radius: 0 0 10px 10px;
+}
+.notifyMessage {
+	text-align: center;
+}
+
+@media all and (max-width: 599px) and (min-width: 320px) {
+	.notifyMessage {
+		text-align: center;
+		font-size: 15px;
+	}
+}
+@media all and (max-width: 400px) and (min-width: 300px) {
+	.notifyMessage {
+		text-align: center;
+		font-size: 13px;
+	}
 }

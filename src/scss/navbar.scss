@@ -1,27 +1,26 @@
-.navlink {
-	color: purple;
-	text-align: center !important;
-}
 .navbar {
-	background-color: white;
+	background-color: rgb(251, 249, 249);
 
 	.navbar-brand,
-	.nav-link {
+	.nav-link,
+	.navlink,
+	#navLink {
 		color: purple;
 		opacity: 1;
 		cursor: pointer;
 	}
 }
-
 a,
 a:link,
-.nav-link,
 .nav-item {
 	text-decoration: none;
-	color: purple;
 	margin-right: 10px;
 	cursor: pointer;
 }
-.custom-toggler.navbar-toggler {
-	border-color: purple;
+.navbar-toggler {
+	background-color: purple;
+}
+.navLogo {
+	height: 100px;
+	width: 100px;
 }
