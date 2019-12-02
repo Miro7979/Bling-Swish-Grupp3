@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
 import Context from './Context';
+import BlingSwishLogo from '../images/blingSwishLogo.png';
 
 import {
 	Button, Input,
@@ -19,8 +20,8 @@ import {
 function LogInPage() {
 	let setState = useContext(Context)[1]
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState();
+	const [password, setPassword] = useState();
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
@@ -40,20 +41,18 @@ function LogInPage() {
 		finally {
 			return ''
 		}
-
-
 	};
 
 	return (
 		<React.Fragment>
 			<div className="container logInPageContent">
 				<div className="logInContent mt-5">
+					<Row>
+						<Col sm={{ size: 6, offset: 3 }} >
+							<img className="blingLogo mb-5" src={BlingSwishLogo} alt="Logo" />
+						</Col>
+					</Row>
 					<div className="logInHeader">
-						<Row>
-							<Col sm={{ size: 6, offset: 3 }} >
-								<h2 className="h2LogInHeader">Välkommen till Bling</h2>
-							</Col>
-						</Row>
 						<Row>
 							<Col sm={{ size: 6, offset: 3 }} >
 								<h4 className="h4LogInHeader">Vänligen logga in på ditt konto</h4>
@@ -65,8 +64,7 @@ function LogInPage() {
 							<Col sm={{ size: 6, offset: 3 }} >
 								<div>
 									<Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
-										Email eller lösenord är felaktigt, vänligen försök igen.
-					        	</Alert>
+										Email eller lösenord är felaktigt, vänligen försök igen.</Alert>
 								</div>
 								<FormGroup>
 									<Label for="emailLabel">Email</Label>
@@ -94,10 +92,10 @@ function LogInPage() {
 							</Col>
 							<Col sm={{ size: 6, offset: 3 }} >
 								<div className="forgotPasswordLink">
-									<Link to="/aterstalllosenord">Glömt lösenord</Link>
+									<Link id="forgotPasswordLink" to="/aterstalllosenord">Glömt lösenord</Link>
 								</div>
 								<div className="registerNewUserLink">
-									<Link to="/skapaKontoSida">Registrera dig som ny användare</Link>
+									<Link id="skapaKontoSida" to="/skapaKontoSida">Registrera dig som ny användare</Link>
 								</div>
 							</Col>
 						</Row>
