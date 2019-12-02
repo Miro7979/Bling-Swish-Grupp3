@@ -39,8 +39,8 @@ const MyPagePageAddChild=({userData,setUserData})=>{
     <div className="mt-3 add-child-component">
 			
 			<Row>
-				<Col>
-					<p className="add-child-text"> Lägg till ett barn </p>
+				<Col className="text-center">
+					<p> Lägg till ett barn </p>
 				</Col>
 			</Row>
 			<Row>
@@ -49,7 +49,7 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 					onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
 				</Col>
 				<Col xs={3}>
-					<Button color="info" onClick={findChild}> Sök </Button>
+					<Button className="search-button" onClick={findChild}> Sök </Button>
 				</Col>
 			</Row>
 

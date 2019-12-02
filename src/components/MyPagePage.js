@@ -80,20 +80,20 @@ const MyPagePage = () => {
 			</Row>
 
 			<Row className="mt-4">
-				<Col xs={4} className="text-dark"> Telefon </Col>
+				<Col xs={4}> Telefon </Col>
 				<Col xs={8}> {userData.phone} </Col>
 			</Row>
 			<Row>
-				<Col xs={4} className="text-dark"> Pers.Nr. </Col>
+				<Col xs={4}> Pers.Nr. </Col>
 				<Col xs={8}> {userData.nationalIdNumber} </Col>
 			</Row>
 			<Row>
-				<Col xs={4} className="text-dark"> Epost </Col>
+				<Col xs={4}> Epost </Col>
 				<Col xs={8}> {userData.email} </Col>
 			</Row>
 
 			<Row  className="mt-1" style={{height:'40px'}}>
-				<Col xs={4} className="password-text text-dark"> Lösenord </Col>
+				<Col xs={4} className="password-text"> Lösenord </Col>
 				<Col sm={7} xs={8}> 
 					{wantToEdit.wantToEdit?	
 					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
@@ -110,7 +110,7 @@ const MyPagePage = () => {
 				</div>:''}
 					
 			<Row className="mt-1">
-				<Col xs={4} className="text-center text-dark"> Beloppsgräns<br></br>/månad </Col>				
+				<Col xs={4}> Beloppsgräns<br></br>/månad </Col>				
 				{wantToEdit.wantToEdit?			
 					<Col sm={7} xs={8}> 
 						{userData.role==='parent'?
@@ -139,8 +139,10 @@ const MyPagePage = () => {
 				</div>:''
 			}
 			{wantToEdit.wantToEdit?
-				<Row className="mt-5">
-					<button className="col-3 mx-auto btn btn-success" onClick={handleSubmit}>Spara</button>
+				<Row>
+					     <Col sm={{ size: 6, offset: 3 }} className="mt-3">
+					<Button className="saveBtn mx-auto " onClick={handleSubmit}>Spara</Button>
+					</Col>
 				</Row>:''}
 
 		</div>

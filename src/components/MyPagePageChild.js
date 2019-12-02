@@ -38,7 +38,7 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 			</Row>
 
 			<Row className="mt-3" style={{height:'40px'}}>
-				<Col xs={4} className="text-dark text-center">
+				<Col xs={4}>
 						Beloppsgräns<br></br>/månad
 				</Col>		
 				
