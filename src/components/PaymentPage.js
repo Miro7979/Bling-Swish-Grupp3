@@ -11,7 +11,7 @@ import {
   Alert
 } from 'reactstrap';
 import Favourites from './Favourites';
-import CreateNotificationModal from './createNotificationModal';
+
 
 const PaymentPage = (props) => {
 
