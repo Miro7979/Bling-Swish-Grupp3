@@ -9,7 +9,7 @@ import { User, Login } from 'the.rest/dist/to-import';
 const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
-		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[]
+		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[],waitingChildren:[]
 	});	
 	const[wantToEdit,setWantToEdit]=useState({
 		wantToEdit:false
@@ -54,13 +54,18 @@ const MyPagePage = () => {
 		}
 	}
 
+	const goBackButton=()=>{
+		setWantToEdit({wantToEdit:false});
+		setPasswordError({passwordError:false});
+	} 
+
 	return(
 		<div className="mypage-component mt-5">
 
 			<Row className="pb-5">
 				<Col>
 					{wantToEdit.wantToEdit?
-						<img src={goBackLogo} alt="pil ikon" className="button" onClick={()=>setWantToEdit({wantToEdit:false})}></img>:
+						<img src={goBackLogo} alt="pil ikon" className="button" onClick={goBackButton}></img>:
 						<Button color="info" className="edit-button" onClick={()=>setWantToEdit({wantToEdit:true})}> Redigera </Button>}			
 				</Col>
 			</Row>
@@ -107,15 +112,16 @@ const MyPagePage = () => {
 			<Row className="mt-1">
 				<Col xs={4} className="text-center text-dark"> Beloppsgräns<br></br>/månad </Col>				
 				{wantToEdit.wantToEdit?			
-				<Col sm={7} xs={8}> 
-					{userData.role==='parent'?
-						<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:						
-						<div>{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}</div>						
-					}
-				</Col>:
-				<Col sm={7} xs={8}>
-					{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
-				</Col> }
+					<Col sm={7} xs={8}> 
+						{userData.role==='parent'?
+							<input type="number" className="form-control" value={userData.limit} onChange={(e)=>setUserData({...userData,limit:e.target.value})} />:						
+							<div>{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}</div>
+						}
+					</Col>:
+					<Col sm={7} xs={8}>
+						{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
+					</Col> 
+				}
 			</Row>
 
 			{userData.children.length>0?
