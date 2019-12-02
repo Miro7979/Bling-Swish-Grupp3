@@ -177,7 +177,8 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-    users: require('./models/User'),
+		users: require('./models/User'),
+		User: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')
@@ -328,32 +329,66 @@ app.post('/api/transaction*', async (req, res) => {
     res.json(transaction);
 });
 
-app.get('/api/my-transactions/:userPhone', async (req, res) => {
-    if (!req.session.user) {
-        res.json('Nope!')
-        return;
-    }
-    let err, allTransactions = await Transaction.find()
-        .catch(
-            error => err = error
-        );
-    let userPhone = req.params.userPhone;
+app.get('/api/my-transactions/:userId', async (req, res) => {
+	let userId = req.params.userId;
+	let user = req.session.user;
+	let userChildren = user.children;
 
-    let thisUserTransactions = [];
-    for (let transaction of allTransactions) {
-        if (transaction.to.phone === userPhone || transaction.from.phone === userPhone) {
-            thisUserTransactions.push(transaction);
-        }
-    };
+	if(user && user._id === userId) {
+		try {
+			let iGot = await Transaction.find({ to: userId })
+			let iSent = await Transaction.find({ from: userId })
+			let allMyTransactions = [...iGot, ...iSent];
+			allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
+			res.json(allMyTransactions);
+		}
+		catch (e) {
+			console.log(e)
+		}
+	}
+	if(userChildren.length > 0 && userChildren.includes(userId)) {
+		try {
+			let iGot = await Transaction.find({ to: userId })
+			let iSent = await Transaction.find({ from: userId })
+			let allMyTransactions = [...iGot, ...iSent];
+			allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
+			res.json(allMyTransactions);
+		}
+		catch (e) {
+			console.log(e)
+		}
+	}
+	else {
+		return;
+	}
+});
 
-    res.json(err || thisUserTransactions);
+app.get('/api/populatemychildren', async (req, res) => {
+	let user = req.session.user;
+	if (!user) {
+			res.json('Nope!')
+			return;
+	};
+
+	let err, userChildren = await User.findOne({ phone: user.phone }).populate('children', 'name transactions phone')
+	.catch(
+		error => err = error
+	);
+	res.json(err || userChildren);
 });
 
 
 app.post('/api/send-sse', async (req, res) => {
-    let body = req.body;
-    res.json(body);
-    sendNotification(req, body)
+	let body = req.body;
+	let { phoneNumber, message } = body;
+	send(
+		req => req.session.user && req.session.user.phone === phoneNumber,
+		'message',
+		{
+			message: message,
+			content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
+		}
+	);
 });
 
 require('./modelRaw/UserRaw')
@@ -372,23 +407,4 @@ app.use(express.static('client/build'));
 app.listen(3001, () => console.log('Listening on port 3001'));
 
 
-// Example of using send(to, eventType, data)
-// Here we send messages to all connected clients
-// We randomly choose between the event types
-// 'message' and 'other' (you can name your event types how you like)
-// and send a message (an object with the properties cool and content)
-async function sendNotification(req, body) {
-    let { phoneNumber, message, fromUserId, cash } = body;
 
-    send(
-        req => req.session.user && req.session.user.phone === phoneNumber,
-        'message',
-        {
-            message: message,
-            content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from this phonenumber: ' + req.session.user.phone,
-            fromUser: fromUserId,
-            amount: cash
-        }
-    );
-
-}

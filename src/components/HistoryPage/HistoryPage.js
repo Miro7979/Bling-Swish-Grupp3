@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import HistoryDropdown from './HistoryDropdown.js';
 import HistoryList from './HistoryList.js';
 import Context from '../Context';
-import { User } from 'the.rest/dist/to-import';
 
 function HistoryPage() {
 
@@ -11,22 +10,41 @@ function HistoryPage() {
   const [dropdownNames, setDropdownNames] = useState([]);
   let context = useContext(Context);
   let [user, setUser] = useState(context[0].user)
-  let [state, setState] = useContext(Context);
+ 
 
-  if (state.reload === true) {
-    setState((prev) => ({ ...prev, reload: false }));
-    window.location.reload();
+  useEffect(() => {
+    console.log('runEffect')
+
+    populateUserChildren()
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context[0].reload]);
+  
+
+  async function populateUserChildren() {
+    const response = await fetch('/api/populatemychildren');
+    user = await response.json();
+    callAwaitedFunctions()
   }
+  
+  console.log(context[0].reload)
 
+  
   async function fetchThisUserTransactions() {
-
-    let myTransactions = await fetch('/api/my-transactions/' + user.phone);
-    myTransactions = await myTransactions.json();
-
+    let myTransactions;
+    try {
+      myTransactions = await fetch('/api/my-transactions/' + user._id);
+      if(!myTransactions.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      myTransactions = await myTransactions.json();
+    } catch (error) {
+      console.log('There has been a probelm with yout fetch operation.', error.message)
+    }
     convertUser(myTransactions);
   }
-
-
+  
+  
   function convertUser(thisUserTransactions) {
     let { name, children } = user;
     let transactionsHash = [];
@@ -39,22 +57,22 @@ function HistoryPage() {
       transactionsHash.push(transaction);
     });
     let convertedUser = { name, transactions: transactionsHash, children };
-
+    
     if (children.length > 0) {
       let myConvertedChildren = fetchThisUsersChildren(children);
       convertedUser = { name, transactions: transactionsHash, children: myConvertedChildren };
     }
-
+    
     setUser(convertedUser);
   }
-
-
+  
+  
   async function fetchThisUsersChildren(childrens) {
     let myConvertedChildren = [];
     for (let child of childrens) {
-      let myChildTransactions = await fetch('/api/my-transactions/' + child.phone);
+      let myChildTransactions = await fetch('/api/my-transactions/' + child._id);
       myChildTransactions = await myChildTransactions.json();
-
+      
       let { name, children } = child;
       children = [];
       let transactionsHash = [];
@@ -69,32 +87,11 @@ function HistoryPage() {
       let convertedChild = { name, transactions: transactionsHash, children };
       myConvertedChildren.push(convertedChild);
     }
-
+    
     return myConvertedChildren;
   }
-
-
-  useEffect(() => {
-
-    async function populateUserChildren() {
-      let hej = await User.find({ phone: user.phone })[0].populate('children', 'name transactions phone');
-      let children = await hej[0].children;
-      user.children = children;
-      setUser(user);
-      callAwaitedFunctions();
-    }
-    populateUserChildren();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function callAwaitedFunctions() {
-    fetchThisUserTransactions();
-    insertNamesToDropdown();
-    organizeTransactions();
-  }
-
-
+  
+  
   function insertNamesToDropdown() {
     let dropdownNames = ['Min historik'];
     if (user.children.length > 0) {
@@ -104,13 +101,13 @@ function HistoryPage() {
     } else {
       dropdownNames.push('Inga fler användare')
     }
-
+    
     setDropdownNames(dropdownNames);
   }
-
+  
   async function organizeTransactions(dropdownTitle) {
     let transactionsArr = [{ name: 'Min historik', transactions: user.transactions }]
-
+    
     if (await user.children) {
       for (let child of await user.children) {
         let { name, transactions } = child;
@@ -118,18 +115,24 @@ function HistoryPage() {
         transactionsArr.push(childObj);
       }
     }
-
-    let personFromDropdown = transactionsArr.find(({ name }) => name === dropdownTitle);
-    if (!personFromDropdown) { return };
-
-    setTransactions(personFromDropdown.transactions)
+    
+    let nameFromDropdown = transactionsArr.find(({ name }) => name === dropdownTitle);
+    if (!nameFromDropdown) { return };
+    
+    setTransactions(nameFromDropdown.transactions)
+  }
+  
+  function callAwaitedFunctions() {
+    fetchThisUserTransactions();
+    insertNamesToDropdown();
+    organizeTransactions();
   }
 
   const createDropdown = (dropdownTitle) => {
     setTheDropdownTitle(dropdownTitle);
     organizeTransactions(dropdownTitle);
   }
-
+  
   let propsToDropDown = { createDropdown, dropdownNames, organizeTransactions };
   let propsToHistoryList = { theDropdownTitle, transactions };
 

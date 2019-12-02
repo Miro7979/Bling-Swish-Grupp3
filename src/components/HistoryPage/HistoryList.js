@@ -12,7 +12,7 @@ function HistoryList(props) {
         <h3 className="history-list-no-transactions">- Inga transaktioner genomförda -</h3>
       }
 
-      {props.transactions.reverse().map((transaction, i) => 
+      {props.transactions.map((transaction, i) => 
         <div className="row history-list-row" key={i}>
 
           <div className="col">

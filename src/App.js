@@ -26,14 +26,24 @@ function App(props) {
 
 
   let sse = new SSE('/api/sse');
-  async function listenToSSE() {
+  // async function listenToSSE() {
+  //   console.log('sse')
 
+  //   sse.listen('message', (data) => {
+  //     console.log(data)
+  //     setState((prev) => ({ ...prev, showNoti: true }))
+  //   });
+  // }
+
+  // listenToSSE();
+
+  useEffect(() => {
     sse.listen('message', (data) => {
+      console.log(data)
       setState((prev) => ({ ...prev, showNoti: true }))
     });
-  }
 
-  listenToSSE();
+  }, []);
 
 
 
@@ -61,7 +71,8 @@ function App(props) {
   }, []);
 
   const toggleNotificationModal = () => {
-    setState((prev) => ({ ...prev, showNoti: false, reload: true }))
+    setState((prev) => ({ ...prev, showNoti: false, reload: prev.reload+1 }))
+    // window.location.reload()
   }
 
   let propsToNotificationModal = { toggleNotificationModal };
@@ -109,10 +120,10 @@ function App(props) {
               </Switch>
             </main>
           </div>
-          {state.user.role === 'admin' && <Redirect to="/adminsida" />}
-          {state.user.role === 'parent' && <Redirect to="/betalningar" />}
-          {state.user.role === 'child' && <Redirect to="/betalningar" />}
-          {state.user.role === 'visitor' && !commonRoute() && <Redirect to="/login" />}
+          {/* {state.user.role === 'admin' && <Redirect to="/adminsida" />} */}
+          {/* {state.user.role === 'parent' && <Redirect to="/betalningar" />}
+          {state.user.role === 'child' && <Redirect to="/betalningar" />} */}
+          {/* {state.user.role === 'visitor' && !commonRoute() && <Redirect to="/login" />} */}
         </Router>
       }
     </Context.Provider>
