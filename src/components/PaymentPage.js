@@ -13,7 +13,7 @@ import {
 import Favourites from './Favourites';
 
 const PaymentPage = (props) => {
-  
+
   const [state] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
@@ -23,20 +23,19 @@ const PaymentPage = (props) => {
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
-  
+
   const [favourites, setFavourites] = useState([]);
-  
+
   async function addToFavourites() {
     //find input + e.target.value
     //save to [favourites]
     let favouriteFound = await User.findOne({ phone: number })
     let loggedInUser = await User.findOne({ phone: state.user.phone });
     loggedInUser.favorites.push(favouriteFound._id);
-    await loggedInUser.save();
+    await loggedInUser.save(favouriteFound);
     setFavourites({ number: favourites });
     return favourites;
   }
-  console.log(state.favourite);
 
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, fromUserId, cash };
@@ -134,7 +133,7 @@ const PaymentPage = (props) => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favourites />
+      <Favourites data={favourites} />
     </React.Fragment>
   );
 };

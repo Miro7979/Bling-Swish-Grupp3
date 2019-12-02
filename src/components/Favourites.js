@@ -17,7 +17,9 @@ const Favourites = () => {
     await loggedInUser.save();
     //state is the same but override user and add the favourites
     setState((prev) => ({ ...prev, user: { ...prev.user, favourites: favList } }))
+
   }
+
   const selectFavourite = () => {
     //   //map through all favourites
     //   //find which one is in input field
@@ -26,23 +28,30 @@ const Favourites = () => {
     //   setFavourite({ user: favourite })
   }
 
-  useEffect(() => {
-    async function displayFavourites() {
+
+  async function displayFavourites() {
+    try {
+
       let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
       //if users true and they have have an id
       if (users[0] && users[0]._id) {
 
         setState((prev) => ({ ...prev, user: { ...prev.user, favourites: users[0].favorites } }))
 
-        // return;
+        return;
       }
-      // setState((prev) => ({ ...prev, booting: false }))
+    } catch (error) {
+      console.log(error);
     }
-    displayFavourites()
-  },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [])
+    setState((prev) => ({ ...prev, booting: false }))
+  }
+  displayFavourites()
 
+  useEffect(() => {
+    displayFavourites();
+    
+  })
+  
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
@@ -64,7 +73,7 @@ const Favourites = () => {
                     <Button onClick={selectFavourite} size="sm" className="btn btn-info" id="select-btn">Välj</Button>
                   </Col>
                   <Col className="pl-3 pr-0">
-                    <Button onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id} className="card-btn-delete btn btn-danger">Ta&nbsp;bort</Button>
+                    <Button className="card-btn-delete btn btn-danger" onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id}>Ta&nbsp;bort</Button>
                   </Col>
 
                 </Row>
