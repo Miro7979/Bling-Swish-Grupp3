@@ -30,8 +30,7 @@ const EditUser = (props) => {
     email: "Email",
     nationalIdNumber: "Personnummer",
     role: "Roll",
-    children: "Barn",
-    transactions: "Transaktioner"
+    children: "Barn"
   };
 
   const handleChange = e => {
@@ -45,14 +44,15 @@ const EditUser = (props) => {
     let userToSave = new User(user);
     userToSave.save();
     setUpdate(true)
-  }
-
-
+  }  
 
   return !user ? null : (
     <Form>
       <div>
         <Row>
+          <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
+            Användaren är nu updaterad.
+      </Alert>
         </Row>
       </div>
       {Object.keys(inputLabels).map(key => {
@@ -72,9 +72,6 @@ const EditUser = (props) => {
           :
           <Button onClick={handleSubmit}>Updatera</Button>
       }
-      <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
-        Användaren är nu updaterad.
-      </Alert>
     </Form>
   );
 }
