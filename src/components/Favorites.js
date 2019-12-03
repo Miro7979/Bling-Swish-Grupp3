@@ -6,37 +6,37 @@ import Context from './Context';
 
 
 
-const Favourites = () => {
+const Favorites = props => {
 
-  let [state, setState] = useContext(Context);
+  const [state, setState] = useContext(Context);
 
-  const deleteFavourite = async (e) => {
-    let favList = state.user.favourites.filter(favourite => favourite._id !== e.id)
+  const deleteFavorite = async (e) => {
+    let favList = state.user.favorites.filter(favorite => favorite._id !== e.id)
     let loggedInUser = await User.findOne({ phone: state.user.phone });
     loggedInUser.favorites = favList;
     await loggedInUser.save();
-    //state is the same but override user and add the favourites
-    setState((prev) => ({ ...prev, user: { ...prev.user, favourites: favList } }))
+    //state is the same but override user and add the favorites
+    setState((prev) => ({ ...prev, user: { ...prev.user, favorites: favList } }))
 
   }
 
-  const selectFavourite = () => {
-    //   //map through all favourites
+  const selectFavorite = () => {
+    //   //map through all favorites
     //   //find which one is in input field
     //   //grab the value and save to input field
     console.log('bye');
-    //   setFavourite({ user: favourite })
+    //   setFavorite({ user: favorite })
   }
 
   useEffect(() => {
-    async function displayFavourites() {
+    async function displayFavorites() {
       try {
 
         let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
         //if users true and they have have an id
         if (users[0] && users[0]._id) {
 
-          setState((prev) => ({ ...prev, user: { ...prev.user, favourites: users[0].favorites } }))
+          setState((prev) => ({ ...prev, user: { ...prev.user, favorites: users[0].favorites } }))
 
           return;
         }
@@ -45,34 +45,33 @@ const Favourites = () => {
       }
       setState((prev) => ({ ...prev, booting: false }))
     }
-    displayFavourites()
+    displayFavorites()
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
 
-
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
-        {/*check if favourites exists, if false make empty array*/}
-        {(state.user.favourites || []).map(favourite => {
+        {/*check if favorites exists, if false make empty array*/}
+        {(state.user.favorites || []).map(favorite => {
           return (
-            <Card key={favourite._id} body className="mt-3 p-0">
+            <Card key={favorite._id} body className="mt-3 p-0">
               <CardBody className="p-3">
                 <Row>
                   <Col className="pl-3 pr-0">
-                    {favourite.name}
+                    {favorite.name}
                   </Col>
                   <Col className="pl-3 pr-0">
-                    {favourite.phone}
+                    {favorite.phone}
                   </Col>
                 </Row>
                 <Row className="btn-row mt-3">
                   <Col className="pl-3 pr-0">
-                    <Button onClick={selectFavourite} size="sm" className="btn btn-info" id="select-btn">Välj</Button>
+                    <Button onClick={selectFavorite} size="sm" className="btn btn-info" id="select-btn">Välj</Button>
                   </Col>
                   <Col className="pl-3 pr-0">
-                    <Button className="card-btn-delete btn btn-danger" onClick={(e) => deleteFavourite({ id: e.target.value })} size="sm" value={favourite._id}>Ta&nbsp;bort</Button>
+                    <Button className="card-btn-delete btn btn-danger" onClick={(e) => deleteFavorite({ id: e.target.value })} size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
                   </Col>
 
                 </Row>
@@ -89,4 +88,4 @@ const Favourites = () => {
 
 
 
-export default Favourites;
+export default Favorites;

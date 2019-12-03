@@ -10,12 +10,11 @@ import {
   Input,
   Alert
 } from 'reactstrap';
-import Favourites from './Favourites';
-import CreateNotificationModal from './createNotificationModal';
+import Favorites from './Favorites';
 
-const PaymentPage = (props) => {
-
-  const [state] = useContext(Context);
+const PaymentPage = props => {
+  
+  const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("")
@@ -25,17 +24,17 @@ const PaymentPage = (props) => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
 
-  const [favourites, setFavourites] = useState([]);
+  const [favorites, setFavorites] = useState(state.user.favorites);
 
-  async function addToFavourites() {
+  async function addToFavorites() {
     //find input + e.target.value
-    //save to [favourites]
-    let favouriteFound = await User.findOne({ phone: number })
-    let loggedInUser = await User.findOne({ phone: state.user.phone });
-    loggedInUser.favorites.push(favouriteFound._id);
-    await loggedInUser.save(favouriteFound);
-    setFavourites({ number: favourites });
-    return favourites;
+    //save to [favorites]
+    let favoriteFound = await User.findOne({ phone: number });
+    let loggedInUser = await User.findOne({ _id: state.user._id });
+    loggedInUser.favorites.push(favoriteFound);
+    await loggedInUser.save();
+    setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
+    setFavorites(loggedInUser.favorites);
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
@@ -112,7 +111,7 @@ const PaymentPage = (props) => {
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
               onChange={handleNumberChange} />
-            <Button className="favoBtn" type="submit" onClick={addToFavourites}>Spara som favorit</Button>
+            <Button className="favoBtn" type="submit" onClick={addToFavorites}>Spara som favorit</Button>
 
           </InputGroup>
         </Col>
@@ -134,11 +133,9 @@ const PaymentPage = (props) => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favourites data={favourites} />
+      <Favorites favorites={favorites} />
     </React.Fragment>
   );
 };
 
 export default PaymentPage;
-
-
