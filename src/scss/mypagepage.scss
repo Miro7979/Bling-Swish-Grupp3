@@ -25,9 +25,6 @@
     margin: 0; 
   }
 
-  .checkrow{border:solid black 1px;}
-  .checkcol{border:solid red 1px;}
-
   .button {
     cursor: pointer;
     opacity:0.6;
@@ -68,12 +65,12 @@
     border-radius: 5px;
     margin-top:10px;
     padding:15px;
-    background-color: white;
+    background-color: #fbf9f9;
     color:black;
   }
 
   .add-child-component{
-    background-color: white;
+    background-color: #fbf9f9;
     color:black;
     border-radius:5px;
     padding:20px;
@@ -104,15 +101,20 @@
   }
   .delete-button{
     position:relative;
-    right:10px;
+    right:5px;
   }
 }
 @media screen and (max-width: 325px) {
   .mypage-component {
     padding: 10px;
+    font-size:80%;
   }
   .delete-button{
     position:relative;
-    right:15px;
+    right:10px;
+  }
+  .search-button{
+    position:relative;
+    right:10px;
   }
 }

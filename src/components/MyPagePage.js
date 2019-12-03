@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
+import MyPagePageWaitingChild from './MyPagePageWaitingChild.js';
 import {Col,Row,Button} from 'reactstrap';
 import logo from '../images/person-icon.png';
 import goBackLogo from '../images/goback-icon.png';
@@ -132,6 +133,9 @@ const MyPagePage = () => {
 						);
 					})}
 				</div>:''}
+
+				<MyPagePageWaitingChild />
+				
 
 			{wantToEdit.wantToEdit?
 				<div>

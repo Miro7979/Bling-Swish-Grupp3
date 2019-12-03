@@ -22,7 +22,6 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	}
 
 	const addChild=()=>{
-
 		let duplicate=false
 		for(let child of userData.children){			
 			if(child._id===data.foundChild._id){duplicate=true;}
@@ -72,42 +71,4 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 }
 export default MyPagePageAddChild;
 
-/*
-<input type="text" className="form-control" placeholder="Skriv in ditt barns telefon nummer" 
-								 onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
-*/
-
-/*
-
-	<div className="row">
-				<button className="col-4 mx-auto btn btn-info" onClick={()=>setData({...data,wantsToAddChild:true})}>Lägg till barn</button>
-			</div>
-			
-			{data.wantsToAddChild?
-				<div className="row mt-3">
-					<p className="col-3">Telefon nr:</p> 
-					<div className="col-7">
-						<input type="text" onChange={(e)=>setData({...data,childPhone:e.target.value})}></input>
-					</div>
-					<div className="col-2 search-button" onClick={findChild}>
-						<img src={searchIcon} alt="sök ikon"></img>
-					</div>
-				</div>:
-			''
-			}
-
-			{data.foundChild?
-				<div className="row mt-2">
-					<div className="col-3"></div>
-					<div className="col-7">
-						<p className="mx-auto">{data.foundChild.name} </p>
-					</div>	 
-					<div className="col-2" onClick={addChild}>
-						<img src={addIcon} alt="lägg till ikon"></img>
-					</div>
-				</div>:
-				''
-			}
-
-*/
 

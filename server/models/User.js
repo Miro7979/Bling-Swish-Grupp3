@@ -21,6 +21,7 @@ let userSchema = new Schema({
   nationalIdNumber: { type: Number, required: true },
   role: { type: String, default: 'visitor' },
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  waitingChildren:[{ type: Schema.Types.ObjectId, ref: 'User' }],
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   activated: { type: Boolean, default: false },
   limit: { type: Number }
@@ -30,12 +31,17 @@ let userSchema = new Schema({
   toObject: toJSONSettings
 })
 
+
+// Populate the virtual transactionsTo
+userSchema.pre('find', function () {
+  this.populate('transactionsTo');
+});
+
 // Setup the virtual transactionsTo
 
 // that is populated when my id
 
 // matches the to field in a transaction
-
 userSchema.virtual('transactionsTo', {
   ref: 'Transaction',
   localField: '_id',

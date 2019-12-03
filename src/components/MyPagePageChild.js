@@ -33,7 +33,7 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 				</Col>
 				<Col xs={2}>
 					{wantToEdit.wantToEdit?
-						<img src={deleteIcon} alt="ta bort ikon" className="button" onClick={()=>deleteChild(child._id)}></img>:''}
+						<img src={deleteIcon} alt="ta bort ikon" className="button delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
 				</Col>
 			</Row>
 
@@ -57,27 +57,3 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 }
 export default MyPagePageChild;
 
-/*
-
-<div className="row">
-				<div className="col-3">
-					<img src={logo} alt="barn ikon"></img>
-				</div>			
-				<p className="col-7 child-name">{child.name}</p>			
-				{wantToEdit.wantToEdit?
-					<div className="col-2 delete-button" onClick={()=>deleteChild(child._id)}>
-						<img src={deleteIcon} alt="ta bort ikon"></img>
-					</div>:''}			
-			</div>
-
-			<div className="row">
-				<p className="col-4">MaxSwish:</p>
-				<div className="col-8">
-					{wantToEdit.wantToEdit?
-						<input type="text" placeholder={child.limit} onChange={changeLimit}></input>:
-						<output>{child.limit}</output>	
-					}						
-				</div>											
-			</div>
-
-*/
