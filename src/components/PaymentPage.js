@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import Favourites from './Favourites';
 
+
 const PaymentPage = (props) => {
 
   const [state] = useContext(Context);
@@ -102,8 +103,8 @@ const PaymentPage = (props) => {
   return (
     <React.Fragment>
       <Row>
-        <Col sm={{ size: 6, offset: 3 }} className="mt-3" >
-          {'Saldo på min konto: ' + state.user.balance + ' SEK'}
+        <Col sm={{ size: 6, offset: 3 }} className=" userBalance mt-3" >
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance + ' kr på ditt konto.'}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>

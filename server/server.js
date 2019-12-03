@@ -112,7 +112,7 @@ app.post('/api/updatepassword*', async (req, res) => {
 })
 
 
-app.get('/nyttlosenord/:id', async (req, res) => {
+app.get('/api/nyttlosenord/:id', async (req, res) => {
     try {
         let foundResetUser = await Reset.findOne({ _id: req.params.id });
         if (foundResetUser && Date.now() - foundResetUser.date < 86400000) {

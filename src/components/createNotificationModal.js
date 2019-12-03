@@ -25,7 +25,7 @@ const CreateNotificationModal = (props) => {
     <div className="notisModal">
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalBody className="modalBody">
-          <h3>Du har fått en betalning på ditt Bling konto.</h3>
+          <h5 className="notifyMessage">Du har fått en betalning på ditt Bling konto.</h5>
         </ModalBody>
         <Button className="notisModalBtn" onClick={callFunctionsOnApp}>Ok</Button>
       </Modal>

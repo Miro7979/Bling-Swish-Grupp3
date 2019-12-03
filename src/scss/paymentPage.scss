@@ -8,3 +8,12 @@
 	width: 100%;
 	align-content: center;
 }
+.userBalance {
+	text-align: center;
+}
+
+@media all and (max-width: 400px) and (min-width: 300px) {
+	.userBalance {
+		font-size: 15px;
+	}
+}
