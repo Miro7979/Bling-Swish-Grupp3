@@ -38,11 +38,15 @@ function App(props) {
   // listenToSSE();
 
   useEffect(() => {
-    sse.listen('message', (data) => {
+    let messageListener = sse.listen('message', (data) => {
       console.log(data)
       setState((prev) => ({ ...prev, showNoti: true }))
     });
 
+    return () => {
+      sse.unlisten(messageListener);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -65,9 +69,11 @@ function App(props) {
         return;
       }
       setState((prev) => ({ ...prev, booting: false }))
+      sse.restart();
     }
     checkUserSession()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleNotificationModal = () => {
@@ -77,13 +83,13 @@ function App(props) {
 
   let propsToNotificationModal = { toggleNotificationModal };
 
-  const commonRoute = () => {
-    let path = window.location.pathname;
-    if (path.indexOf('/aterstalllosenord') === 0) { return true; }
-    if (path.indexOf('/nyttlosenord') === 0) { return true; }
-    if (path.indexOf('/aktiverakonto') === 0) { return true; }
+  // const commonRoute = () => {
+  //   let path = window.location.pathname;
+  //   if (path.indexOf('/aterstalllosenord') === 0) { return true; }
+  //   if (path.indexOf('/nyttlosenord') === 0) { return true; }
+  //   if (path.indexOf('/aktiverakonto') === 0) { return true; }
 
-  }
+  // }
 
   return (
     <Context.Provider value={[state, setState]}>

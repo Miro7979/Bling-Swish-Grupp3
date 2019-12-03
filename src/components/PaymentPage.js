@@ -38,15 +38,21 @@ const PaymentPage = (props) => {
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
-    let data = { phoneNumber, message, fromUserId, cash };
-    await fetch('/api/send-sse', {
+    let data = { phoneNumber, message, cash };
+    try {
+      const response = await fetch('/api/send-sse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-
+    const json = await response.json();
+    console.log('Success:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  
   };
 
   async function createNotification() {

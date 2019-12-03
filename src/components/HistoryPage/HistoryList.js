@@ -2,9 +2,9 @@ import React from 'react';
 
 function HistoryList(props) {
 
-
   return (
     <div className="history-list">
+      
       <h1 className="list-h1">{props.theDropdownTitle}</h1>
       
 

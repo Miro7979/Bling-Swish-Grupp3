@@ -9,7 +9,8 @@ function HistoryPage() {
   const [transactions, setTransactions] = useState([]);
   const [dropdownNames, setDropdownNames] = useState([]);
   let context = useContext(Context);
-  let [user, setUser] = useState(context[0].user)
+  // let [user, setUser] = useState(context[0].user)
+  let [user, setUser] = useState({transactions: []})
  
 
   useEffect(() => {
@@ -19,18 +20,33 @@ function HistoryPage() {
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context[0].reload]);
-  
 
-  async function populateUserChildren() {
-    const response = await fetch('/api/populatemychildren');
-    user = await response.json();
-    callAwaitedFunctions()
-  }
   
   console.log(context[0].reload)
 
+  async function populateUserChildren() {
+    let userWithpopulatedChildren;
+    try {
+      userWithpopulatedChildren = await fetch('/api/populatemychildren');
+      if(!userWithpopulatedChildren.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      user = await userWithpopulatedChildren.json();
+    } catch (error) {
+      console.log('There has been a probelm with yout fetch operation.', error.message)
+    }
+    callAwaitedFunctions(user)
+  }
   
-  async function fetchThisUserTransactions() {
+
+  function callAwaitedFunctions(user) {
+    fetchThisUserTransactions(user);
+    insertNamesToDropdown();
+    organizeTransactions();
+  }
+  
+
+  async function fetchThisUserTransactions(user) {
     let myTransactions;
     try {
       myTransactions = await fetch('/api/my-transactions/' + user._id);
@@ -41,11 +57,11 @@ function HistoryPage() {
     } catch (error) {
       console.log('There has been a probelm with yout fetch operation.', error.message)
     }
-    convertUser(myTransactions);
+    convertUser(user, myTransactions);
   }
   
   
-  function convertUser(thisUserTransactions) {
+  async function convertUser(user, thisUserTransactions) {
     let { name, children } = user;
     let transactionsHash = [];
     thisUserTransactions.forEach(transaction => {
@@ -59,7 +75,7 @@ function HistoryPage() {
     let convertedUser = { name, transactions: transactionsHash, children };
     
     if (children.length > 0) {
-      let myConvertedChildren = fetchThisUsersChildren(children);
+      let myConvertedChildren = await fetchThisUsersChildren(children);
       convertedUser = { name, transactions: transactionsHash, children: myConvertedChildren };
     }
     
@@ -101,10 +117,10 @@ function HistoryPage() {
     } else {
       dropdownNames.push('Inga fler användare')
     }
-    
     setDropdownNames(dropdownNames);
   }
   
+
   async function organizeTransactions(dropdownTitle) {
     let transactionsArr = [{ name: 'Min historik', transactions: user.transactions }]
     
@@ -121,17 +137,13 @@ function HistoryPage() {
     
     setTransactions(nameFromDropdown.transactions)
   }
-  
-  function callAwaitedFunctions() {
-    fetchThisUserTransactions();
-    insertNamesToDropdown();
-    organizeTransactions();
-  }
 
+  
   const createDropdown = (dropdownTitle) => {
     setTheDropdownTitle(dropdownTitle);
     organizeTransactions(dropdownTitle);
   }
+
   
   let propsToDropDown = { createDropdown, dropdownNames, organizeTransactions };
   let propsToHistoryList = { theDropdownTitle, transactions };

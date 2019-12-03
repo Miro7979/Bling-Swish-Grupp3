@@ -318,7 +318,7 @@ app.post('/api/notifications*', async (req, res) => {
 app.post('/api/transaction*', async (req, res) => {
     let to = await User.findOne({ phone: req.body.to })
     let transaction = new Transaction({
-        balance: req.body.balance,
+        // balance: req.body.balance,
         message: req.body.message,
         amount: req.body.amount,
         to: to._id,
@@ -379,16 +379,19 @@ app.get('/api/populatemychildren', async (req, res) => {
 
 
 app.post('/api/send-sse', async (req, res) => {
-	let body = req.body;
-	let { phoneNumber, message } = body;
+    let err, body = req.body;
+    body.message = new Date().toLocaleTimeString();
+	let { phoneNumber, message, cash } = body;
 	send(
 		req => req.session.user && req.session.user.phone === phoneNumber,
 		'message',
 		{
-			message: message,
+            message: message,
+            cash: cash,
 			content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
 		}
-	);
+    );
+    res.json(err || body);
 });
 
 require('./modelRaw/UserRaw')
