@@ -122,6 +122,7 @@ const PaymentPage = (props) => {
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
+              type="Number"
               onChange={handleNumberChange} />
             <Button className="favoBtn" onClick={addToFavourites}>Spara som favorit</Button>
 
@@ -131,6 +132,7 @@ const PaymentPage = (props) => {
           <InputGroup>
             <Input placeholder="belopp"
               value={cash}
+              type="Number"
               onChange={handleCashChange} />
           </InputGroup>
         </Col>
