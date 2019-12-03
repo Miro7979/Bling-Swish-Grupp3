@@ -5,6 +5,7 @@ import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
 import EditUser from './components/Admin/EditUser';
+import AdminHistoryPage from './components/Admin/AdminHistoryPage';
 import HistoryPage from './components/HistoryPage/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
@@ -131,6 +132,7 @@ function App() {
                 <Route path="/login" component={LoginPage} />
                 <Route exact path="/adminsida" component={AdminPage} />
                 <Route path="/adminsida/redigera-anvandare" component={EditUser} />
+                <Route path="/adminsida/betalningshistorik/:id" component={AdminHistoryPage} />
                 <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
                 <Route path="/betalningar" component={PaymentPage} />
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />
