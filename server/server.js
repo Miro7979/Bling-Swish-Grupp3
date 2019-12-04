@@ -74,13 +74,13 @@ app.post('/api/aktiverakonto*', async (req, res) => {
     try {
         let email = atob(req.body.encoded)
         let user = await User.findOne({ email })
-        req.body.activated = false
+        req.body.emailConfirmed = false
         if (user) {
-            user.activated = true;
+            user.emailConfirmed = true;
             let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
             let notChild = (age >= 18)
             notChild ? user.role = "parent" : user.role = "child"
-            req.body.activated = true;
+            req.body.emailConfirmed = true;
             await user.save()
             return
         }
