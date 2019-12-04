@@ -21,6 +21,8 @@ const PaymentPage = (props) => {
   const [message, setMessage] = useState("")
   const [problem, setProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
+  const [sendMoney, setSendMoney] = useState(false);
+  const dismissSendMoney = () => setSendMoney(false);
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
@@ -83,13 +85,16 @@ const PaymentPage = (props) => {
       setProblem(true)
       return
     }
-    setProblem(false)
+    if (number && cash) {
+      setSendMoney(true)
+    }
     try {
       let bling = await new Transaction(transaction)
       await bling.save()
 
       global.stateUpdater()
       createNotification();
+
     }
     catch {
       setProblem(true);
@@ -114,9 +119,15 @@ const PaymentPage = (props) => {
               Din betalning gick inte genom, försök igen.
             </Alert>
           </div>
+          <div>
+            <Alert color="success" isOpen={sendMoney} toggle={dismissSendMoney} fade={true}>
+              Dina pengar har skickats!
+            </Alert>
+          </div>
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
+              type="Number"
               onChange={handleNumberChange} />
             <Button className="favoBtn" onClick={addToFavourites}>Spara som favorit</Button>
 
@@ -126,6 +137,7 @@ const PaymentPage = (props) => {
           <InputGroup>
             <Input placeholder="belopp"
               value={cash}
+              type="Number"
               onChange={handleCashChange} />
           </InputGroup>
         </Col>
