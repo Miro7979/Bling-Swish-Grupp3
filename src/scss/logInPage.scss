@@ -9,8 +9,8 @@
 	right: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	height: 250px;
-	width: 250px;
+	height: 300px;
+	width: 300px;
 }
 .logInPageContent {
 	position: absolute;
@@ -66,7 +66,12 @@ label {
 		margin-top: 5px;
 	}
 }
-
+@media all and (max-width: 400px) and (min-width: 300px) {
+	.blingLogo {
+		height: 200px;
+		width: 200px;
+	}
+}
 .logInBtn {
 	margin-top: 10px;
 	background-color: rgb(170, 26, 170);
