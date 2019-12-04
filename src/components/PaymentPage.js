@@ -41,15 +41,14 @@ const PaymentPage = (props) => {
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, cash };
     try {
-      const response = await fetch('/api/send-sse', {
+      let response = await fetch('/api/send-sse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-    const json = await response.json();
-    console.log('Success:', JSON.stringify(json));
+    console.log(await response.json());
     } catch (error) {
       console.error('Error:', error);
     }
@@ -99,6 +98,7 @@ const PaymentPage = (props) => {
       return ''
     }
   }
+
 
   return (
     <React.Fragment>

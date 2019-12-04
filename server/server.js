@@ -37,36 +37,20 @@ app.use(session({
     store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
 
-// You can change the following options:
-// endpoint: which endpoint you want to use
-// script: at which route a clientside library should be served
-// These are the default values (they will be set even if omitted):
+
 const options = {
     endpoint: '/api/sse',
     script: '/sse.js'
 };
 
-// Calling the module returns an object with four properties:
-// SSE:
-//     the middleware - use with an express app
-// send: 
-//     a function that sends events from the server:
-//     send(to, eventType, data)
-// openSessions: 
-//     a function returns how many sessions are open
-// openConnections: 
-//     a function that returns how man connections that are open
-const { SSE, send, openSessions, openConnections } = sse(options);
+
+const { SSE, send } = sse(options);
 app.use(SSE);
 
 
+app.use(express.json()) 
 
-app.use(express.json()) // body parser
-// connect our own acl middleware
-const acl = require('./acl');
-const aclRules = require('./acl-rules.json');
-//app.use(acl(aclRules));
-// just to get some rest routes going quickly
+
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 
@@ -111,7 +95,6 @@ app.post('/api/updatepassword*', async (req, res) => {
     }
 })
 
-
 app.get('/api/nyttlosenord/:id', async (req, res) => {
     try {
         let foundResetUser = await Reset.findOne({ _id: req.params.id });
@@ -126,6 +109,7 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
         console.log(e)
     }
 })
+
 app.post('/api/resets', async (req, res) => {
     try {
         let foundUser = await User.findOne({ email: req.body.email })
@@ -142,7 +126,7 @@ app.post('/api/resets', async (req, res) => {
         })
         if (foundResetUser) {
             if ((time - foundResetUser.date) > 86400000) {
-                let savedReset = await reset.save()
+                await reset.save()
                 //send email
                 let subject = "Återställningslänk"
                 let text = "Klicka på länken för att återställa ditt lösenord"
@@ -153,12 +137,13 @@ app.post('/api/resets', async (req, res) => {
                 return;
             }
             else if (time < 86400000) {
+                let resultFromSave;
                 res.json({ success: 'Om din användare finns så har vi skickat ett mejl till dig.', resultFromSave, statusCode: 200 })
                 return
             }
         }
         if (foundUser && !foundResetUser) {
-            let savedReset = await reset.save();
+            await reset.save();
             let subject = "Återställningslänk"
             let text = "Klicka på länken för att återställa ditt lösenord"
             let html = `<a href='www.blingswish.se/nyttlosenord/${reset._id}'>Återställ lösenord<a>`
@@ -177,21 +162,14 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-		users: require('./models/User'),
-		User: require('./models/User'),
+		// users: require('./models/User'),
+	User: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')
 };
 
 
-// create all necessary rest routes for the models
-//new CreateRestRoutes(app, mongoose, models);
-
-// route to create a user
-// in production it would be STUPID to let
-// the user/frontend set its role... but for now
-// we should also check length of password etc.
 app.post('/api/users', async (req, res) => {
     try {
         // we should check that the same username does
@@ -334,19 +312,7 @@ app.get('/api/my-transactions/:userId', async (req, res) => {
 	let user = req.session.user;
 	let userChildren = user.children;
 
-	if(user && user._id === userId) {
-		try {
-			let iGot = await Transaction.find({ to: userId })
-			let iSent = await Transaction.find({ from: userId })
-			let allMyTransactions = [...iGot, ...iSent];
-			allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
-			res.json(allMyTransactions);
-		}
-		catch (e) {
-			console.log(e)
-		}
-	}
-	if(userChildren.length > 0 && userChildren.includes(userId)) {
+	if((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
 		try {
 			let iGot = await Transaction.find({ to: userId })
 			let iSent = await Transaction.find({ from: userId })

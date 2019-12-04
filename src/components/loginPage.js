@@ -33,6 +33,7 @@ function LogInPage() {
 			let whoIsLoggedIn = await Login.findOne()
 			if (whoIsLoggedIn._id) {
 				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+				window.location.reload();
 			}
 		}
 		catch {

@@ -18,25 +18,18 @@ import SSE from 'easy-server-sent-events/sse';
 import NotificationModal from './components/createNotificationModal';
 import Loader from 'react-loader-spinner';
 
-
+let sse;
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 
-  let sse = new SSE('/api/sse');
-  // async function listenToSSE() {
-  //   console.log('sse')
-
-  //   sse.listen('message', (data) => {
-  //     console.log(data)
-  //     setState((prev) => ({ ...prev, showNoti: true }))
-  //   });
-  // }
 
   // listenToSSE();
-
   useEffect(() => {
+    console.log('DO I RUN???')
+    sse = new SSE('/api/sse');
+    console.log(sse)
     let messageListener = sse.listen('message', (data) => {
       console.log(data)
       setState((prev) => ({ ...prev, showNoti: true }))
@@ -47,6 +40,7 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   let stateUpdater = async () => {
     let whoIsLoggedIn = await Login.findOne()
@@ -69,11 +63,10 @@ function App() {
     checkUserSession()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.reload]);
 
   const toggleNotificationModal = () => {
     setState((prev) => ({ ...prev, showNoti: false, reload: prev.reload+1 }))
-    // window.location.reload()
   }
 
   let propsToNotificationModal = { toggleNotificationModal };
