@@ -15,6 +15,7 @@ const sendMail = require('./nodemailer');
 const atob = require('atob');
 const sse = require('easy-server-sent-events');
 let btoa = require('btoa');
+const webpush = require('web-push');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -372,11 +373,74 @@ app.use(express.static('client/build'));
 app.listen(3001, () => console.log('Listening on port 3001'));
 
 
+// Vapid keys
+const vapidKeys = {
+    public: 'BIQ6xu6E4r9OiLzN4IM8UW5oCaNoZiQ6D_pWYGTAUpc5n993eBkXQJ_tlkf3ONHkM79YP0StumQGlBHJt47B6mI',
+    private: require('./vapid-private-key.json')
+};
+
+// Who is sending the push notification
+webpush.setVapidDetails(
+    'mailto:melsie78@gmail.com',
+    vapidKeys.public,
+    vapidKeys.private
+);
+
+
+// Subscribe route
+app.post('/api/push-subscribe', async (req, res) => {
+    const subscription = req.body;
+    // Send 201 - resource created
+    res.status(201).json({ subscribing: true });
+
+    console.log('subscription', subscription);
+
+    // Send some notifications...
+    // this might not be what you do directly on subscription
+    // normally
+    sendNotification(subscription, { body: 'Welcome!' });
+    setTimeout(
+        () => sendNotification(subscription, { body: 'Still there?' }),
+        30000
+    );
+});
+
+// A function that sends notifications
+async function sendNotification(subscription, payload) {
+    let toSend = {
+        title: 'BlingSwish',
+        icon: '/logo192.png',
+        //see above body welcome resp still there
+        ...payload
+    };
+    await webpush.sendNotification(
+        subscription, JSON.stringify(toSend)
+    ).catch(err => console.log(err));
+}
+
+// Note! In order to be able to send notifications
+// to a certain user we need
+
+// 1. express-session
+// Every express - session has a unique id from start
+// Have a memory where we pair subscriptions with session_ids
+// subscriptionMem[session_id] = subscription
+
+// 2. when the user logs in
+// Write to subcription to DB, linked to the user
+// remove it from subscriptionMem
+
+// A user can have several subscriptions (different browsers etc)
+// So: In Mongoose we would probably
+// create a subscription collection
+// and then a new field on user an array of objects ref id:s
+// in the subscription collection
 // Example of using send(to, eventType, data)
 // Here we send messages to all connected clients
 // We randomly choose between the event types
 // 'message' and 'other' (you can name your event types how you like)
 // and send a message (an object with the properties cool and content)
+
 async function sendNotification(req, body) {
     let { phoneNumber, message, fromUserId, cash } = body;
 
