@@ -18,6 +18,11 @@ const MyPagePageWaitingChild=({child})=>{
 				<Col xs={2}>
 				</Col>
 			</Row>
+      <Row>
+        <Col className="text-center">
+          <p style={{color:'red',position:'relative',bottom:'30px'}}>Väntar på ditt barns godkännande</p>
+        </Col>
+      </Row>
     </div>
   );
 
