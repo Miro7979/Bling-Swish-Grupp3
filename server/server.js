@@ -50,8 +50,11 @@ app.use(SSE);
 
 
 app.use(express.json()) 
-
-
+// connect our own acl middleware
+const acl = require('./acl');
+const aclRules = require('./acl-rules.json');
+//app.use(acl(aclRules));
+// just to get some rest routes going quickly
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
 
