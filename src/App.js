@@ -27,11 +27,8 @@ function App() {
 
   // listenToSSE();
   useEffect(() => {
-    console.log('DO I RUN???')
     sse = new SSE('/api/sse');
-    console.log(sse)
     let messageListener = sse.listen('message', (data) => {
-      console.log(data)
       setState((prev) => ({ ...prev, showNoti: true }))
     });
 
