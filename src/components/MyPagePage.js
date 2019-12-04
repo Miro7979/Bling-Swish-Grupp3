@@ -10,7 +10,8 @@ import { User, Login } from 'the.rest/dist/to-import';
 const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
-		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[],waitingChildren:[]
+		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[],
+		waitingChildren:[{name:'Anna Gustavsson'},{name:'Lisa Gustavsson'},{name:'Nisse Gustavsson'}]
 	});	
 	const[wantToEdit,setWantToEdit]=useState({
 		wantToEdit:false
@@ -134,7 +135,16 @@ const MyPagePage = () => {
 					})}
 				</div>:''}
 
-				<MyPagePageWaitingChild />
+			{userData.waitingChildren.length>0?
+				<div className="mt-4">
+					{userData.waitingChildren.map((child,index)=>{
+						return(									
+							<MyPagePageWaitingChild key={index+1} child={child} />
+						);
+					})}
+				</div>:''}
+
+				
 				
 
 			{wantToEdit.wantToEdit?
