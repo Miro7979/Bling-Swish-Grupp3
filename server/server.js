@@ -38,13 +38,25 @@ app.use(session({
     store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
 
-
+// You can change the following options:
+// endpoint: which endpoint you want to use
+// script: at which route a clientside library should be served
+// These are the default values (they will be set even if omitted):
 const options = {
     endpoint: '/api/sse',
     script: '/sse.js'
 };
 
-
+// Calling the module returns an object with four properties:
+// SSE:
+//     the middleware - use with an express app
+// send: 
+//     a function that sends events from the server:
+//     send(to, eventType, data)
+// openSessions: 
+//     a function returns how many sessions are open
+// openConnections: 
+//     a function that returns how man connections that are open
 const { SSE, send } = sse(options);
 app.use(SSE);
 
@@ -173,7 +185,13 @@ const models = {
     Reset: require('./models/Reset')
 };
 
+// create all necessary rest routes for the models
+//new CreateRestRoutes(app, mongoose, models);
 
+// route to create a user
+// in production it would be STUPID to let
+// the user/frontend set its role... but for now
+// we should also check length of password etc.
 app.post('/api/users', async (req, res) => {
     try {
         // we should check that the same username does
