@@ -41,15 +41,19 @@ const PaymentPage = (props) => {
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
-    let data = { phoneNumber, message, fromUserId, cash };
-    await fetch('/api/send-sse', {
+    let data = { phoneNumber, message, cash };
+    try {
+      await fetch('/api/send-sse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  
   };
 
   async function createNotification() {
@@ -98,6 +102,7 @@ const PaymentPage = (props) => {
       return ''
     }
   }
+
 
   return (
     <React.Fragment>

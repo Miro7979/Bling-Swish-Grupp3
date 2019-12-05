@@ -16,25 +16,46 @@
 
 // HistoryDropdown
 .history-dropdown {
+  position: relative;
+  .dropdown-title {
+    text-transform: capitalize;
+  }
   .dropdown-list {
+    margin-top: 15px;
     text-align: right;
   }
   .dropdown-toggle::after {
     margin-left: 0.6em !important;
   }
   .dropdown-list > .btn-secondary {
+    display: inline-block;
     background-color: rgb(183, 108, 226);
     border: solid 1px rgb(183, 108, 226);
   }
-  .dropdown-list {
-    margin-top: 15px;
+  .user-balance {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+  }
+
+  @media only screen and (max-width: 350px) {
+    .user-balance {
+      display: block;
+      position: static;
+    }
+  }
+  @media only screen and (min-width: 700px) {
+    .user-balance {
+      display: none;
+    }
   }
 }
 
 // HistoryList
-.history-list {
+.history-list{
   .list-h1 {
     margin-left: 15px;
+    text-transform: capitalize;
   }
   .history-list-no-transactions {
     border: solid 1px rgb(255, 255, 255);
@@ -120,5 +141,23 @@
     .history-list-no-transactions {
       font-size: 20px;
     }
+    .user-balance {
+      display: none;
+    }
+  }
+  @media only screen and (min-width: 700px) {
+    .history-list-header {
+      .list-h1 {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+      }
+      .user-balance {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-bottom: 8px;
+      }
+    }  
   }
 }
