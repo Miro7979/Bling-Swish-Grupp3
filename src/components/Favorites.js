@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Card, Button, CardBody, Row, Col } from 'reactstrap';
 import { User } from 'the.rest/dist/to-import';
-// import { starIcon } from '../images/star-black.png';
 import Context from './Context';
 
 
@@ -58,14 +57,16 @@ const Favorites = props => {
             <Card key={favorite._id} body className=" favCardBody mt-3 p-0">
               <CardBody className="p-3">
                 <Row>
-                  <Col className="favName pl-3 pr-0">
+                  <Col className="favName pl-3" onClick={selectFavorite}>
                     {favorite.name}
                   </Col>
-                  <Col className="favPhone pl-1 pr-0">
+                  <Col className="favPhone">
                     {favorite.phone}
-                    <Button onClick={selectFavorite} size="sm" className="btn btn-info ml-2" id="select-btn">Välj</Button>
-                    <Button className="card-btn-delete btn btn-danger ml-3" onClick={(e) => deleteFavorite({ id: e.target.value })} size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
-
+                  </Col>
+                  <Col>
+                    <Button className="card-btn-delete btn btn"
+                      onClick={(e) => deleteFavorite({ id: e.target.value })}
+                      size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
                   </Col>
                 </Row>
               </CardBody>

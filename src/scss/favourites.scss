@@ -4,6 +4,13 @@
 .favName,
 .favPhone {
 	color: white;
+	cursor: pointer;
+	text-align: center;
+	display: block;
+}
+.favName:hover,
+.favPhone:hover {
+	color: orange;
 }
 .card-cols {
 	display: flex;
@@ -35,4 +42,11 @@
 	border: 2px 2px 0px 2px;
 	background-color: purple;
 	border-color: white;
+}
+.card-btn-delete {
+	background-color: rgb(202, 38, 202) !important;
+	border: none !important;
+}
+.card-btn-delete:hover {
+	color: red;
 }
