@@ -61,7 +61,7 @@ const { SSE, send } = sse(options);
 app.use(SSE);
 
 
-app.use(express.json()) 
+app.use(express.json())
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
@@ -178,8 +178,8 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-		// users: require('./models/User'),
-	User: require('./models/User'),
+    // users: require('./models/User'),
+    User: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')
@@ -236,6 +236,8 @@ app.post('/api/login*', async (req, res) => {
         if (user) {
             user.password = 'Forget it!!!';
             req.session.user = user
+            await findUserAndKeys(req.session.subscription, user)
+            delete req.session.subscription;
         };
         res.json(user ? user : { error: 'not found 1' });
     }
@@ -330,54 +332,54 @@ app.post('/api/transaction*', async (req, res) => {
 });
 
 app.get('/api/my-transactions/:userId', async (req, res) => {
-	let userId = req.params.userId;
-	let user = req.session.user;
-	let userChildren = user.children;
+    let userId = req.params.userId;
+    let user = req.session.user;
+    let userChildren = user.children;
 
-	if((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
-		try {
-			let iGot = await Transaction.find({ to: userId })
-			let iSent = await Transaction.find({ from: userId })
-			let allMyTransactions = [...iGot, ...iSent];
-			allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
-			res.json(allMyTransactions);
-		}
-		catch (e) {
-			console.log(e)
-		}
-	}
-	else {
-		return;
-	}
+    if ((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
+        try {
+            let iGot = await Transaction.find({ to: userId })
+            let iSent = await Transaction.find({ from: userId })
+            let allMyTransactions = [...iGot, ...iSent];
+            allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
+            res.json(allMyTransactions);
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    else {
+        return;
+    }
 });
 
 app.get('/api/populatemychildren', async (req, res) => {
-	let user = req.session.user;
-	if (!user) {
-			res.json('Nope!')
-			return;
-	};
+    let user = req.session.user;
+    if (!user) {
+        res.json('Nope!')
+        return;
+    };
 
-	let err, userChildren = await User.findOne({ phone: user.phone }).populate('children', 'name transactions phone')
-	.catch(
-		error => err = error
-	);
-	res.json(err || userChildren);
+    let err, userChildren = await User.findOne({ phone: user.phone }).populate('children', 'name transactions phone')
+        .catch(
+            error => err = error
+        );
+    res.json(err || userChildren);
 });
 
 
 app.post('/api/send-sse', async (req, res) => {
     let err, body = req.body;
     body.message = new Date().toLocaleTimeString();
-	let { phoneNumber, message, cash } = body;
-	send(
-		req => req.session.user && req.session.user.phone === phoneNumber,
-		'message',
-		{
+    let { phoneNumber, message, cash } = body;
+    send(
+        req => req.session.user && req.session.user.phone === phoneNumber,
+        'message',
+        {
             message: message,
             cash: cash,
-			content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
-		}
+            content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
+        }
     );
     res.json(err || body);
 });
@@ -400,7 +402,7 @@ app.listen(3001, () => console.log('Listening on port 3001'));
 
 // Vapid keys
 const vapidKeys = {
-    public: 'BIQ6xu6E4r9OiLzN4IM8UW5oCaNoZiQ6D_pWYGTAUpc5n993eBkXQJ_tlkf3ONHkM79YP0StumQGlBHJt47B6mI',
+    public: 'BH_WGf-8nB-Jm-I3noFwMl2sByECoCZQjMwJoK40y2PLQSFqAgilGxV10ugUTMlmtms77Eqi-SYXBk-nw2BfNU4',
     private: require('./vapid-private-key.json')
 };
 
@@ -419,6 +421,13 @@ app.post('/api/push-subscribe', async (req, res) => {
     res.status(201).json({ subscribing: true });
 
     console.log('subscription', subscription);
+    if (req.session.user) {
+        await findUserAndKeys(subscription, req.session.user)
+    }
+    else if (!req.session.user) {
+        req.session.subscription = subscription
+    }
+
 
     // Send some notifications...
     // this might not be what you do directly on subscription
@@ -429,6 +438,20 @@ app.post('/api/push-subscribe', async (req, res) => {
         30000
     );
 });
+
+async function findUserAndKeys(subscription, user) {
+    let foundUser = await User.findOne({ _id: user._id });
+    for (let i of user.subscriptionKeys) {
+        if (JSON.stringify(foundUser.subscriptionKeys[i]) === JSON.stringify(subscription)) {
+            console.log("user0", user)
+            console.log("found", foundUser)
+            console.log("sub", subscription)
+            return;
+        }
+    }
+    foundUser.subscriptionKeys.push(subscription)
+    await foundUser.save()
+}
 
 // A function that sends notifications
 async function sendNotification(subscription, payload) {

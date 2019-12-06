@@ -23,7 +23,8 @@ let userSchema = new Schema({
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   activated: { type: Boolean, default: false },
-  limit: { type: Number }
+  limit: { type: Number },
+  subscriptionKeys: [{ type: Object }]
 }, {
   // settings
   toJSON: toJSONSettings,

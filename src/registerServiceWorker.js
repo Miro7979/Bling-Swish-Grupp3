@@ -18,22 +18,20 @@ class RegisterServiceWorker {
     let registrations = await navigator.serviceWorker.getRegistrations();
     // wait for the service worker to register
     // or return an error
-    try {
-      let error, registered = await navigator.serviceWorker
-        .register(this.routeToServiceWorker)
-        .catch(e => error = e);
-      this.log(error ? error : `scope: ${registered.scope}`);
-      await this.registerPushNotifications(registered);
-      // you could reload to save one "cycle" of uncached content
-      // if this is the first time the service worker registrers
-      registrations.length === 0 && window.location.reload();
-    } catch {
-      return ''
-    }
+
+    let error, registered = await navigator.serviceWorker
+      .register(this.routeToServiceWorker)
+      .catch(e => error = e);
+    this.log(error ? error : `scope: ${registered.scope}`);
+    await this.registerPushNotifications(registered);
+    // you could reload to save one "cycle" of uncached content
+    // if this is the first time the service worker registrers
+    registrations.length === 0 && window.location.reload();
+
   }
 
   async registerPushNotifications(registered) {
-    const publicVapidKey = 'BIQ6xu6E4r9OiLzN4IM8UW5oCaNoZiQ6D_pWYGTAUpc5n993eBkXQJ_tlkf3ONHkM79YP0StumQGlBHJt47B6mI';
+    const publicVapidKey = 'BH_WGf-8nB-Jm-I3noFwMl2sByECoCZQjMwJoK40y2PLQSFqAgilGxV10ugUTMlmtms77Eqi-SYXBk-nw2BfNU4';
     // Register
     const subscription = await registered.pushManager.subscribe({
       userVisibleOnly: true,
