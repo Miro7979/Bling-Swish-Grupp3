@@ -37,7 +37,7 @@ const AdminHistoryPage = (props) => {
         <tbody>
           {transactions.map(({ date, ingoingBalance, outgoingBalance, amount, to, from }, index) => (
             <tr key={index + 1}>
-              <td>{date}</td>
+              <td>{date.slice(0, 10)}</td>
               <td>{amount}</td>
               <td>{to ? to.name : null}</td>
               <td>{from ? from.name : null}</td>
