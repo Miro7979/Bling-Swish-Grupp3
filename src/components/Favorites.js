@@ -32,7 +32,6 @@ const Favorites = props => {
     async function displayFavorites() {
       try {
         let users = await User.find({ _id: state.user._id })[0].populate('favorites', 'name phone _id');
-        console.log(users)
         //if users true and they have have an id
         if (users[0] && users[0]._id) {
 
@@ -49,12 +48,12 @@ const Favorites = props => {
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
-    
+        
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
-        {(state.user.favorites[0]._id ? state.user.favorites : []).map(favorite => {
+        {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
             <Card key={favorite._id} body className="mt-3 p-0">
               <CardBody className="p-3">
