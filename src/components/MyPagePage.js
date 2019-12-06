@@ -99,7 +99,7 @@ const MyPagePage = () => {
 				<Col sm={7} xs={8}> 
 					{wantToEdit.wantToEdit?	
 					<input type="password" className="form-control" placeholder="Nytt lösenord" onChange={(e)=>setUserData({...userData,password:e.target.value})} />:
-					<p className="password-text">{/*{userData.password}*/}********</p> }
+					<p className="password-text">********</p> }
 				</Col>
 			</Row>
 			{wantToEdit.wantToEdit&&passwordError.passwordError?
