@@ -17,13 +17,14 @@ const PaymentPage = props => {
   const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
   const [problem, setProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
+  const [sendMoney, setSendMoney] = useState(false);
+  const dismissSendMoney = () => setSendMoney(false);
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
-
   const [favorites, setFavorites] = useState(state.user.favorites);
 
   async function addToFavorites() {
@@ -40,14 +41,19 @@ const PaymentPage = props => {
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
-    let data = { phoneNumber, message, fromUserId, cash };
-    await fetch('/api/send-sse', {
+    let data = { phoneNumber, message, cash };
+    try {
+      await fetch('/api/send-sse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  
   };
 
   async function createNotification() {
@@ -79,13 +85,16 @@ const PaymentPage = props => {
       setProblem(true)
       return
     }
-    setProblem(false)
+    if (number && cash) {
+      setSendMoney(true)
+    }
     try {
       let bling = await new Transaction(transaction)
       await bling.save()
 
       global.stateUpdater()
       createNotification();
+
     }
     catch {
       setProblem(true);
@@ -93,6 +102,7 @@ const PaymentPage = props => {
       return ''
     }
   }
+
 
   return (
     <React.Fragment>
@@ -109,9 +119,15 @@ const PaymentPage = props => {
               Din betalning gick inte genom, försök igen.
             </Alert>
           </div>
+          <div>
+            <Alert color="success" isOpen={sendMoney} toggle={dismissSendMoney} fade={true}>
+              Dina pengar har skickats!
+            </Alert>
+          </div>
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagare"
               value={number}
+              type="Number"
               onChange={handleNumberChange} />
             <Button className="favoBtn" type="submit" onClick={addToFavorites}>Spara som favorit</Button>
 
@@ -121,6 +137,7 @@ const PaymentPage = props => {
           <InputGroup>
             <Input placeholder="belopp"
               value={cash}
+              type="Number"
               onChange={handleCashChange} />
           </InputGroup>
         </Col>

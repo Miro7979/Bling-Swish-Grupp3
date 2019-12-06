@@ -24,7 +24,8 @@ let userSchema = new Schema({
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   emailConfirmed: { type: Boolean, default: false },
   deactivated: { type: Boolean, default: false },
-  limit: { type: Number }
+  limit: { type: Number },
+  subscriptionKeys: [{ type: Object }]
 }, {
   // settings
   toJSON: toJSONSettings,
