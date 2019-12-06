@@ -1,5 +1,4 @@
 import React from 'react';
-
 import waitIcon from '../images/hourglass.png';
 import {Col,Row} from 'reactstrap';
 
@@ -12,10 +11,8 @@ const MyPagePageWaitingChild=({child})=>{
 					<img src={waitIcon} alt="barn ikon"></img>
 				</Col>
 				<Col xs={8} className="children-name">
-					{child.name}
-          
-				</Col>
-	
+					{child.name}         
+				</Col>	
 			</Row>
       <Row>
         <Col className="text-center">
@@ -27,7 +24,3 @@ const MyPagePageWaitingChild=({child})=>{
 
 }
 export default MyPagePageWaitingChild;
-
-/*
-<img src={waitIcon} alt="timmglas ikon" className="wait-icon"></img>
-*/

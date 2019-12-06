@@ -144,9 +144,6 @@ const MyPagePage = () => {
 					})}
 				</div>:''}
 
-				
-				
-
 			{wantToEdit.wantToEdit?
 				<div>
 					{userData.role==='parent'? <MyPagePageAddChild userData={userData} setUserData={setUserData} />:''}
