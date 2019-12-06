@@ -431,11 +431,11 @@ app.post('/api/push-subscribe', async (req, res) => {
     // Send some notifications...
     // this might not be what you do directly on subscription
     // normally
-    sendNotification(subscription, { body: 'Welcome!' });
-    setTimeout(
-        () => sendNotification(subscription, { body: 'Still there?' }),
-        30000
-    );
+    sendNotification(subscription, { body: 'Välkommen!' });
+    // setTimeout(
+    //     () => sendNotification(subscription, { body: '' }),
+    //     30000
+    // );
 });
 
 async function findUserAndKeys(subscription, user) {
@@ -456,7 +456,7 @@ async function findUserAndKeys(subscription, user) {
 async function sendNotification(subscription, payload) {
     let toSend = {
         title: 'BlingSwish',
-        icon: '/logo192.png',
+        icon: '/BlingSwish.png',
         //see above body welcome resp still there
         ...payload
     };

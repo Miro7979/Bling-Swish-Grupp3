@@ -10,7 +10,6 @@ import {
 	Row,
 	Col,
 	FormGroup,
-	Label,
 	Alert
 } from 'reactstrap';
 
@@ -68,7 +67,7 @@ function LogInPage() {
 										Email eller lösenord är felaktigt, vänligen försök igen.</Alert>
 								</div>
 								<FormGroup>
-									<Label for="emailLabel">Email</Label>
+
 									<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
 										key={1}
 										value={email}
@@ -76,19 +75,20 @@ function LogInPage() {
 									/>
 								</FormGroup>
 								<FormGroup>
-									<Label for="passwordLabel">Lösenord</Label>
+
 									<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här"
 										key={2}
 										value={password}
 										onChange={e => setPassword(e.target.value)}
 									/>
 								</FormGroup>
+								<FormGroup>
+									<Button onClick={handleSubmit} color="success" className="logInBtn ">Logga in</Button>
+								</FormGroup>
 							</Col>
 						</Row>
 						<Row>
-							<Col sm={{ size: 6, offset: 3 }} >
-								<Button onClick={handleSubmit} color="success" className="logInBtn mr-3">Logga in</Button>
-							</Col>
+
 							<Col sm={{ size: 6, offset: 3 }} >
 							</Col>
 							<Col sm={{ size: 6, offset: 3 }} >
