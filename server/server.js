@@ -74,13 +74,13 @@ app.post('/api/aktiverakonto*', async (req, res) => {
     try {
         let email = atob(req.body.encoded)
         let user = await User.findOne({ email })
-        req.body.activated = false
+        req.body.emailConfirmed = false
         if (user) {
-            user.activated = true;
+            user.emailConfirmed = true;
             let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
             let notChild = (age >= 18)
             notChild ? user.role = "parent" : user.role = "child"
-            req.body.activated = true;
+            req.body.emailConfirmed = true;
             await user.save()
             return
         }
@@ -178,8 +178,7 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-    // users: require('./models/User'),
-    User: require('./models/User'),
+    Users: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')

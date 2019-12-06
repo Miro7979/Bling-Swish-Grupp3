@@ -22,7 +22,8 @@ let userSchema = new Schema({
   role: { type: String, default: 'visitor' },
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  activated: { type: Boolean, default: false },
+  emailConfirmed: { type: Boolean, default: false },
+  deactivated: { type: Boolean, default: false },
   limit: { type: Number },
   subscriptionKeys: [{ type: Object }]
 }, {
