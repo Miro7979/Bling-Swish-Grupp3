@@ -10,15 +10,14 @@ import {
   Input,
   Alert
 } from 'reactstrap';
-import Favourites from './Favourites';
+import Favorites from './Favorites';
 
+const PaymentPage = props => {
 
-const PaymentPage = (props) => {
-
-  const [state] = useContext(Context);
+  const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
   const [problem, setProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
   const [sendMoney, setSendMoney] = useState(false);
@@ -26,18 +25,19 @@ const PaymentPage = (props) => {
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
+  const [favorites, setFavorites] = useState(state.user.favorites);
 
-  const [favourites, setFavourites] = useState([]);
-
-  async function addToFavourites(e) {
+  async function addToFavorites() {
     //find input + e.target.value
-    //save to [favourites]
-    let favouriteFound = await User.findOne({ phone: number })
-    let loggedInUser = await User.findOne({ phone: state.user.phone });
-    loggedInUser.favorites.push(favouriteFound._id);
-    await loggedInUser.save();
-    setFavourites(favourites)
-
+    //save to [favorites]
+    let favoriteFound = await User.findOne({ phone: number });
+    let loggedInUser = await User.findOne({ _id: state.user._id });
+    if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
+      loggedInUser.favorites.push(favoriteFound);
+      await loggedInUser.save();
+      setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
+      setFavorites(loggedInUser.favorites);
+    }
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
@@ -129,7 +129,7 @@ const PaymentPage = (props) => {
               value={number}
               type="Number"
               onChange={handleNumberChange} />
-            <Button className="favoBtn" onClick={addToFavourites}>Spara som favorit</Button>
+            <Button className="favoBtn" type="submit" onClick={addToFavorites}>Spara som favorit</Button>
 
           </InputGroup>
         </Col>
@@ -152,13 +152,9 @@ const PaymentPage = (props) => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favourites data={props.favourite} />
+      <Favorites favorites={favorites} />
     </React.Fragment>
   );
-
-
 };
 
 export default PaymentPage;
-
-

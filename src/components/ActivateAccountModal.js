@@ -15,7 +15,7 @@ const ActivateAccountModal = (props) => {
     let encoded = props.match.params.id
     let user = await new Aktiverakonto({ encoded })
     await user.save()
-    user.activated ? setCreated(true) : setProblem(true)
+    user.emailConfirmed ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
   const [created, setCreated] = useState(false);

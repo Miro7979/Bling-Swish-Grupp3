@@ -14,14 +14,20 @@ const AdminPage = (props) => {
   const [modal, setModal] = useState(true);
   const toggle = () => setModal(!modal);
 
+  // const [transactions, setTransactions] = useState([]);
+
   //I wanna find all the users
   useEffect(() => {
-    const abortController = new AbortController();
-
-    (async () => setUsers(await User.find()))();
-    return () => {
-      abortController.abort();
+    async function findUsers() {
+      const abortController = new AbortController();
+      let users = await User.find({ deactivated: false });
+      setUsers(users)
+      // (async () => setUsers(await User.find()))();
+      return () => {
+        abortController.abort();
+      }
     }
+    findUsers()
   }, []);
 
   const sortTable = () => {
@@ -61,90 +67,95 @@ const AdminPage = (props) => {
 
   const showTransactions = () => {
     console.log('show transactions');
+    return;
 
   }
 
-  const deleteUser = async (e) => {
+  const deactivateUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
-    let id = e.target.attributes['data-id'].value;
+    
+    let id = e.target.closest('[data-id]').attributes['data-id'].value;
     let userToDelete = await User.findOne(id);
 
-    userToDelete.delete()
+    userToDelete.deactivated = true;
+    userToDelete.save();
     const filteredUsers = users.filter(user =>
       user._id !== id);
-    setUsers(filteredUsers)
+    setUsers(filteredUsers);
   };
 
   return (
-    <Row>
-      <Col>
-        <Link to={'/adminsida/registrera-en-ny-anvandare'}>
-          <Button onClick={toggle}
-            className="add-btn mt-3"
-          ><img src={addIcon} alt="lägga till"></img></Button>
-        </Link>
-        <Button className="sort-btn ml-3 mt-3"
-          onClick={sortTable}><img src={sortIcon} alt="sortera"></img></Button>
-        {/*the table head*/}
-        <Table striped id="myTable" className="mt-3 table-responsive-md">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>För-&nbsp;och&nbsp;Efternamn</th>
-              <th>Telefonnummer</th>
-              <th>Email</th>
-              <th className="one">Personnummer</th>
-              <th className="one">Utdrag</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* display all users in a table */}
-            {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
-              <tr key={_id}>
-                <th className="align-middle" scope="row">{index + 1}</th>
-                <td className="align-middle" >{name}</td>
-                <td className="align-middle">{phone}</td>
-                <td className="one align-middle">{email}</td>
-                <td className="one align-middle">{nationalIdNumber}</td>
-                <td className="align-middle">
-                  <span
-                    className="one show-more-btn ml-2"
-                    color="info"
-                    size="sm"
-                    data-id={_id}
-                    onClick={showTransactions}
-                  >{' '}<img src={showProperty} alt="sök ikon"></img>
-                  </span>
-                </td>
-
-                {/* <td className="align-middle">{transactions}</td> */}
-
-                <td className="align-middle">
-                  <span
-                    className="remove-btn"
-                    size="sm"
-                    data-id={_id}
-                    onClick={deleteUser}
-                  ><img src={deleteIcon} alt="ta bort ikon"></img>
-
-                  </span>
-                </td>
-                <td className="align-middle">
-                  <Link className="btn edit-btn"
-                    color="info"
-                    size="sm" to={'/adminsida/redigera-anvandare/' + _id}>
-                    <img src={editIcon} alt="ändra ikon"></img>
-                  </Link>
-                </td>
+    <React.Fragment>
+      <Row>
+        <Col>
+          <Link to={'/adminsida/registrera-en-ny-anvandare'}>
+            <Button onClick={toggle}
+              className="add-btn mt-3"
+            ><img src={addIcon} alt="lägga till" />
+            </Button>
+          </Link>
+          <Button className="sort-btn ml-3 mt-3"
+            onClick={sortTable}><img src={sortIcon} alt="sortera" /></Button>
+          {/*the table head*/}
+          <Table striped id="myTable" className="mt-3 table-responsive-md">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>För-&nbsp;och&nbsp;Efternamn</th>
+                <th>Telefonnummer</th>
+                <th>Email</th>
+                <th className="one">Personnummer</th>
+                <th className="one">Utdrag</th>
+                <th></th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Col>
-    </Row>
+            </thead>
+            <tbody>
+              {/* display all users in a table */}
+              {users.map(({ _id, name, phone, email, nationalIdNumber }, index) => (
+                <tr key={_id}>
+                  <th className="align-middle" scope="row">{index + 1}</th>
+                  <td className="align-middle" >{name}</td>
+                  <td className="align-middle">{phone}</td>
+                  <td className="one align-middle">{email}</td>
+                  <td className="one align-middle">{nationalIdNumber}</td>
+                  <td className="align-middle">
+                    <Link
+                      className="one show-more-btn ml-2"
+                      color="info"
+                      size="sm"
+                      data-id={_id}
+                      onClick={showTransactions}
+                      to={'/adminsida/betalningshistorik/' + _id}
+                    >{' '}<img src={showProperty} alt="sök ikon"></img>
+                    </Link>
+                  </td>
+                  <td className="align-middle">
+                    <span
+                      className="remove-btn"
+                      size="sm"
+                      data-id={_id}
+                      onClick={deactivateUser}
+                    ><img src={deleteIcon} alt="ta bort ikon" />
+                    </span>
+                  </td>
+                  <td className="align-middle">
+                    <Link
+                      className="btn edit-btn"
+                      color="info"
+                      size="sm"
+                      to={'/adminsida/redigera-anvandare/' + _id}>
+                      <img src={editIcon} alt="ändra ikon"></img>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </React.Fragment>
   );
 }
 

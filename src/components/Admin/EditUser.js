@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert, Row } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Row, Col } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
 import { User } from 'the.rest/dist/to-import';
-// const request = require('request-promise-native');
 
-
-const EditUser = (props) => {
+const EditUser = () => {
   const [user, setUser] = useState(false);
   const [update, setUpdate] = useState(false);
   const dismissUpdate = () => setUpdate(false);
@@ -16,7 +14,12 @@ const EditUser = (props) => {
     let id = window.location.pathname.split('/')[3]
     let userToEdit = await User.findOne({ _id: id })
     //changed state...changed values of user/changed user 
-    setUser(userToEdit)
+    try {
+      setUser(userToEdit)
+    }
+    catch {
+      return;
+    }
   }
 
   useEffect(() => {
@@ -30,8 +33,7 @@ const EditUser = (props) => {
     email: "Email",
     nationalIdNumber: "Personnummer",
     role: "Roll",
-    children: "Barn",
-    transactions: "Transaktioner"
+    children: "Barn"
   };
 
   const handleChange = e => {
@@ -41,40 +43,54 @@ const EditUser = (props) => {
     setUser(editedUser);
   }
 
-  const handleSubmit = () => {
+  async function handleSubmit(){
     let userToSave = new User(user);
-    userToSave.save();
-    setUpdate(true)
+    await userToSave.save();
+    try {
+      setUpdate(true)
+    }
+    catch {
+      return
+    }
   }
-
-
 
   return !user ? null : (
     <Form>
       <div>
         <Row>
+          <Col sm={{ size: 6, offset: 3 }}>
+            <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
+              Användaren är nu updaterad.
+            </Alert>
+          </Col>
         </Row>
       </div>
       {Object.keys(inputLabels).map(key => {
         let label = inputLabels[key];
+
         return (
-          <FormGroup key={key}>
-            <Label className="d-block">
-              {label}
-              <Input type={key} value={user[key]} onChange={handleChange}></Input>
-            </Label>
-          </FormGroup>
+          <Row key={user[key]}>
+            <Col sm={{ size: 6, offset: 3 }}>
+              <FormGroup>
+                <Label className="d-block">
+                  {label}
+                  <Input type={key} value={user[key]} onChange={handleChange}></Input>
+                </Label>
+              </FormGroup>
+            </Col>
+          </Row>
         );
       })}
-      {
-        update ?
-          <Link to="/adminsida"><Button>Gå tillbaka</Button></Link>
-          :
-          <Button onClick={handleSubmit}>Updatera</Button>
-      }
-      <Alert className="mt-3" color="info" isOpen={update} toggle={dismissUpdate} fade={true}>
-        Användaren är nu updaterad.
-      </Alert>
+      <Row>
+        <Col sm={{ size: 6, offset: 3 }}>
+          {
+            update ?
+              <Link to="/adminsida"><Button >Gå tillbaka</Button></Link>
+              :
+              <Button onClick={handleSubmit}>Updatera</Button>
+          }
+        </Col>
+      </Row>
     </Form>
   );
 }
