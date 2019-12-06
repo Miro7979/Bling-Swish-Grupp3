@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'reactstrap';
 import { User } from 'the.rest/dist/to-import';
 
@@ -7,12 +7,12 @@ const AdminHistoryPage = (props) => {
 
   useEffect(() => {
     findUserTransactions()
+    // eslint-disable-next-line
   }, [])
 
   async function findUserTransactions() {
     let user = await User.findOne({ _id: props.match.params.id });
     setTransactions(user.transactions);
-    console.log('transactions', transactions)
   }
 
   return (
@@ -28,12 +28,12 @@ const AdminHistoryPage = (props) => {
         </tr>
       </thead>
       <tbody>
-        {transactions.map(({date, ingoingBalance, outgoingBalance, amount, to, from }, index) => (
+        {transactions.map(({ date, ingoingBalance, outgoingBalance, amount, to, from }, index) => (
           <tr key={index + 1}>
             <td>{date}</td>
             <td>{amount}</td>
-            <td>{to ? to.name: null}</td>
-            <td>{from ? from.name: null}</td>
+            <td>{to ? to.name : null}</td>
+            <td>{from ? from.name : null}</td>
             <td>{ingoingBalance}</td>
             <td>{outgoingBalance}</td>
           </tr>

@@ -20,7 +20,7 @@ const AdminPage = (props) => {
   useEffect(() => {
     async function findUsers() {
       const abortController = new AbortController();
-      let users = await User.find();
+      let users = await User.find({ deactivated: false });
       setUsers(users)
       // (async () => setUsers(await User.find()))();
       return () => {
@@ -71,16 +71,18 @@ const AdminPage = (props) => {
 
   }
 
-  const deleteUser = async (e) => {
+  const deactivateUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
-    let id = e.target.attributes['data-id'].value;
+    
+    let id = e.target.closest('[data-id]').attributes['data-id'].value;
     let userToDelete = await User.findOne(id);
 
-    userToDelete.delete()
+    userToDelete.deactivated = true;
+    userToDelete.save();
     const filteredUsers = users.filter(user =>
       user._id !== id);
-    setUsers(filteredUsers)
+    setUsers(filteredUsers);
   };
 
   return (
@@ -134,7 +136,7 @@ const AdminPage = (props) => {
                       className="remove-btn"
                       size="sm"
                       data-id={_id}
-                      onClick={deleteUser}
+                      onClick={deactivateUser}
                     ><img src={deleteIcon} alt="ta bort ikon" />
                     </span>
                   </td>
