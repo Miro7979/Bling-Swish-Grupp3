@@ -13,7 +13,7 @@ import {
 import Favorites from './Favorites';
 
 const PaymentPage = props => {
-  
+
   const [state, setState] = useContext(Context);
   const [number, setNumber] = useState("");
   const [cash, setCash] = useState("");
@@ -31,10 +31,12 @@ const PaymentPage = props => {
     //save to [favorites]
     let favoriteFound = await User.findOne({ phone: number });
     let loggedInUser = await User.findOne({ _id: state.user._id });
-    loggedInUser.favorites.push(favoriteFound);
-    await loggedInUser.save();
-    setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
-    setFavorites(loggedInUser.favorites);
+    if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
+      loggedInUser.favorites.push(favoriteFound);
+      await loggedInUser.save();
+      setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
+      setFavorites(loggedInUser.favorites);
+    }
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
