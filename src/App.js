@@ -92,9 +92,22 @@ function App() {
     }
     // end of visitor
 
-    // if role is admin
-    if (state.user.role === 'admin') {
-      return <Redirect to="/adminsida" />
+     // if role is admin
+     if (state.user.role === 'admin') {
+      let allowedPaths = ['/adminsida','/admin/redigera-anvandare', '//adminsida/betalningshistorik/:id', '/adminsida/registrera-en-ny-anvandare']
+      let redirect = true;
+      allowedPaths.map(path => {
+        if (thisPath === path) {
+          redirect = false
+        }
+        return null
+      })
+
+      if (redirect) {
+        return <Redirect to="/login" />
+      } else {
+        return null
+      }
     }
 
     // if role is parent/child

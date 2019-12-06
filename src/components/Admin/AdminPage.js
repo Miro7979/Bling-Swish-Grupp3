@@ -66,9 +66,7 @@ const AdminPage = (props) => {
   }
 
   const showTransactions = () => {
-    console.log('show transactions');
     return;
-
   }
 
   const deactivateUser = async (e) => {
@@ -103,10 +101,10 @@ const AdminPage = (props) => {
               <tr>
                 <th>#</th>
                 <th>För-&nbsp;och&nbsp;Efternamn</th>
-                <th>Telefonnummer</th>
-                <th>Email</th>
+                <th className="one">Telefonnummer</th>
+                <th className="one">Email</th>
                 <th className="one">Personnummer</th>
-                <th className="one">Utdrag</th>
+                <th>Utdrag</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -117,7 +115,7 @@ const AdminPage = (props) => {
                 <tr key={_id}>
                   <th className="align-middle" scope="row">{index + 1}</th>
                   <td className="align-middle" >{name}</td>
-                  <td className="align-middle">{phone}</td>
+                  <td className="one align-middle">{phone}</td>
                   <td className="one align-middle">{email}</td>
                   <td className="one align-middle">{nationalIdNumber}</td>
                   <td className="align-middle">

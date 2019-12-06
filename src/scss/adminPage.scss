@@ -17,4 +17,8 @@ td {
   td.one {
     display: none;
   }
+  .table th,
+  .table td {
+    font-size: 11px;
+  }
 }
