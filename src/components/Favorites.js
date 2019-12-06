@@ -31,8 +31,8 @@ const Favorites = props => {
   useEffect(() => {
     async function displayFavorites() {
       try {
-
-        let users = await User.find({ phone: state.user.phone })[0].populate('favorites', 'name phone _id');
+        let users = await User.find({ _id: state.user._id })[0].populate('favorites', 'name phone _id');
+        console.log(users)
         //if users true and they have have an id
         if (users[0] && users[0]._id) {
 
@@ -49,12 +49,12 @@ const Favorites = props => {
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
-
+    
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
-        {(state.user.favorites || []).map(favorite => {
+        {(state.user.favorites[0]._id ? state.user.favorites : []).map(favorite => {
           return (
             <Card key={favorite._id} body className="mt-3 p-0">
               <CardBody className="p-3">
@@ -73,19 +73,14 @@ const Favorites = props => {
                   <Col className="pl-3 pr-0">
                     <Button className="card-btn-delete btn btn-danger" onClick={(e) => deleteFavorite({ id: e.target.value })} size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
                   </Col>
-
                 </Row>
               </CardBody>
             </Card>
           )
         })}
-
       </Col>
-
     </Row>
   );
 }
-
-
 
 export default Favorites;
