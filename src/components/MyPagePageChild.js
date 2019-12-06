@@ -47,7 +47,7 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 					<input type="number" className="form-control vertical-center" placeholder={child.limit} onChange={changeLimit}></input>
 				</Col>:
 				<Col xs={8}>
-					{child.limit?<p>{child.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
+					{child.limit?<p>{child.limit},00 sek</p>:<p className="limit-text" style={{color:'red'}}>Ingen gräns satt</p>}
 				</Col>
 				}
 			</Row>

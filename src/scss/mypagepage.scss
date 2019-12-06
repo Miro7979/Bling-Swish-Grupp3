@@ -53,6 +53,7 @@
   .error-text{
     color:orange;
     font-size:12px;
+    font-style:italic;
   }
   .error-container{
     border:solid black 1px;
@@ -74,12 +75,14 @@
     padding:15px;
     background-color: #fbf9f9;
     color:black;
-    height:90px;
+    height:80px;
   }
   .wait-icon{
+    /*
     position:relative;
     bottom:36px;
     left:20px;
+    */
   }
 
   .add-child-component{
