@@ -48,29 +48,24 @@ const Favorites = props => {
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
-        
+
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
         {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
-            <Card key={favorite._id} body className="mt-3 p-0">
+            <Card key={favorite._id} body className=" favCardBody mt-3 p-0">
               <CardBody className="p-3">
                 <Row>
-                  <Col className="pl-3 pr-0">
+                  <Col className="favName pl-3 pr-0">
                     {favorite.name}
                   </Col>
-                  <Col className="pl-3 pr-0">
+                  <Col className="favPhone pl-1 pr-0">
                     {favorite.phone}
-                  </Col>
-                </Row>
-                <Row className="btn-row mt-3">
-                  <Col className="pl-3 pr-0">
-                    <Button onClick={selectFavorite} size="sm" className="btn btn-info" id="select-btn">Välj</Button>
-                  </Col>
-                  <Col className="pl-3 pr-0">
-                    <Button className="card-btn-delete btn btn-danger" onClick={(e) => deleteFavorite({ id: e.target.value })} size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
+                    <Button onClick={selectFavorite} size="sm" className="btn btn-info ml-2" id="select-btn">Välj</Button>
+                    <Button className="card-btn-delete btn btn-danger ml-3" onClick={(e) => deleteFavorite({ id: e.target.value })} size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
+
                   </Col>
                 </Row>
               </CardBody>

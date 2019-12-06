@@ -1,33 +1,38 @@
+.favCardBody {
+	background-color: rgb(202, 38, 202);
+}
+.favName,
+.favPhone {
+	color: white;
+}
 .card-cols {
-  display: flex;
-  flex-direction: row;
-  flex-basis: 100%;
-  flex: 1;
+	display: flex;
+	flex-direction: row;
+	flex-basis: 100%;
+	flex: 1;
 }
 
 .btn-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 #select-btn {
-  display: inline-flex;
+	display: inline-flex;
 }
 
 .card {
-  display: flex;
-  flex-direction: row;
-  color: black;
-  border-radius: 9px;
-  flex-wrap: wrap;
-  // 	// justify-content: center;
-  // 	margin: 6px;
-  flex-basis: auto; /* default auto */
+	display: flex;
+	flex-direction: row;
+	color: black;
+	border-radius: 9px;
+	flex-wrap: wrap;
+	flex-basis: auto; /* default auto */
 }
 
 .favoBtn {
-  border: 2px 2px 0px 2px;
-  background-color: purple;
-  border-color: white;
+	border: 2px 2px 0px 2px;
+	background-color: purple;
+	border-color: white;
 }
