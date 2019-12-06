@@ -55,10 +55,10 @@ const CreateAccountModal = () => {
         <Link to="/"> <ModalHeader toggle={toggle} >Skapa konto</ModalHeader> </Link>
         <ModalBody>
           <Alert color="primary" isOpen={problem} toggle={dismissProblem} fade={false}>
-            Yo missing info bro
+            Det saknas information.
         </Alert>
           <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
-            Yo go to login bro you got an account
+            Gå till din email för att aktiviera ditt konto.
         </Alert>
           <InputGroup>
             <Container>
@@ -68,25 +68,25 @@ const CreateAccountModal = () => {
               <Input placeholder="Personnummer , 12 siffror" value={nationalIdNumber} onChange={handleIdNumberChange} className="mt-3 idNumber" />
               <Input placeholder="Lösenord" value={password} type="password" onChange={handlePasswordChange} className="mt-3 password" />
               <FormFeedback tooltip>
-                Uh oh! Looks like there is an issue with your email. Please input a correct email.
+                Uh oh! Verkar som din email adress är ogiltigt, vänligen ange korrect email adress.
             </FormFeedback>
             </Container>
           </InputGroup>
         </ModalBody>
         <ModalFooter>
-            {
-              created 
+          {
+            created
               ?
               <Link to="/">
-              <Button color="secondary" onClick={toggle}>
-                Gå till logga in
+                <Button color="secondary" onClick={toggle}>
+                  Gå till logga in
               </Button>
-            </Link>
-            :
-            <Button color="primary" onClick={gatherUserInfo}>
-              Skapa konto
+              </Link>
+              :
+              <Button color="primary" onClick={gatherUserInfo}>
+                Skapa konto
             </Button>
-            }
+          }
           <Link to="/">
             <Button color="secondary" onClick={toggle}>
               Avbryt

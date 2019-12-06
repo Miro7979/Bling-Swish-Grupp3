@@ -20,8 +20,8 @@ import {
 function LogInPage() {
 	let setState = useContext(Context)[1]
 
-	const [email, setEmail] = useState();
-	const [password, setPassword] = useState();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [problem, setProblem] = useState(false);
 	const dismissProblem = () => setProblem(false);
 
@@ -33,6 +33,7 @@ function LogInPage() {
 			let whoIsLoggedIn = await Login.findOne()
 			if (whoIsLoggedIn._id) {
 				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
+				window.location.reload();
 			}
 		}
 		catch {

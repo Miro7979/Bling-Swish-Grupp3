@@ -15,6 +15,7 @@ const sendMail = require('./nodemailer');
 const atob = require('atob');
 const sse = require('easy-server-sent-events');
 let btoa = require('btoa');
+const webpush = require('web-push');
 
 function encryptPassword(password) {
     return crypto.createHmac('sha256', salt)
@@ -56,12 +57,11 @@ const options = {
 //     a function returns how many sessions are open
 // openConnections: 
 //     a function that returns how man connections that are open
-const { SSE, send, openSessions, openConnections } = sse(options);
+const { SSE, send } = sse(options);
 app.use(SSE);
 
 
-
-app.use(express.json()) // body parser
+app.use(express.json())
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
@@ -74,13 +74,13 @@ app.post('/api/aktiverakonto*', async (req, res) => {
     try {
         let email = atob(req.body.encoded)
         let user = await User.findOne({ email })
-        req.body.activated = false
+        req.body.emailConfirmed = false
         if (user) {
-            user.activated = true;
+            user.emailConfirmed = true;
             let age = moment().diff(user.nationalIdNumber.toString().slice(0, -4), 'years')
             let notChild = (age >= 18)
             notChild ? user.role = "parent" : user.role = "child"
-            req.body.activated = true;
+            req.body.emailConfirmed = true;
             await user.save()
             return
         }
@@ -111,8 +111,7 @@ app.post('/api/updatepassword*', async (req, res) => {
     }
 })
 
-
-app.get('/nyttlosenord/:id', async (req, res) => {
+app.get('/api/nyttlosenord/:id', async (req, res) => {
     try {
         let foundResetUser = await Reset.findOne({ _id: req.params.id });
         if (foundResetUser && Date.now() - foundResetUser.date < 86400000) {
@@ -168,7 +167,7 @@ app.post('/api/resets', async (req, res) => {
         })
         if (foundResetUser) {
             if ((time - foundResetUser.date) > 86400000) {
-                let savedReset = await reset.save()
+                await reset.save()
                 //send email
                 let subject = "Återställningslänk"
                 let text = "Klicka på länken för att återställa ditt lösenord"
@@ -179,12 +178,13 @@ app.post('/api/resets', async (req, res) => {
                 return;
             }
             else if (time < 86400000) {
+                let resultFromSave;
                 res.json({ success: 'Om din användare finns så har vi skickat ett mejl till dig.', resultFromSave, statusCode: 200 })
                 return
             }
         }
         if (foundUser && !foundResetUser) {
-            let savedReset = await reset.save();
+            await reset.save();
             let subject = "Återställningslänk"
             let text = "Klicka på länken för att återställa ditt lösenord"
             let html = `<a href='www.blingswish.se/nyttlosenord/${reset._id}'>Återställ lösenord<a>`
@@ -203,12 +203,11 @@ app.post('/api/resets', async (req, res) => {
 
 // Set keys to names of rest routes
 const models = {
-    users: require('./models/User'),
+    Users: require('./models/User'),
     Transaction: require('./models/Transaction'),
     Notification: require('./models/Notification'),
     Reset: require('./models/Reset')
 };
-
 
 // create all necessary rest routes for the models
 //new CreateRestRoutes(app, mongoose, models);
@@ -261,6 +260,8 @@ app.post('/api/login*', async (req, res) => {
         if (user) {
             user.password = 'Forget it!!!';
             req.session.user = user
+            await findUserAndKeys(req.session.subscription, user)
+            delete req.session.subscription;
         };
         res.json(user ? user : { error: 'not found 1' });
     }
@@ -343,7 +344,7 @@ app.post('/api/notifications*', async (req, res) => {
 app.post('/api/transaction*', async (req, res) => {
     let to = await User.findOne({ phone: req.body.to })
     let transaction = new Transaction({
-        balance: req.body.balance,
+        // balance: req.body.balance,
         message: req.body.message,
         amount: req.body.amount,
         to: to._id,
@@ -354,32 +355,57 @@ app.post('/api/transaction*', async (req, res) => {
     res.json(transaction);
 });
 
-app.get('/api/my-transactions/:userPhone', async (req, res) => {
-    if (!req.session.user) {
-        res.json('Nope!')
+app.get('/api/my-transactions/:userId', async (req, res) => {
+    let userId = req.params.userId;
+    let user = req.session.user;
+    let userChildren = user.children;
+
+    if ((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
+        try {
+            let iGot = await Transaction.find({ to: userId })
+            let iSent = await Transaction.find({ from: userId })
+            let allMyTransactions = [...iGot, ...iSent];
+            allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
+            res.json(allMyTransactions);
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    else {
         return;
     }
-    let err, allTransactions = await Transaction.find()
+});
+
+app.get('/api/populatemychildren', async (req, res) => {
+    let user = req.session.user;
+    if (!user) {
+        res.json('Nope!')
+        return;
+    };
+
+    let err, userChildren = await User.findOne({ phone: user.phone }).populate('children', 'name transactions phone')
         .catch(
             error => err = error
         );
-    let userPhone = req.params.userPhone;
-
-    let thisUserTransactions = [];
-    for (let transaction of allTransactions) {
-        if (transaction.to.phone === userPhone || transaction.from.phone === userPhone) {
-            thisUserTransactions.push(transaction);
-        }
-    };
-
-    res.json(err || thisUserTransactions);
+    res.json(err || userChildren);
 });
 
 
 app.post('/api/send-sse', async (req, res) => {
-    let body = req.body;
-    res.json(body);
-    sendNotification(req, body)
+    let err, body = req.body;
+    body.message = new Date().toLocaleTimeString();
+    let { phoneNumber, message, cash } = body;
+    send(
+        req => req.session.user && req.session.user.phone === phoneNumber,
+        'message',
+        {
+            message: message,
+            cash: cash,
+            content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
+        }
+    );
+    res.json(err || body);
 });
 
 require('./modelRaw/UserRaw')
@@ -398,23 +424,93 @@ app.use(express.static('client/build'));
 app.listen(3001, () => console.log('Listening on port 3001'));
 
 
+// Vapid keys
+const vapidKeys = {
+    public: 'BH_WGf-8nB-Jm-I3noFwMl2sByECoCZQjMwJoK40y2PLQSFqAgilGxV10ugUTMlmtms77Eqi-SYXBk-nw2BfNU4',
+    private: require('./vapid-private-key.json')
+};
+
+// Who is sending the push notification
+webpush.setVapidDetails(
+    'mailto:melsie78@gmail.com',
+    vapidKeys.public,
+    vapidKeys.private
+);
+
+
+// Subscribe route
+app.post('/api/push-subscribe', async (req, res) => {
+    const subscription = req.body;
+    // Send 201 - resource created
+    res.status(201).json({ subscribing: true });
+
+    console.log('subscription', subscription);
+    if (req.session.user) {
+        await findUserAndKeys(subscription, req.session.user)
+    }
+    else if (!req.session.user) {
+        req.session.subscription = subscription
+    }
+
+
+    // Send some notifications...
+    // this might not be what you do directly on subscription
+    // normally
+    sendNotification(subscription, { body: 'Welcome!' });
+    setTimeout(
+        () => sendNotification(subscription, { body: 'Still there?' }),
+        30000
+    );
+});
+
+async function findUserAndKeys(subscription, user) {
+    let foundUser = await User.findOne({ _id: user._id });
+    for (let i of user.subscriptionKeys) {
+        if (JSON.stringify(foundUser.subscriptionKeys[i]) === JSON.stringify(subscription)) {
+            console.log("user0", user)
+            console.log("found", foundUser)
+            console.log("sub", subscription)
+            return;
+        }
+    }
+    foundUser.subscriptionKeys.push(subscription)
+    await foundUser.save()
+}
+
+// A function that sends notifications
+async function sendNotification(subscription, payload) {
+    let toSend = {
+        title: 'BlingSwish',
+        icon: '/logo192.png',
+        //see above body welcome resp still there
+        ...payload
+    };
+    await webpush.sendNotification(
+        subscription, JSON.stringify(toSend)
+    ).catch(err => console.log(err));
+}
+
+// Note! In order to be able to send notifications
+// to a certain user we need
+
+// 1. express-session
+// Every express - session has a unique id from start
+// Have a memory where we pair subscriptions with session_ids
+// subscriptionMem[session_id] = subscription
+
+// 2. when the user logs in
+// Write to subcription to DB, linked to the user
+// remove it from subscriptionMem
+
+// A user can have several subscriptions (different browsers etc)
+// So: In Mongoose we would probably
+// create a subscription collection
+// and then a new field on user an array of objects ref id:s
+// in the subscription collection
 // Example of using send(to, eventType, data)
 // Here we send messages to all connected clients
 // We randomly choose between the event types
 // 'message' and 'other' (you can name your event types how you like)
 // and send a message (an object with the properties cool and content)
-async function sendNotification(req, body) {
-    let { phoneNumber, message, fromUserId, cash } = body;
 
-    send(
-        req => req.session.user && req.session.user.phone === phoneNumber,
-        'message',
-        {
-            message: message,
-            content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from this phonenumber: ' + req.session.user.phone,
-            fromUser: fromUserId,
-            amount: cash
-        }
-    );
 
-}

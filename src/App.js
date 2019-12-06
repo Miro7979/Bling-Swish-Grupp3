@@ -5,6 +5,7 @@ import LoginPage from './components/loginPage';
 import MyPagePage from './components/MyPagePage';
 import AdminPage from './components/Admin/AdminPage';
 import EditUser from './components/Admin/EditUser';
+import AdminHistoryPage from './components/Admin/AdminHistoryPage';
 import HistoryPage from './components/HistoryPage/HistoryPage';
 import PaymentPage from './components/PaymentPage';
 import './App.scss';
@@ -19,21 +20,26 @@ import NotificationModal from './components/createNotificationModal';
 import Loader from 'react-loader-spinner';
 import ApproveParent from './components/ApproveParent.js';
 
-
+let sse;
 
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
 
-  let sse = new SSE('/api/sse');
-  async function listenToSSE() {
 
-    sse.listen('message', (data) => {
+  // listenToSSE();
+  useEffect(() => {
+    sse = new SSE('/api/sse');
+    let messageListener = sse.listen('message', (data) => {
       setState((prev) => ({ ...prev, showNoti: true }))
     });
-  }
 
-  listenToSSE();
+    return () => {
+      sse.unlisten(messageListener);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   let stateUpdater = async () => {
     let whoIsLoggedIn = await Login.findOne()
@@ -51,13 +57,15 @@ function App() {
         return;
       }
       setState((prev) => ({ ...prev, booting: false }))
+      sse.restart();
     }
     checkUserSession()
 
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reload]);
 
   const toggleNotificationModal = () => {
-    setState((prev) => ({ ...prev, showNoti: false, reload: true }))
+    setState((prev) => ({ ...prev, showNoti: false, reload: prev.reload+1 }))
   }
 
   let propsToNotificationModal = { toggleNotificationModal };
@@ -132,6 +140,7 @@ function App() {
                 <Route path="/login" component={LoginPage} />
                 <Route exact path="/adminsida" component={AdminPage} />
                 <Route path="/adminsida/redigera-anvandare" component={EditUser} />
+                <Route path="/adminsida/betalningshistorik/:id" component={AdminHistoryPage} />
                 <Route path="/adminsida/registrera-en-ny-anvandare" component={CreateAccountModal} />
                 <Route path="/betalningar" component={PaymentPage} />
                 <Route path="/skapaKontoSida" component={CreateAccountModal} />

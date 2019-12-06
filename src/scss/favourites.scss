@@ -1,26 +1,33 @@
 .card-cols {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  flex: 1;
 }
-// .btn-row{
-// display: flex;
-// flex-direction: row;
-// justify-content: space-between;
-// }
+
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#select-btn {
+  display: inline-flex;
+}
 
 .card {
-	display: flex;
-	flex-direction: row;
-	color: black;
-	border-radius: 13px;
-	flex-wrap: wrap;
-	justify-content: center;
-	margin: 6px;
-	flex-basis: auto; /* default auto */
-	width: 33%;
+  display: flex;
+  flex-direction: row;
+  color: black;
+  border-radius: 9px;
+  flex-wrap: wrap;
+  // 	// justify-content: center;
+  // 	margin: 6px;
+  flex-basis: auto; /* default auto */
 }
+
 .favoBtn {
-	border: 2px 2px 0px 2px;
-	background-color: purple;
-	border-color: white;
+  border: 2px 2px 0px 2px;
+  background-color: purple;
+  border-color: white;
 }

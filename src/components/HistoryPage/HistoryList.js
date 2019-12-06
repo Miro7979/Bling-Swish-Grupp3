@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../Context';
 
 function HistoryList(props) {
+  const [state] = useContext(Context);
 
 
   return (
     <div className="history-list">
-      <h1 className="list-h1">{props.theDropdownTitle}</h1>
       
+      <div className="row history-list-header">
+        <h1 className="col list-h1">{props.theDropdownTitle}</h1>
+        <p className="col user-balance">Ditt saldo: {state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}</p>   
+      </div>
 
       {props.transactions.length > 0 ? '' :
         <h3 className="history-list-no-transactions">- Inga transaktioner genomförda -</h3>
       }
 
-      {props.transactions.reverse().map((transaction, i) => 
+      {props.transactions.map((transaction, i) => 
         <div className="row history-list-row" key={i}>
 
           <div className="col">
@@ -27,7 +32,7 @@ function HistoryList(props) {
               </div>
               <div className="col list-col">
                 <div className="row list-amount">
-                  <p>{transaction.toUser === '' ? '+ ' : '- '}{transaction.amount} SEK</p>
+                  <p>{transaction.toUser === '' ? '+ ' : '- '}{transaction.amount.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}</p>
                 </div>
                 <div className="row list-row empty-placeholder"></div>
               </div>
