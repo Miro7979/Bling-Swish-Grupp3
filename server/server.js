@@ -457,7 +457,7 @@ async function findUserAndKeys(subscription, user) {
 async function sendNotification(subscription, payload) {
     let toSend = {
         title: 'BlingSwish',
-        icon: '/logo192.png',
+        icon: '../src/images/BlingSwish.png',
         //see above body welcome resp still there
         ...payload
     };

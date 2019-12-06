@@ -44,16 +44,16 @@ const PaymentPage = (props) => {
     let data = { phoneNumber, message, cash };
     try {
       await fetch('/api/send-sse', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
     } catch (error) {
       console.error('Error:', error);
     }
-  
+
   };
 
   async function createNotification() {
@@ -125,7 +125,7 @@ const PaymentPage = (props) => {
             </Alert>
           </div>
           <InputGroup>
-            <Input className="border-bottom" placeholder="mottagare"
+            <Input className="border-bottom" placeholder="mottagarens nummer"
               value={number}
               type="Number"
               onChange={handleNumberChange} />

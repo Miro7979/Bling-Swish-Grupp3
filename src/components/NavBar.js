@@ -31,7 +31,7 @@ const NavBar = () => {
                   <Link className="navlink ml-3" to="/betalningar">Skicka Pengar</Link>
                 </NavItem>
                 <NavItem>
-                  <Link className="navlink ml-3" to="/minasidor">Mina Sidor</Link>
+                  <Link className="navlink ml-3" to="/minasidor">Mina Sida</Link>
                 </NavItem>
                 <NavItem>
                   <Link className="navlink ml-3" to="/betalningshistorik">Betalningshistorik</Link>
