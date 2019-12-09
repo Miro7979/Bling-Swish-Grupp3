@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Card, Button, CardBody, Row, Col } from 'reactstrap';
 import { User } from 'the.rest/dist/to-import';
 import Context from './Context';
+const uuidv4 = require('uuid/v4')
 
 const Favorites = props => {
   const [state, setState] = useContext(Context);
@@ -49,7 +50,7 @@ const Favorites = props => {
         {/*check if favorites exists, if false make empty array*/}
         {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
-            <Card key={favorite._id} body className="favCardBody mt-3 p-0">
+            <Card keys={favorite._id} key={uuidv4()} body className=" favCardBody mt-3 p-0">
               <CardBody className="p-3">
                 <Row>
                   <Col className="favName pl-3" onClick={selectFavorite}>
@@ -66,6 +67,7 @@ const Favorites = props => {
                 </Row>
               </CardBody>
             </Card>
+
           )
         })}
       </Col>
