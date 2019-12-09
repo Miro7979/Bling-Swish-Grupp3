@@ -6,7 +6,7 @@
 	top: 50%;
 	transform: translate(-50%, -50%);
 }
-@media all and (max-width: 1300px) and (min-width: 1000px) {
+@media all and (max-width: 1300px) and (min-width: 750px) {
 	@keyframes move_wave {
 		0% {
 			transform: translateX(0) translateZ(0) scaleY(1);
