@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Card, Button, CardBody, Row, Col } from 'reactstrap';
 import { User } from 'the.rest/dist/to-import';
 import Context from './Context';
 
 const Favorites = props => {
   const [state, setState] = useContext(Context);
-  //const [favorite, setFavorite] = useState('');
 
   useEffect(() => {
     async function displayFavorites() {
@@ -21,7 +20,7 @@ const Favorites = props => {
       }
       setState((prev) => ({ ...prev, booting: false }))
     }
-    displayFavorites()
+    displayFavorites()    
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [])
@@ -32,49 +31,41 @@ const Favorites = props => {
     loggedInUser.favorites = favList;
     await loggedInUser.save();
     //state is the same but override user and add the favorites
-    setState((prev) => ({ ...prev, user: { ...prev.user, favorites: favList } }))    
+    setState((prev) => ({ ...prev, user: { ...prev.user, favorites: favList } }))
   }
-
-
-  // const selectFavorite = async (e) => {
-  //   let fav = state.user.favorites.forEach(favorite => favorite._id === e.id)
-  //   let loggedInUser = await User.findOne({ phone: state.user.phone });
-  // }
-
+  
   const selectFavorite = (e) => {
     // listen for onclick (on the name)
     // grab the name
     // send  value (name/number) to the input field
-    console.log(selectFavorite);
-    console.log(state.user.favorites);
-    
+    // console.log(selectFavorite);    
   }
-
+  
+  console.log(state.user);
+  
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
         {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
-            <div className="favorite">
-              <Card key={favorite._id} body className=" favCardBody mt-3 p-0">
-                <CardBody className="p-3">
-                  <Row>
-                    <Col className="favName pl-3" onClick={selectFavorite}>
-                      {favorite.name}
-                    </Col>
-                    <Col className="favPhone">
-                      {favorite.phone}
-                    </Col>
-                    <Col>
-                      <Button className="card-btn-delete btn btn"
-                        onClick={(e) => deleteFavorite({ id: e.target.value })}
-                        size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </div>
+            <Card key={favorite._id} body className="favCardBody mt-3 p-0">
+              <CardBody className="p-3">
+                <Row>
+                  <Col className="favName pl-3" onClick={selectFavorite}>
+                    {favorite.name}
+                  </Col>
+                  <Col className="favPhone">
+                    {favorite.phone}
+                  </Col>
+                  <Col>
+                    <Button className="card-btn-delete btn btn"
+                      onClick={(e) => deleteFavorite({ id: e.target.value })}
+                      size="sm" value={favorite._id}>Ta&nbsp;bort</Button>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
           )
         })}
       </Col>

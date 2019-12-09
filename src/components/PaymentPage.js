@@ -25,7 +25,7 @@ const PaymentPage = props => {
   const handleNumberChange = e => setNumber(e.target.value);
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
-  const [favorites, setFavorites] = useState(state.user.favorites);
+  const setFavorites = useState(state.user.favorites)[1];
  
   async function addToFavorites() {
     //find input + e.target.value
@@ -129,7 +129,7 @@ const PaymentPage = props => {
           </div>
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagarens nummer"
-              value={(state.favorite)}
+              value={number}
               type="Number"
               onChange={handleNumberChange} />
             <Button className="favoBtn" type="submit" onClick={addToFavorites}>Spara som favorit</Button>
@@ -155,7 +155,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favorites favorites={favorites} />
+      <Favorites />
     </React.Fragment>
   );
 };
