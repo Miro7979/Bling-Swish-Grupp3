@@ -94,7 +94,7 @@ function App() {
 
      // if role is admin
      if (state.user.role === 'admin') {
-      let allowedPaths = ['/adminsida','/admin/redigera-anvandare', '/adminsida/betalningshistorik/:id', '/adminsida/registrera-en-ny-anvandare']
+      let allowedPaths = ['/adminsida','/adminsida/redigera-anvandare', '/adminsida/betalningshistorik/:id', '/adminsida/registrera-en-ny-anvandare']
       let redirect = true;
       allowedPaths.map(path => {
         if (thisPath === path) {

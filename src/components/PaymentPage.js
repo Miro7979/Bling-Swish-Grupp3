@@ -26,7 +26,7 @@ const PaymentPage = props => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
   const [favorites, setFavorites] = useState(state.user.favorites);
-
+ 
   async function addToFavorites() {
     //find input + e.target.value
     //save to [favorites]
@@ -39,6 +39,7 @@ const PaymentPage = props => {
       setFavorites(loggedInUser.favorites);
     }
   }
+
 
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, cash };
@@ -94,14 +95,16 @@ const PaymentPage = props => {
 
       global.stateUpdater()
       createNotification();
-
     }
     catch {
       setProblem(true);
     } finally {
       return ''
     }
+    
   }
+  console.log();
+  
 
 
   return (
@@ -121,12 +124,12 @@ const PaymentPage = props => {
           </div>
           <div>
             <Alert color="success" isOpen={sendMoney} toggle={dismissSendMoney} fade={true}>
-              Dina pengar har skickats!
+              Dina pengar har skickats! 
             </Alert>
           </div>
           <InputGroup>
             <Input className="border-bottom" placeholder="mottagarens nummer"
-              value={number}
+              value={(state.favorite)}
               type="Number"
               onChange={handleNumberChange} />
             <Button className="favoBtn" type="submit" onClick={addToFavorites}>Spara som favorit</Button>

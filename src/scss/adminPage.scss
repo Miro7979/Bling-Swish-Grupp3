@@ -1,6 +1,6 @@
 th,
 td {
-	color: aliceblue;
+  color: rgb(251, 249, 249);
 }
 
 .edit-btn,
@@ -8,8 +8,12 @@ td {
 .remove-btn,
 .sort-btn,
 .add-btn {
-	cursor: pointer;
-	background-color: transparent;
+  cursor: pointer;
+  background-color: transparent;
+  color: rgb(251, 249, 249);
+}
+.top-btn-col {
+  margin-top: 13px;
 }
 
 @media only screen and (max-width: 900px) {
@@ -17,11 +21,5 @@ td {
   td.one {
     display: none;
   }
-  .table th,
-  .table td {
-    font-size: 11px;
-  }
 }
-.add-btn {
-	color: white;
-}
+

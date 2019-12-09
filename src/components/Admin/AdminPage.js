@@ -8,7 +8,7 @@ import showProperty from '../../images/show-property.png';
 import sortIcon from '../../images/sortA-Z.png';
 import addIcon from '../../images/add-user.png';
 
-const AdminPage = (props) => {
+const AdminPage = props => {
   const [users, setUsers] = useState([]);
 
   const [modal, setModal] = useState(true);
@@ -72,7 +72,7 @@ const AdminPage = (props) => {
   const deactivateUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
-    
+
     let id = e.target.closest('[data-id]').attributes['data-id'].value;
     let userToDelete = await User.findOne(id);
 
@@ -86,11 +86,12 @@ const AdminPage = (props) => {
   return (
     <React.Fragment>
       <Row>
-        <Col>
+        <Col className="top-btn-col">
           <Link to={'/adminsida/registrera-en-ny-anvandare'}>
-            <Button onClick={toggle}
+            <Button
+              onClick={toggle}
               className="add-btn mt-3"
-            ><img src={addIcon} alt="lägga till" />
+          ><img src={addIcon} alt="lägga till" />
             </Button>
           </Link>
           <Button className="sort-btn ml-3 mt-3"
