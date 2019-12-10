@@ -62,6 +62,7 @@
 			"admin": "get"
 		},		
 		"push-subscriber": {
+			"visitor": "post",
 			"child": "post",
 			"parent": "post",
 			"admin": "post"
