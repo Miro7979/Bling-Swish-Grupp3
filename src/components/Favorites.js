@@ -53,7 +53,7 @@ const Favorites = props => {
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
-        {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
+        {(state.user.favorites && state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
 
             <Card keys={favorite._id} key={uuidv4()} body className=" favCardBody mt-3 p-0">
