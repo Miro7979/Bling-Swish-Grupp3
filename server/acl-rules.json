@@ -31,20 +31,35 @@
 			"admin": "get",
 			"parent": "get",
 			"child": "get"
-		  },
-		  "imuser": {
-			"admin": "get",
+		},
+		"imuser": {
+		"admin": "get",
+		"parent": "get",
+		"child": "get"
+		},
+		"activateaccounts":{
+			"visitor": "all",
+			"child": "all",
+			"parent": "all",
+			"admin": "all"
+		},
+		"resets": {
+			"visitor": "all"
+		},
+		"my-transactions": {
+			"child": "get",
 			"parent": "get",
-			"child": "get"
-		  },
-		  "activateaccounts":{
-			  "visitor": "all",
-			  "child": "all",
-			  "parent": "all",
-			  "admin": "all"
-		  },
-		  "resets": {
-			  "visitor": "all"
-		  }
+			"admin": "get"
+		},		
+		"send-sse": {
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"populatemychildren": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		}
 	}
 }
