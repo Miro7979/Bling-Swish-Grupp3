@@ -29,7 +29,7 @@ const Favorites = props => {
 
 
 
-  function selectFavorite(favorite, propss) {
+  function selectFavorite(favorite) {
     // listen for onclick (on the name)
     // grab the name
     // send  value (name/number) to the input field
