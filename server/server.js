@@ -464,7 +464,7 @@ async function sendNotification(subscription, payload) {
     let toSend = {
         title: 'BlingSwish',
         icon: '/BlingSwish.png',
-        //see above body welcome resp still there
+        //see above this comes from the body 'welcome' resp 'still there'
         ...payload
     };
     await webpush.sendNotification(
