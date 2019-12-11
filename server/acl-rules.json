@@ -20,6 +20,8 @@
 		},
 		"users": {
 			"visitor": "all",
+			"child": "all",
+			"parent": "all",
 			"admin": "all"
 		},
 		"notifications": {
