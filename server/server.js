@@ -65,7 +65,7 @@ app.use(express.json())
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
-//app.use(acl(aclRules));
+app.use(acl(aclRules));
 // just to get some rest routes going quickly
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
@@ -369,10 +369,11 @@ app.get('/api/populatemychildren', async (req, res) => {
 
 app.post('/api/send-sse', async (req, res) => {
     let err, body = req.body;
+    let sender = req.session.user
     body.message = new Date().toLocaleTimeString();
     let { phoneNumber, message, cash } = body;
     send(
-        req => req.session.user && req.session.user.phone === phoneNumber,
+        req => req.session.user && req.session.user.phone === phoneNumber && sendToSubscriber(phoneNumber, cash, sender),
         'message',
         {
             message: message,
@@ -380,9 +381,20 @@ app.post('/api/send-sse', async (req, res) => {
             content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
         }
     );
+
     res.json(err || body);
 });
+function sendToSubscriber(phone, cash, sender) {
+    console.log("hej");
+    (async () => {
+        let foundUser = await User.findOne({ phone })
+        for (let subscriptionKey of foundUser.subscriptionKeys) {
+            sendNotification(subscriptionKey, { body: `Hej du har fått ${cash} :-, katching från ${sender.name} ` })
+        }
+    })();
+    return true;
 
+}
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login',
@@ -414,12 +426,11 @@ webpush.setVapidDetails(
 
 
 // Subscribe route
-app.post('/api/push-subscribe', async (req, res) => {
+app.post('/api/push-subscriber', async (req, res) => {
     const subscription = req.body;
     // Send 201 - resource created
     res.status(201).json({ subscribing: true });
 
-    console.log('subscription', subscription);
     if (req.session.user) {
         await findUserAndKeys(subscription, req.session.user)
     }
@@ -432,19 +443,15 @@ app.post('/api/push-subscribe', async (req, res) => {
     // this might not be what you do directly on subscription
     // normally
     sendNotification(subscription, { body: 'Välkommen!' });
-    // setTimeout(
-    //     () => sendNotification(subscription, { body: '' }),
-    //     30000
-    // );
 });
 
 async function findUserAndKeys(subscription, user) {
+    if (!subscription) {
+        return;
+    }
     let foundUser = await User.findOne({ _id: user._id });
-    for (let i of user.subscriptionKeys) {
-        if (JSON.stringify(foundUser.subscriptionKeys[i]) === JSON.stringify(subscription)) {
-            console.log("user0", user)
-            console.log("found", foundUser)
-            console.log("sub", subscription)
+    for (let userSubscriptionKey of foundUser.subscriptionKeys) {
+        if (JSON.stringify(userSubscriptionKey) == JSON.stringify(subscription)) {
             return;
         }
     }

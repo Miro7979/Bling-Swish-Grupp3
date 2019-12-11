@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
 import Context from './Context';
 import BlingSwishLogo from '../images/blingSwishLogo.png';
-
 import {
 	Button, Input,
 	Form,
@@ -12,8 +11,6 @@ import {
 	FormGroup,
 	Alert
 } from 'reactstrap';
-
-
 
 
 function LogInPage() {
@@ -67,7 +64,6 @@ function LogInPage() {
 										Email eller lösenord är felaktigt, vänligen försök igen.</Alert>
 								</div>
 								<FormGroup>
-
 									<Input type="email" name="email" id="exampleEmail" placeholder="Ange din email här"
 										key={1}
 										value={email}
@@ -75,7 +71,6 @@ function LogInPage() {
 									/>
 								</FormGroup>
 								<FormGroup>
-
 									<Input type="password" name="password" id="examplePassword" placeholder="Ange ditt lösenord här"
 										key={2}
 										value={password}
@@ -88,7 +83,6 @@ function LogInPage() {
 							</Col>
 						</Row>
 						<Row>
-
 							<Col sm={{ size: 6, offset: 3 }} >
 							</Col>
 							<Col sm={{ size: 6, offset: 3 }} >
