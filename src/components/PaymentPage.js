@@ -37,6 +37,8 @@ const PaymentPage = props => {
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
     }
+    window.location.reload();
+
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
@@ -52,7 +54,7 @@ const PaymentPage = props => {
     } catch (error) {
       console.error('Error:', error);
     }
-
+    window.location.reload();
   };
 
   async function createNotification() {
