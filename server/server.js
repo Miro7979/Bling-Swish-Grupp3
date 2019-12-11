@@ -443,10 +443,6 @@ app.post('/api/push-subscriber', async (req, res) => {
     // this might not be what you do directly on subscription
     // normally
     sendNotification(subscription, { body: 'Välkommen!' });
-    // setTimeout(
-    //     () => sendNotification(subscription, { body: '' }),
-    //     30000
-    // );
 });
 
 async function findUserAndKeys(subscription, user) {
