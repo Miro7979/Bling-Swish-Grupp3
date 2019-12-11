@@ -28,8 +28,7 @@ const PaymentPage = props => {
   const setFavorites = useState(state.user.favorites)[1];
  
   async function addToFavorites() {
-    //find input + e.target.value
-    //save to [favorites]
+    //find input + e.target.value and save to an array of favorites
     let favoriteFound = await User.findOne({ phone: number });
     let loggedInUser = await User.findOne({ _id: state.user._id });
     if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
@@ -39,7 +38,6 @@ const PaymentPage = props => {
       setFavorites(loggedInUser.favorites);
     }
   }
-
 
   async function sendNotification(phoneNumber, message, fromUserId) {
     let data = { phoneNumber, message, cash };
@@ -101,11 +99,8 @@ const PaymentPage = props => {
     } finally {
       return ''
     }
-    
   }
   console.log();
-  
-
 
   return (
     <React.Fragment>
@@ -128,7 +123,7 @@ const PaymentPage = props => {
             </Alert>
           </div>
           <InputGroup>
-            <Input className="border-bottom" placeholder="mottagarens nummer"
+            <Input className="receipient border-bottom" placeholder="mottagarens nummer"
               value={number}
               type="Number"
               onChange={handleNumberChange} />
@@ -155,7 +150,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favorites />
+      <Favorites setNumber={setNumber} />
     </React.Fragment>
   );
 };

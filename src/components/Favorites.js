@@ -7,6 +7,7 @@ const uuidv4 = require('uuid/v4')
 const Favorites = props => {
   const [state, setState] = useContext(Context);
 
+
   useEffect(() => {
     async function displayFavorites() {
       try {
@@ -21,10 +22,22 @@ const Favorites = props => {
       }
       setState((prev) => ({ ...prev, booting: false }))
     }
-    displayFavorites()    
+    displayFavorites()
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [])
+    []);
+
+
+
+  function selectFavorite(favorite, propss) {
+    // listen for onclick (on the name)
+    // grab the name
+    // send  value (name/number) to the input field
+    // let input = document.querySelector('.receipient')
+    // input.value = favorite.phone;
+    props.setNumber(favorite.phone)
+  }
+ 
 
   const deleteFavorite = async (e) => {
     let favList = state.user.favorites.filter(favorite => favorite._id !== e.id)
@@ -34,29 +47,24 @@ const Favorites = props => {
     //state is the same but override user and add the favorites
     setState((prev) => ({ ...prev, user: { ...prev.user, favorites: favList } }))
   }
-  
-  const selectFavorite = (e) => {
-    // listen for onclick (on the name)
-    // grab the name
-    // send  value (name/number) to the input field
-    // console.log(selectFavorite);    
-  }
-  
-  console.log(state.user);
-  
+
   return (
     <Row>
       <Col sm={{ size: 6, offset: 3 }}>
         {/*check if favorites exists, if false make empty array*/}
-        {(state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
+        {(state.user.favorites && state.user.favorites[0] ? state.user.favorites : []).map(favorite => {
           return (
+            
             <Card keys={favorite._id} key={uuidv4()} body className=" favCardBody mt-3 p-0">
               <CardBody className="p-3">
                 <Row>
-                  <Col className="favName pl-3" onClick={selectFavorite}>
+                  <Col className="favName pl-3">
                     {favorite.name}
                   </Col>
-                  <Col className="favPhone">
+                  <Col className="favPhone"
+                    onClick={() => selectFavorite(favorite)}
+                  //value={favorite.phone}
+                  >
                     {favorite.phone}
                   </Col>
                   <Col>
@@ -67,7 +75,6 @@ const Favorites = props => {
                 </Row>
               </CardBody>
             </Card>
-
           )
         })}
       </Col>
