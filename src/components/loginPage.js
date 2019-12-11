@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Login } from 'the.rest/dist/to-import';
 import Context from './Context';
 import BlingSwishLogo from '../images/blingSwishLogo.png';
+import Particles from 'react-particles-js';
 
 import {
 	Button, Input,
@@ -13,7 +14,17 @@ import {
 	Alert
 } from 'reactstrap';
 
-
+// const particleOpt = {
+// 	particles: {
+// 		number: {
+// 			value: 300,
+// 			density: {
+// 				enable: true,
+// 				value_area: 800
+// 			}
+// 		}
+// 	}
+// }
 
 
 function LogInPage() {
@@ -45,6 +56,7 @@ function LogInPage() {
 
 	return (
 		<React.Fragment>
+
 			<div className="container logInPageContent">
 				<div className="logInContent mt-5">
 					<Row>
