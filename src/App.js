@@ -38,7 +38,7 @@ function App() {
       sse.unlisten(messageListener);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.restartSSE]);
 
 
   let stateUpdater = async () => {

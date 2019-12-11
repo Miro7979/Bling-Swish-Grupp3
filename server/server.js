@@ -436,13 +436,13 @@ app.post('/api/push-subscriber', async (req, res) => {
     }
     else if (!req.session.user) {
         req.session.subscription = subscription
+        sendNotification(subscription, { body: 'Välkommen!' });
     }
 
 
     // Send some notifications...
     // this might not be what you do directly on subscription
     // normally
-    sendNotification(subscription, { body: 'Välkommen!' });
 });
 
 async function findUserAndKeys(subscription, user) {

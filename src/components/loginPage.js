@@ -28,8 +28,7 @@ function LogInPage() {
 			await logInUser.save()
 			let whoIsLoggedIn = await Login.findOne()
 			if (whoIsLoggedIn._id) {
-				setState((prev) => ({ ...prev, user: whoIsLoggedIn }))
-				window.location.reload();
+				setState((prev) => ({ ...prev, user: whoIsLoggedIn, restartSSE: prev.restartSSE+1 }))
 			}
 		}
 		catch {
