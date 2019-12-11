@@ -39,7 +39,7 @@ class RegisterServiceWorker {
     });
     this.log('push notifications registrered');
     // Send to subscribe on backend
-    await fetch('/api/push-subscribe', {
+    await fetch('/api/push-subscriber', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(subscription)
