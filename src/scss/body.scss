@@ -1,10 +1,14 @@
 * {
 	box-sizing: border-box;
-	background-size: cover;
-	z-index: 15;
 }
 
 body {
-	background-color: purple;
+	background: url(../images/cool-background.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+	// background-color: purple !important;
 	color: rgb(251, 249, 249) !important;
 }
