@@ -10,5 +10,6 @@ export default React.createContext({
     role: 'visitor'
   },
   showNoti: false,
-  reload: 0
+  reload: 0,
+  restartSSE: 0
 });

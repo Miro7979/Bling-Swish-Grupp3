@@ -8,7 +8,7 @@
 			"admin": "get"
 		},
 		"login": {
-			"visitor": "post, get",
+			"visitor": "post get",
 			"child": "delete get",
 			"parent": "delete get",
 			"admin": "delete get"
@@ -20,6 +20,8 @@
 		},
 		"users": {
 			"visitor": "all",
+			"child": "all",
+			"parent": "all",
 			"admin": "all"
 		},
 		"notifications": {
@@ -31,20 +33,59 @@
 			"admin": "get",
 			"parent": "get",
 			"child": "get"
-		  },
-		  "imuser": {
-			"admin": "get",
+		},
+		"imuser": {
+		"admin": "get",
+		"parent": "get",
+		"child": "get"
+		},
+		"activateaccounts":{
+			"visitor": "all",
+			"child": "all",
+			"parent": "all",
+			"admin": "all"
+		},
+		"resets": {
+			"visitor": "all"
+		},
+		"my-transactions": {
+			"child": "get",
 			"parent": "get",
-			"child": "get"
-		  },
-		  "activateaccounts":{
-			  "visitor": "all",
-			  "child": "all",
-			  "parent": "all",
-			  "admin": "all"
-		  },
-		  "resets": {
-			  "visitor": "all"
-		  }
+			"admin": "get"
+		},		
+		"send-sse": {
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"populatemychildren": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},		
+		"push-subscriber": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"aktiverakonto": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"updatepassword": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"nyttlosenord": {
+			"visitor": "get",
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		}
 	}
 }

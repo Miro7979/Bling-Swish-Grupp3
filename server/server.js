@@ -65,7 +65,7 @@ app.use(express.json())
 // connect our own acl middleware
 const acl = require('./acl');
 const aclRules = require('./acl-rules.json');
-//app.use(acl(aclRules));
+app.use(acl(aclRules));
 // just to get some rest routes going quickly
 const theRest = require('the.rest');
 const pathToModelFolder = path.join(__dirname, 'models');
@@ -394,10 +394,11 @@ app.get('/api/populatemychildren', async (req, res) => {
 
 app.post('/api/send-sse', async (req, res) => {
     let err, body = req.body;
+    let sender = req.session.user
     body.message = new Date().toLocaleTimeString();
     let { phoneNumber, message, cash } = body;
     send(
-        req => req.session.user && req.session.user.phone === phoneNumber,
+        req => req.session.user && req.session.user.phone === phoneNumber && sendToSubscriber(phoneNumber, cash, sender),
         'message',
         {
             message: message,
@@ -405,9 +406,20 @@ app.post('/api/send-sse', async (req, res) => {
             content: 'This is a message sent ' + new Date().toLocaleTimeString() + ', from phonenumber: ' + req.session.user.phone
         }
     );
+
     res.json(err || body);
 });
+function sendToSubscriber(phone, cash, sender) {
+    console.log("hej");
+    (async () => {
+        let foundUser = await User.findOne({ phone })
+        for (let subscriptionKey of foundUser.subscriptionKeys) {
+            sendNotification(subscriptionKey, { body: `Hej du har fått ${cash} :-, katching från ${sender.name} ` })
+        }
+    })();
+    return true;
 
+}
 require('./modelRaw/UserRaw')
 app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login',
@@ -418,10 +430,6 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
 
 //app.use('/api/users', require('./routes/api/users'));
 
-app.use(express.static('client/build'));
-
-// start the web server
-app.listen(3001, () => console.log('Listening on port 3001'));
 
 
 // Vapid keys
@@ -435,41 +443,36 @@ webpush.setVapidDetails(
     'mailto:melsie78@gmail.com',
     vapidKeys.public,
     vapidKeys.private
-);
-
-
-// Subscribe route
-app.post('/api/push-subscribe', async (req, res) => {
+    );
+    
+    
+    // Subscribe route
+    app.post('/api/push-subscriber', async (req, res) => {
     const subscription = req.body;
     // Send 201 - resource created
     res.status(201).json({ subscribing: true });
-
-    console.log('subscription', subscription);
+    
     if (req.session.user) {
         await findUserAndKeys(subscription, req.session.user)
     }
     else if (!req.session.user) {
         req.session.subscription = subscription
+        sendNotification(subscription, { body: 'Välkommen!' });
     }
-
-
+    
+    
     // Send some notifications...
     // this might not be what you do directly on subscription
     // normally
-    sendNotification(subscription, { body: 'Welcome!' });
-    setTimeout(
-        () => sendNotification(subscription, { body: 'Still there?' }),
-        30000
-    );
 });
 
 async function findUserAndKeys(subscription, user) {
+    if (!subscription) {
+        return;
+    }
     let foundUser = await User.findOne({ _id: user._id });
-    for (let i of user.subscriptionKeys) {
-        if (JSON.stringify(foundUser.subscriptionKeys[i]) === JSON.stringify(subscription)) {
-            console.log("user0", user)
-            console.log("found", foundUser)
-            console.log("sub", subscription)
+    for (let userSubscriptionKey of foundUser.subscriptionKeys) {
+        if (JSON.stringify(userSubscriptionKey) == JSON.stringify(subscription)) {
             return;
         }
     }
@@ -481,36 +484,18 @@ async function findUserAndKeys(subscription, user) {
 async function sendNotification(subscription, payload) {
     let toSend = {
         title: 'BlingSwish',
-        icon: '/logo192.png',
-        //see above body welcome resp still there
+        icon: '/BlingSwish.png',
+        //see above this comes from the body 'welcome' resp 'still there'
         ...payload
     };
     await webpush.sendNotification(
         subscription, JSON.stringify(toSend)
-    ).catch(err => console.log(err));
+        ).catch(err => console.log(err));
 }
 
-// Note! In order to be able to send notifications
-// to a certain user we need
 
-// 1. express-session
-// Every express - session has a unique id from start
-// Have a memory where we pair subscriptions with session_ids
-// subscriptionMem[session_id] = subscription
+app.use(express.static('client/build'));
 
-// 2. when the user logs in
-// Write to subcription to DB, linked to the user
-// remove it from subscriptionMem
-
-// A user can have several subscriptions (different browsers etc)
-// So: In Mongoose we would probably
-// create a subscription collection
-// and then a new field on user an array of objects ref id:s
-// in the subscription collection
-// Example of using send(to, eventType, data)
-// Here we send messages to all connected clients
-// We randomly choose between the event types
-// 'message' and 'other' (you can name your event types how you like)
-// and send a message (an object with the properties cool and content)
-
+// start the web server
+app.listen(3001, () => console.log('Listening on port 3001'));
 

@@ -15,7 +15,7 @@ class ServiceWorker {
 
   constructor() {
     this.debug = false;
-    this.version = 1.58;
+    this.version = 1.6;
     this.production = false;
     this.myRoute = 'serviceWorker.js';
     this.lastRequestTime = 0;
