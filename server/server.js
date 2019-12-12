@@ -385,7 +385,6 @@ app.post('/api/send-sse', async (req, res) => {
     res.json(err || body);
 });
 function sendToSubscriber(phone, cash, sender) {
-    console.log("hej");
     (async () => {
         let foundUser = await User.findOne({ phone })
         for (let subscriptionKey of foundUser.subscriptionKeys) {

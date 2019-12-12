@@ -18,33 +18,31 @@ const AdminHistoryPage = (props) => {
 
   return (
     <React.Fragment>
-     
-
-          <Table sm={{ size: 6, offset: 3 }}>
-            <thead>
-              <tr>
-                <th>Datum</th>
-                <th>Belopp</th>
-                <th>Till</th>
-                <th>Från</th>
-                <th>Ingående balans</th>
-                <th>Utgående balans</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map(({ date, ingoingBalance, outgoingBalance, amount, to, from }, index) => (
-                <tr key={index + 1}>
-                  <td>{date.slice(0, 10)}</td>
-                  <td>{amount}</td>
-                  <td>{to ? to.name : null}</td>
-                  <td>{from ? from.name : null}</td>
-                  <td>{ingoingBalance}</td>
-                  <td>{outgoingBalance}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Link to="/adminsida"><Button >Gå tillbaka</Button></Link>
+      <Table sm={{ size: 6, offset: 3 }}>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Belopp</th>
+          <th>Till</th>
+          <th>Från</th>
+          <th>Ingående balans</th>
+          <th>Utgående balans</th>
+        </tr>
+      </thead>
+      <tbody>
+        {transactions.map(({ date, ingoingBalance, outgoingBalance, amount, to, from }, index) => (
+          <tr key={index + 1}>
+            <td>{date.slice(0, 10)}</td>
+            <td>{amount}</td>
+            <td>{to ? to.name : null}</td>
+            <td>{from ? from.name : null}</td>
+            <td>{ingoingBalance}</td>
+            <td>{outgoingBalance}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+      <Link to="/adminsida"><Button >Gå tillbaka</Button></Link>
     </React.Fragment>
   );
 }
