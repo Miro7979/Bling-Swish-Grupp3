@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Card, Button, CardBody, Row, Col } from 'reactstrap';
-import { User } from 'the.rest/dist/to-import';
+import { User , Populatemyfavorites} from 'the.rest/dist/to-import';
 import Context from './Context';
 const uuidv4 = require('uuid/v4')
 
@@ -9,10 +9,10 @@ const Favorites = props => {
 
   async function displayFavorites() {
     try {
-      let users = await User.find({ _id: state.user._id })[0].populate('favorites', 'name phone _id');
+      let user = await Populatemyfavorites.findOne()
       //if users true and they have have an id
-      if (users[0] && users[0]._id) {
-        setState((prev) => ({ ...prev, user: { ...prev.user, favorites: users[0].favorites } }))
+      if (user && user._id) {
+        setState((prev) => ({ ...prev, user: { ...prev.user, favorites: user.favorites } }))
         return;
       }
     } catch (error) {
@@ -42,10 +42,10 @@ const Favorites = props => {
     //state is the same but override user and add the favorites
     setState((prev) => ({ ...prev, user: { ...prev.user, favorites: favList } }))
   }
-  if (state.user.favorites.length > 1 && typeof state.user.favorites[0] === 'string') {
-    // no good, the favorites array has not been populated, let us try to populate it
-    displayFavorites();
-  }
+  // if (state.user.favorites.length > 1 && typeof state.user.favorites[0] === 'string') {
+  //   // no good, the favorites array has not been populated, let us try to populate it
+  //   displayFavorites();
+  // }
 
   return (
     <Row>

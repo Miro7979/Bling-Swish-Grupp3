@@ -11,7 +11,7 @@ const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
 		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[],
-		waitingChildren:[{name:'Anna Gustavsson'},{name:'Lisa Gustavsson'}]
+		waitingChildren:[]
 	});	
 	const[wantToEdit,setWantToEdit]=useState({
 		wantToEdit:false

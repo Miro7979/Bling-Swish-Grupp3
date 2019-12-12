@@ -216,6 +216,7 @@ const models = {
 // in production it would be STUPID to let
 // the user/frontend set its role... but for now
 // we should also check length of password etc.
+
 app.post('/api/users', async (req, res) => {
     try {
         // we should check that the same username does
@@ -390,6 +391,19 @@ app.get('/api/populatemychildren', async (req, res) => {
         );
     res.json(err || userChildren);
 });
+app.get('/api/populatemyfavorites*', async (req, res) => {
+    let user = req.session.user;
+    if (!user) {
+        res.json('Nope!')
+        return;
+    };
+
+    let err, userFavorites = await User.find({ phone: user.phone }).populate('favorites', 'name transactions phone')
+        .catch(
+            error => err = error
+        );
+    res.json(err || userFavorites);
+});
 
 
 app.post('/api/send-sse', async (req, res) => {
@@ -424,7 +438,8 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'login': 'Login',
     'aktiverakonto': "Aktiverakonto",
     'nyttlosenord': "Nyttlosenord",
-    'updatepassword': 'Updatepassword'
+    'updatepassword': 'Updatepassword',
+    'populatemyfavorites': 'Populatemyfavorites'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));
