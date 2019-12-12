@@ -73,6 +73,7 @@ const PaymentPage = props => {
     }
   }
 
+
   async function sendTransaction() {
     let transaction = {
       amount: cash,
@@ -80,12 +81,14 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
-    if (!number || !cash || number === state.user.phone || cash.indexOf('-') === 0) {
+    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000) {
       setProblem(true)
+      setSendMoney(false)
       return
     }
     if (number && cash) {
       setSendMoney(true)
+      setProblem(false)
     }
     try {
       let bling = await new Transaction(transaction)
