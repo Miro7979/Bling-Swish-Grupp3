@@ -126,6 +126,31 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
     }
 })
 
+app.post('/api/sendChildRequest', async (req, res) => {
+    // expecting a body with _id and childId
+    let {_id, childId} = req.body;
+    let parent = await User.findOne({_id: _id});
+    let child = await User.findOne({_id: childId});
+    let encoded = btoa(_id + ' ' + childId);
+    let approvalLink = `https://blingswish.se/godkann-foralder/${encoded}`;
+    let denialLink = `https://blingswish.se/neka-foralder/${encoded}`;
+  
+    let info = `Godkänner du att att ${parent.name} (med telefonnummer ${parent.phone}) är registererad som din föräldr i Blingswish? Detta innebär att hen kan sätta din betalningslimit samt se dina transaktioner.`
+    html = `<p>Hej ${child.name}!</p><p>${info}</p><p><a href="${approvalLink}">>Godkänn</a></p><p><a href="${denialLink}">>Neka</a></p>`;
+    text = `Hej ${child.name}!\n\n${info}\n\nGodkänn: ${approvalLink}\n\nNeka: ${denialLink}`;
+
+    console.log(child);
+    let user = {
+        email: child.email,
+        subject: `Godkänner du ${parent.name} (${parent.phone}) som förälder?`,
+        html,
+        text
+    }
+    sendMail(user);
+    res.json({mailSent: true});
+});
+
+
 app.post('/api/resets', async (req, res) => {
     try {
         let foundUser = await User.findOne({ email: req.body.email })
@@ -163,7 +188,7 @@ app.post('/api/resets', async (req, res) => {
             let subject = "Återställningslänk"
             let text = "Klicka på länken för att återställa ditt lösenord"
             let html = `<a href='www.blingswish.se/nyttlosenord/${reset._id}'>Återställ lösenord<a>`
-            let user = { email: foundUser.email, resetId: reset._id, subject, text, html }
+            let user = { email: foundUser.email, subject, text, html }
             sendMail(user)
             res.json("Om din användare finns så har vi skickat ett mejl till dig")
             return

@@ -6,11 +6,9 @@ import {Col,Row} from 'reactstrap';
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
 	const changeLimit=(e)=>{
-		let regularx = /^\d+$/;
-		if(regularx.test(e.target.value)){
-			console.log('cool');
+		if(e.target.value>0){
+			child.limit=e.target.value;
 		}
-		//child.limit=e.target.value;
 	}
 	const deleteChild=(id)=>{
 		child.limit='';
@@ -27,27 +25,31 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
     <div className="child-component">
 
 			<Row>
-				<Col xs={3}>
+				<Col xs={4}>
 					<img src={logo} alt="barn ikon"></img>
 				</Col>
-				<Col xs={7} className="children-name">
+				<Col xs={6} className="children-name">
 					{child.name}
 				</Col>
 				<Col xs={2}>
 					{wantToEdit.wantToEdit?
-						<img src={deleteIcon} alt="ta bort ikon" className="delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
+						<img src={deleteIcon} alt="ta bort ikon" className="button delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
 				</Col>
 			</Row>
 
-			<Row className="mt-2">
-				<Col xs={3}>
-						Max-Swish
+			<Row className="mt-3" style={{height:'40px'}}>
+				<Col xs={4}>
+						Beloppsgräns<br></br>/månad
+				</Col>		
+				
+				{wantToEdit.wantToEdit?
+				<Col sm={7} xs={8}>
+					<input type="number" className="form-control vertical-center" placeholder={child.limit} onChange={changeLimit}></input>
+				</Col>:
+				<Col xs={8}>
+					{child.limit?<p>{child.limit},00 sek</p>:<p className="limit-text" style={{color:'red'}}>Ingen gräns satt</p>}
 				</Col>
-				<Col sm={6} xs={7}>
-					{wantToEdit.wantToEdit?
-						<input type="text" className="form-control" placeholder={child.limit} onChange={changeLimit}></input>:
-						<p>{child.limit} kr</p>}
-				</Col>
+				}
 			</Row>
 					   				
 		</div>	
@@ -55,27 +57,3 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 }
 export default MyPagePageChild;
 
-/*
-
-<div className="row">
-				<div className="col-3">
-					<img src={logo} alt="barn ikon"></img>
-				</div>			
-				<p className="col-7 child-name">{child.name}</p>			
-				{wantToEdit.wantToEdit?
-					<div className="col-2 delete-button" onClick={()=>deleteChild(child._id)}>
-						<img src={deleteIcon} alt="ta bort ikon"></img>
-					</div>:''}			
-			</div>
-
-			<div className="row">
-				<p className="col-4">MaxSwish:</p>
-				<div className="col-8">
-					{wantToEdit.wantToEdit?
-						<input type="text" placeholder={child.limit} onChange={changeLimit}></input>:
-						<output>{child.limit}</output>	
-					}						
-				</div>											
-			</div>
-
-*/

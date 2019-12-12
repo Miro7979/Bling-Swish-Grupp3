@@ -19,6 +19,7 @@ import { Login } from 'the.rest/dist/to-import';
 import SSE from 'easy-server-sent-events/sse';
 import NotificationModal from './components/createNotificationModal';
 import Loader from 'react-loader-spinner';
+import ApproveParent from './components/ApproveParent.js';
 
 let sse;
 
@@ -76,7 +77,7 @@ function App() {
 
     // if role is visitor
     if (state.user.role === 'visitor') {
-      let allowedPaths = ['/aterstalllosenord', '/skapaKontoSida', '/aktiverakonto']
+      let allowedPaths = ['/aterstalllosenord', '/skapaKontoSida', '/aktiverakonto', '/godkann-foralder']
       let redirect = true;
       allowedPaths.map(path => {
         if (thisPath === path) {
@@ -114,7 +115,7 @@ function App() {
     // if role is parent/child
     if (state.user.role === 'parent' || state.user.role === 'child') {
       // This path is the standard path if you ARE logged in
-      let allowedPaths = ['/betalningar', '/betalningshistorik', '/minasidor']
+      let allowedPaths = ['/betalningar', '/betalningshistorik', '/minasidor', '/godkann-foralder']
       let redirect = true;
       allowedPaths.map(path => {
         if (thisPath === path) {
@@ -162,8 +163,9 @@ function App() {
                 <Route path="/aterstalllosenord" component={ForgotPasswordModal} />
                 <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal} />
                 <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
+                <Route path="/godkann-foralder/:encoded" component={ApproveParent} />
               </Switch>
-              {redirector()}
+              {/*{redirector()}*/}
             </main>
           </div>
         </Router>
