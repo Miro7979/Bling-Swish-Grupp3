@@ -1,7 +1,7 @@
 .mypage-component {
   color: white;
   padding: 30px;
-  background-color: rgb(185, 66, 185);
+  background-color: rgba(185, 66, 185, 0.36);
   border-radius:5px;
 
   .user-name {
@@ -10,58 +10,89 @@
   .children-name {
     font-size: 20px;
   }
+  .password-text{
+    position:relative;
+    top:7px;
+  }
+  .limit-text{
+    font-style:italic;
+    color:orange;
+  }
 
-  .delete-button {
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+
+  .button {
     cursor: pointer;
     opacity:0.6;
   }
-  .delete-button:hover {
+  .button:hover {
     opacity:1;
   }
   .edit-button {
     cursor: pointer;
     float:right;
+    background-color:  #b76ce2;
+    border-color: #b76ce2;
   }
   .search-button {
     cursor: pointer;
+    background-color:  #b76ce2;
+    border-color: #b76ce2;
+  }
+  .saveBtn {
+    background-color: rgb(35, 175, 35);
+    border-color: white;
+    width: 100%;
+    align-content: center;
   }
   
   .error-text{
     color:orange;
     font-size:12px;
+    font-style:italic;
   }
   .error-container{
     border:solid black 1px;
     height:40px;
   }
 
-  
-
   .child-component{
     border-radius: 5px;
     margin-top:10px;
-    padding:10px;
-    background-color: rgb(175, 175, 175);
+    padding:15px;
+    background-color: #fbf9f9;
+    color:black;
   }
-
+  .waiting-child-component{
+    border-radius: 5px;
+    margin-top:10px;
+    padding:15px;
+    background-color: #fbf9f9;
+    color:black;
+    height:80px;
+  }
+ 
   .add-child-component{
-    background-color: rgb(187, 117, 187);
+    background-color: #fbf9f9;
+    color:black;
     border-radius:5px;
     padding:20px;
   }
-  .add-child-text{
-    text-align:center;
-    color:black;
-  }
+ 
   .found-child{
-    background-color: rgb(175, 175, 175);
+    background-color: #b76ce2;
+    color:white;
     padding:10px;
     border-radius:5px;
     cursor:pointer;
     text-align:center;
   }
   .found-child:hover{
-    background-color: rgb(146, 146, 146);
+    background-color:purple;
   }
 
 }
@@ -73,14 +104,25 @@
   }
 }
 @media screen and (max-width: 400px) {
+  .mypage-component {
+    padding: 10px;
+  }
+  .delete-button{
+    position:relative;
+    right:5px;
+  }
+}
+@media screen and (max-width: 325px) {
+  .mypage-component {
+    padding: 10px;
+    font-size:80%;
+  }
   .delete-button{
     position:relative;
     right:10px;
   }
-}
-@media screen and (max-width: 325px) {
-  .delete-button{
+  .search-button{
     position:relative;
-    right:15px;
+    right:10px;
   }
 }

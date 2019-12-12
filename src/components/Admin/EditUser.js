@@ -67,7 +67,6 @@ const EditUser = () => {
       </div>
       {Object.keys(inputLabels).map(key => {
         let label = inputLabels[key];
-
         return (
           <Row key={user[key]}>
             <Col sm={{ size: 6, offset: 3 }}>
