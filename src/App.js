@@ -165,7 +165,7 @@ function App() {
                 <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
                 <Route path="/godkann-foralder/:encoded" component={ApproveParent} />
               </Switch>
-              {/*{redirector()}*/}
+              {redirector()}
             </main>
           </div>
         </Router>
