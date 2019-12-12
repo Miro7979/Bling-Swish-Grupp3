@@ -80,7 +80,7 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
-    if (!number || !cash) {
+    if (!number || !cash || number === state.user.phone || cash.indexOf('-') === 0) {
       setProblem(true)
       return
     }
