@@ -10,11 +10,8 @@ import addIcon from '../../images/add-user.png';
 
 const AdminPage = props => {
   const [users, setUsers] = useState([]);
-
   const [modal, setModal] = useState(true);
   const toggle = () => setModal(!modal);
-
-  // const [transactions, setTransactions] = useState([]);
 
   //I wanna find all the users
   useEffect(() => {
@@ -22,7 +19,6 @@ const AdminPage = props => {
       const abortController = new AbortController();
       let users = await User.find({ deactivated: false });
       setUsers(users)
-      // (async () => setUsers(await User.find()))();
       return () => {
         abortController.abort();
       }
@@ -72,10 +68,8 @@ const AdminPage = props => {
   const deactivateUser = async (e) => {
     //find the right user with _id
     //compare if it is the right one and if so delete from list
-
     let id = e.target.closest('[data-id]').attributes['data-id'].value;
     let userToDelete = await User.findOne(id);
-
     userToDelete.deactivated = true;
     userToDelete.save();
     const filteredUsers = users.filter(user =>

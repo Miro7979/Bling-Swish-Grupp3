@@ -37,8 +37,6 @@ const PaymentPage = props => {
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
     }
-    window.location.reload();
-
   }
 
   async function sendNotification(phoneNumber, message, fromUserId) {
@@ -54,7 +52,7 @@ const PaymentPage = props => {
     } catch (error) {
       console.error('Error:', error);
     }
-    window.location.reload();
+   // window.location.reload();
   };
 
   async function createNotification() {
@@ -152,7 +150,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favorites setNumber={setNumber} />
+      <Favorites setNumber={setNumber}/>
     </React.Fragment>
   );
 };
