@@ -26,16 +26,25 @@ const PaymentPage = props => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
   const setFavorites = useState(state.user.favorites)[1];
- 
+  const [showFavorites, setShowFavorites] = useState(true);
+  const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
+
   async function addToFavorites() {
     //find input + e.target.value and save to an array of favorites
     let favoriteFound = await User.findOne({ phone: number });
     let loggedInUser = await User.findOne({ _id: state.user._id });
     if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
+      if (loggedInUser.favorites.includes(favoriteFound._id)) {
+        alert("lägg inte till samma person två gånger")
+        return
+      }
+      setShowFavorites(false)
       loggedInUser.favorites.push(favoriteFound);
       await loggedInUser.save();
+      loggedInUser = await User.findOne({_id: state.user._id})
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
+      setShowFavorites(true)
     }
   }
 
@@ -150,7 +159,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favorites setNumber={setNumber}/>
+     { showFavorites ? <Favorites setNumber={setNumber}/> : ""}
     </React.Fragment>
   );
 };

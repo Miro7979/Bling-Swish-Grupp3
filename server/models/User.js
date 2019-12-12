@@ -22,7 +22,7 @@ let userSchema = new Schema({
   role: { type: String, default: 'visitor' },
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   waitingChildren:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-  favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  favorites: [{ type: Schema.Types.ObjectId, ref: 'User', unique: true }],
   emailConfirmed: { type: Boolean, default: false },
   deactivated: { type: Boolean, default: false },
   limit: { type: Number },
@@ -37,6 +37,12 @@ let userSchema = new Schema({
 // Populate the virtual transactionsTo
 userSchema.pre('find', function () {
   this.populate('transactionsTo');
+});
+
+userSchema.pre('save', function() {
+  let favoritesAsStr = this.favorites.map(x => x.toString());
+  this.favorites = this.favorites.filter((x,i) => i === favoritesAsStr.indexOf(x));
+  this.markModified('favorites');
 });
 
 // Setup the virtual transactionsTo
