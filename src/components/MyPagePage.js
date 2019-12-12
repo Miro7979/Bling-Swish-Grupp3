@@ -11,7 +11,7 @@ const MyPagePage = () => {
 
 	const[userData,setUserData]=useState({
 		name:'',password:'',phone:'',email:'',nationalIdNumber:'',role:'',limit:'',children:[],
-		waitingChildren:[{name:'Anna Gustavsson'},{name:'Lisa Gustavsson'},{name:'Nisse Gustavsson'}]
+		waitingChildren:[{name:'Anna Gustavsson'},{name:'Lisa Gustavsson'}]
 	});	
 	const[wantToEdit,setWantToEdit]=useState({
 		wantToEdit:false
@@ -152,7 +152,7 @@ const MyPagePage = () => {
 			{wantToEdit.wantToEdit?
 				<Row>
 					     <Col sm={{ size: 6, offset: 3 }} className="mt-3">
-					<Button className="saveBtn mx-auto " onClick={handleSubmit}>Spara</Button>
+					<Button className="saveBtn mx-auto mt-2" onClick={handleSubmit}>Spara</Button>
 					</Col>
 				</Row>:''}
 
