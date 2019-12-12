@@ -30,7 +30,7 @@ filesInBuild.forEach(file => {
 console.log('Removed unnecessary files.');
 
 // Changing this.version in the serviceWorker.js
-let contents = fs.readFileSync(swPath, 'utf-8');
+contents = fs.readFileSync(swPath, 'utf-8');
 let version = contents.match(
   /this.version\s*=\s*([\d|\.]*)/
 )[1] / 1;
