@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../images/child-icon.png';
-import deleteIcon from '../images/delete-icon.png';
+import deleteIcon from '../images/delete-icon-black.png';
 import {Col,Row} from 'reactstrap';
 
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
