@@ -27,7 +27,8 @@ const PaymentPage = props => {
   const handleCashChange = e => setCash(e.target.value);
   const setFavorites = useState(state.user.favorites)[1];
   const [showFavorites, setShowFavorites] = useState(true);
-  const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
+  // const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
+  const [problemTimer, setProblemTimer] = useState();
 
   async function addToFavorites() {
     //find input + e.target.value and save to an array of favorites
@@ -91,7 +92,14 @@ const PaymentPage = props => {
       from: state.user._id
     }
     if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000) {
-      setProblem(true)
+
+      setProblem(true);
+      clearTimeout(problemTimer);
+      let timer = setTimeout(() => {
+        setProblem(false);
+
+      }, 3000)
+      setProblemTimer(timer);
       setSendMoney(false)
       return
     }
@@ -107,12 +115,18 @@ const PaymentPage = props => {
       createNotification();
     }
     catch {
+
       setProblem(true);
+      clearTimeout(problemTimer);
+      let timer = setTimeout(() => {
+        setProblem(false);
+
+      }, 3000)
+      setProblemTimer(timer);
     } finally {
       return ''
     }
   }
-  console.log();
 
   return (
     <React.Fragment>
