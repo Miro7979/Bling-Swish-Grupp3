@@ -27,6 +27,10 @@ const PaymentPage = props => {
   const handleMessageChange = e => setMessage(e.target.value);
   const handleCashChange = e => setCash(e.target.value);
   const setFavorites = useState(state.user.favorites)[1];
+  const [showFavorites, setShowFavorites] = useState(true);
+  // const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
+  const [problemTimer, setProblemTimer] = useState();
+
 
  
   async function addToFavorites() {
@@ -34,10 +38,17 @@ const PaymentPage = props => {
     let favoriteFound = await User.findOne({ phone: number });
     let loggedInUser = await User.findOne({ _id: state.user._id });
     if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
+      if (loggedInUser.favorites.includes(favoriteFound._id)) {
+        alert("lägg inte till samma person två gånger")
+        return
+      }
+      setShowFavorites(false)
       loggedInUser.favorites.push(favoriteFound);
       await loggedInUser.save();
+      loggedInUser = await User.findOne({ _id: state.user._id })
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
+      setShowFavorites(true)
     }
   }
 
@@ -54,7 +65,7 @@ const PaymentPage = props => {
     } catch (error) {
       console.error('Error:', error);
     }
-   // window.location.reload();
+    // window.location.reload();
   };
 
   async function createNotification() {
@@ -75,6 +86,7 @@ const PaymentPage = props => {
     }
   }
 
+
   async function sendTransaction() {
     let transaction = {
       amount: cash,
@@ -82,6 +94,16 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
+    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000) {
+
+      setProblem(true);
+      clearTimeout(problemTimer);
+      let timer = setTimeout(() => {
+        setProblem(false);
+
+      }, 3000)
+      setProblemTimer(timer);
+      setSendMoney(false)
     if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || (state.user.limit && cash > state.user.limit)) {
       setProblem(true)
       if(state.user.limit && cash > state.user.limit){
@@ -91,6 +113,7 @@ const PaymentPage = props => {
     }
     if (number && cash) {
       setSendMoney(true)
+      setProblem(false)
     }
     try {
       let bling = await new Transaction(transaction)
@@ -100,18 +123,24 @@ const PaymentPage = props => {
       createNotification();
     }
     catch {
+
       setProblem(true);
+      clearTimeout(problemTimer);
+      let timer = setTimeout(() => {
+        setProblem(false);
+
+      }, 3000)
+      setProblemTimer(timer);
     } finally {
       return ''
     }
   }
-  console.log();
 
   return (
     <React.Fragment>
       <Row>
         <Col sm={{ size: 6, offset: 3 }} className=" userBalance mt-3" >
-          {'Hej ' + state.user.name + '! Du har ' + state.user.balance + ' kr på ditt konto.'}
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
@@ -124,7 +153,7 @@ const PaymentPage = props => {
           </div>
           <div>
             <Alert color="success" isOpen={sendMoney} toggle={dismissSendMoney} fade={true}>
-              Dina pengar har skickats! 
+              Dina pengar har skickats!
             </Alert>
           </div>
           <InputGroup>
@@ -155,7 +184,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-      <Favorites setNumber={setNumber}/>
+      {showFavorites ? <Favorites setNumber={setNumber} /> : ""}
     </React.Fragment>
   );
 };

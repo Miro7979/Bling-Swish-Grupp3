@@ -25,10 +25,10 @@ function HistoryDropdown(props) {
   return (
     <div className="history-dropdown">
       <Dropdown className="dropdown-list" isOpen={dropdownOpen} toggle={toggle}>
-      {state.user.balance.toString().length < 9 ? 
+      {state.user.balance.toString().length < 8 ? 
         <p className="user-balance">Ditt saldo: {state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}</p>
       :
-        <p>Ditt saldo: {state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}</p>
+        <p className="user-balance-long">Ditt saldo: {state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}</p>
       }
         <DropdownToggle className="dropdown-title" caret>
           {dropdownTitle}

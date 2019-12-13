@@ -86,6 +86,11 @@
 			"child": "get",
 			"parent": "get",
 			"admin": "get"
+		},
+		"populatemyfavorites": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
 		}
 	}
 }
