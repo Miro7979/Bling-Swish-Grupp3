@@ -27,7 +27,7 @@ const PaymentPage = props => {
   const handleCashChange = e => setCash(e.target.value);
   const setFavorites = useState(state.user.favorites)[1];
   const [showFavorites, setShowFavorites] = useState(true);
-  const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
+  //const handleshowFavoritesChange = e => setShowFavorites(e.target.value);
 
   async function addToFavorites() {
     //find input + e.target.value and save to an array of favorites
