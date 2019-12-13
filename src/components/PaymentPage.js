@@ -19,7 +19,7 @@ const PaymentPage = props => {
   const [cash, setCash] = useState("");
   const [message, setMessage] = useState("");
   const [problem, setProblem] = useState(false);
-  const [limitProblem, setLimitProblem]=useState(false);
+  const [limitProblem, setLimitProblem] = useState(false);
   const dismissProblem = () => setProblem(false);
   const [sendMoney, setSendMoney] = useState(false);
   const dismissSendMoney = () => setSendMoney(false);
@@ -32,7 +32,7 @@ const PaymentPage = props => {
   const [problemTimer, setProblemTimer] = useState();
 
 
- 
+
   async function addToFavorites() {
     //find input + e.target.value and save to an array of favorites
     let favoriteFound = await User.findOne({ phone: number });
@@ -104,38 +104,38 @@ const PaymentPage = props => {
       }, 3000)
       setProblemTimer(timer);
       setSendMoney(false)
-    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || (state.user.limit && cash > state.user.limit)) {
-      setProblem(true)
-      if(state.user.limit && cash > state.user.limit){
-        setLimitProblem(true);
+      if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || (state.user.limit && cash > state.user.limit)) {
+        setProblem(true)
+        if (state.user.limit && cash > state.user.limit) {
+          setLimitProblem(true);
+        }
+        return
       }
-      return
-    }
-    if (number && cash) {
-      setSendMoney(true)
-      setProblem(false)
-    }
-    try {
-      let bling = await new Transaction(transaction)
-      await bling.save()
+      if (number && cash) {
+        setSendMoney(true)
+        setProblem(false)
+      }
+      try {
+        let bling = await new Transaction(transaction)
+        await bling.save()
 
-      global.stateUpdater()
-      createNotification();
-    }
-    catch {
+        global.stateUpdater()
+        createNotification();
+      }
+      catch {
 
-      setProblem(true);
-      clearTimeout(problemTimer);
-      let timer = setTimeout(() => {
-        setProblem(false);
+        setProblem(true);
+        clearTimeout(problemTimer);
+        let timer = setTimeout(() => {
+          setProblem(false);
 
-      }, 3000)
-      setProblemTimer(timer);
-    } finally {
-      return ''
+        }, 3000)
+        setProblemTimer(timer);
+      } finally {
+        return ''
+      }
     }
   }
-
   return (
     <React.Fragment>
       <Row>
@@ -148,7 +148,7 @@ const PaymentPage = props => {
         <Col sm={{ size: 6, offset: 3 }} className="mt-3">
           <div>
             <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={true}>
-              Din betalning gick inte genom. {limitProblem && <div> Din beloppgräns har överskridits. </div>} Försök igen.            
+              Din betalning gick inte genom. {limitProblem && <div> Din beloppgräns har överskridits. </div>} Försök igen.
             </Alert>
           </div>
           <div>
