@@ -101,7 +101,7 @@ const PaymentPage = props => {
       let timer = setTimeout(() => {
         setProblem(false);
 
-      }, 3000)
+      }, 2000)
       setProblemTimer(timer);
       setSendMoney(false)
       if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || (state.user.limit && cash > state.user.limit)) {
@@ -129,7 +129,7 @@ const PaymentPage = props => {
         let timer = setTimeout(() => {
           setProblem(false);
 
-        }, 3000)
+        }, 2000)
         setProblemTimer(timer);
       } finally {
         return ''
