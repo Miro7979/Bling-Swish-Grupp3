@@ -41,7 +41,7 @@ const PaymentPage = props => {
       setShowFavorites(false)
       loggedInUser.favorites.push(favoriteFound);
       await loggedInUser.save();
-      loggedInUser = await User.findOne({_id: state.user._id})
+      loggedInUser = await User.findOne({ _id: state.user._id })
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
       setShowFavorites(true)
@@ -61,7 +61,7 @@ const PaymentPage = props => {
     } catch (error) {
       console.error('Error:', error);
     }
-   // window.location.reload();
+    // window.location.reload();
   };
 
   async function createNotification() {
@@ -118,7 +118,7 @@ const PaymentPage = props => {
     <React.Fragment>
       <Row>
         <Col sm={{ size: 6, offset: 3 }} className=" userBalance mt-3" >
-          {'Hej ' + state.user.name + '! Du har ' + state.user.balance + ' kr på ditt konto.'}
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
@@ -131,7 +131,7 @@ const PaymentPage = props => {
           </div>
           <div>
             <Alert color="success" isOpen={sendMoney} toggle={dismissSendMoney} fade={true}>
-              Dina pengar har skickats! 
+              Dina pengar har skickats!
             </Alert>
           </div>
           <InputGroup>
@@ -162,7 +162,7 @@ const PaymentPage = props => {
           <Button onClick={sendTransaction} className="sendTransactionBtn">Skicka</Button>
         </Col>
       </Row>
-     { showFavorites ? <Favorites setNumber={setNumber}/> : ""}
+      {showFavorites ? <Favorites setNumber={setNumber} /> : ""}
     </React.Fragment>
   );
 };
