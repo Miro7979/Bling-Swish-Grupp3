@@ -134,12 +134,12 @@ app.post('/api/sendChildRequest', async (req, res) => {
     let encoded = btoa(_id + ' ' + childId);
     let approvalLink = `https://blingswish.se/godkann-foralder/${encoded}`;
     let denialLink = `https://blingswish.se/neka-foralder/${encoded}`;
-  
+    console.log(approvalLink)
+    parent.waitingChildren.push(child._id);
+    await parent.save()
     let info = `Godkänner du att att ${parent.name} (med telefonnummer ${parent.phone}) är registererad som din föräldr i Blingswish? Detta innebär att hen kan sätta din betalningslimit samt se dina transaktioner.`
     html = `<p>Hej ${child.name}!</p><p>${info}</p><p><a href="${approvalLink}">>Godkänn</a></p><p><a href="${denialLink}">>Neka</a></p>`;
     text = `Hej ${child.name}!\n\n${info}\n\nGodkänn: ${approvalLink}\n\nNeka: ${denialLink}`;
-
-    console.log(child);
     let user = {
         email: child.email,
         subject: `Godkänner du ${parent.name} (${parent.phone}) som förälder?`,
@@ -149,6 +149,53 @@ app.post('/api/sendChildRequest', async (req, res) => {
     sendMail(user);
     res.json({mailSent: true});
 });
+app.post('/api/approveparent*', async (req, res) => {
+    try {
+        let decoded = atob(req.body.encoded).split(" ")
+        let parentId = decoded[0]
+        let childId = decoded[1]
+        let parent = await User.findOne({_id: parentId})
+        if(parent.waitingChildren.includes(childId) && !parent.children.includes(childId)){
+            parent.children.push(childId)
+            let filteredArray = parent.waitingChildren.filter((e)=> { return e != childId })
+            parent.waitingChildren = filteredArray
+            await parent.save()
+            res.send({validLink: true});
+        }
+        else if(!parent.waitingChildren.includes(childId) || parent.children.includes(childId)){
+            req.body.notValid = "Problem med länken"
+            res.send({validLink: false})
+        }
+    }
+    catch (error) {
+        req.json(error)
+    }
+
+})
+
+app.post('/api/disapproveparent*', async (req, res) => {
+    try {
+        let decoded = atob(req.body.encoded).split(" ")
+        let parentId = decoded[0]
+        let childId = decoded[1]
+        let parent = await User.findOne({_id: parentId})
+        if(parent.waitingChildren.includes(childId)){
+            let filteredArray = parent.waitingChildren.filter((e)=> { return e != childId })
+            parent.waitingChildren = filteredArray
+            await parent.save()
+            res.send({validLink: true});
+        }
+        else if(!parent.waitingChildren.includes(childId)){
+            req.body.notValid = "Problem med länken"
+            res.send({validLink: false})
+        }
+    }
+    catch (error) {
+        req.json(error)
+    }
+
+})
+
 
 
 app.post('/api/resets', async (req, res) => {
@@ -263,8 +310,8 @@ app.post('/api/login*', async (req, res) => {
             req.session.user = user
             await findUserAndKeys(req.session.subscription, user)
             delete req.session.subscription;
+            res.json(user ? user : { error: 'not found 1' });
         };
-        res.json(user ? user : { error: 'not found 1' });
     }
     catch (e) {
         console.log(e)
@@ -405,7 +452,6 @@ app.get('/api/populatemyfavorites*', async (req, res) => {
     res.json(err || userFavorites);
 });
 
-
 app.post('/api/send-sse', async (req, res) => {
     let err, body = req.body;
     let sender = req.session.user
@@ -439,7 +485,9 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'aktiverakonto': "Aktiverakonto",
     'nyttlosenord': "Nyttlosenord",
     'updatepassword': 'Updatepassword',
-    'populatemyfavorites': 'Populatemyfavorites'
+    'populatemyfavorites': 'Populatemyfavorites',
+    'approveparent': 'Approveparent',
+    'disapproveparent': 'Disapproveparent'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

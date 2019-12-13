@@ -20,6 +20,7 @@ import SSE from 'easy-server-sent-events/sse';
 import NotificationModal from './components/createNotificationModal';
 import Loader from 'react-loader-spinner';
 import ApproveParent from './components/ApproveParent.js';
+import DisApproveParent from './components/DisApproveParent.js';
 
 let sse;
 
@@ -73,14 +74,15 @@ function App() {
 
 
   function redirector() {
-    let thisPath = window.location.pathname
+    let thisPath = window.location.pathname.split("/")
 
     // if role is visitor
     if (state.user.role === 'visitor') {
-      let allowedPaths = ['/aterstalllosenord', '/skapaKontoSida', '/aktiverakonto', '/godkann-foralder']
+      let allowedPaths = ['aterstalllosenord', 'skapaKontoSida', 'aktiverakonto', 'godkann-foralder', 'neka-foralder']
       let redirect = true;
+      
       allowedPaths.map(path => {
-        if (thisPath === path) {
+        if (thisPath[1] === path) {
           redirect = false
         }
         return null
@@ -96,10 +98,10 @@ function App() {
 
      // if role is admin
      if (state.user.role === 'admin') {
-      let allowedPaths = ['/adminsida','/adminsida/redigera-anvandare', '/adminsida/betalningshistorik/:id', '/adminsida/registrera-en-ny-anvandare']
+      let allowedPaths = [ 'adminsida']
       let redirect = true;
       allowedPaths.map(path => {
-        if (thisPath === path) {
+        if (thisPath[1] === path) {
           redirect = false
         }
         return null
@@ -115,10 +117,10 @@ function App() {
     // if role is parent/child
     if (state.user.role === 'parent' || state.user.role === 'child') {
       // This path is the standard path if you ARE logged in
-      let allowedPaths = ['/betalningar', '/betalningshistorik', '/minasidor', '/godkann-foralder']
+      let allowedPaths = ['betalningar', 'betalningshistorik', 'minasidor']
       let redirect = true;
       allowedPaths.map(path => {
-        if (thisPath === path) {
+        if (thisPath[1] === path) {
           redirect = false
         }
         return null
@@ -164,8 +166,10 @@ function App() {
                 <Route path="/nyttlosenord/:id" component={UpdateNewPasswordModal} />
                 <Route path="/aktiverakonto/:id" component={ActivateAccountModal} />
                 <Route path="/godkann-foralder/:encoded" component={ApproveParent} />
+                <Route path="/neka-foralder/:encoded" component={DisApproveParent} />
+
               </Switch>
-              {redirector()}
+             {redirector()}
             </main>
           </div>
         </Router>
