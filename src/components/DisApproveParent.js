@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-import { Approveparent } from 'the.rest/dist/to-import';
+import { Disapproveparent } from 'the.rest/dist/to-import';
 
 
-const ApproveParent=(props)=>{
+const DisApproveParent=(props)=>{
   useEffect(() => {
     setModal(true);
     isValidChild()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   async function isValidChild(){
-    let approveLink = await new Approveparent({encoded:props.match.params.encoded})
+    let approveLink = await new Disapproveparent({encoded:props.match.params.encoded})
     await approveLink.save()
     console.log(approveLink.validLink)
     setCreated(approveLink.validLink)
@@ -34,7 +34,7 @@ const ApproveParent=(props)=>{
          Något problem med länken!
      </Alert>
        <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
-         Ditt konto är nu kopplat till ett föräldrarkonto, gå vidare till logga in med knappen nedan!
+         Ditt konto har nekat att bli till-lagd på ett föräldrarkonto!
      </Alert>
      </ModalBody>
      <ModalFooter>
@@ -49,4 +49,4 @@ const ApproveParent=(props)=>{
   );
 
 }
-export default ApproveParent;
+export default DisApproveParent;

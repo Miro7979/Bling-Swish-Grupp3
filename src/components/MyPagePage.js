@@ -121,7 +121,7 @@ const MyPagePage = () => {
 						}
 					</Col>:
 					<Col sm={7} xs={8}>
-						{userData.limit?<p>{userData.limit},00 sek</p>:<p className="limit-text">Ingen gräns satt</p>}
+						{userData.limit?<p>{userData.limit},00 kr</p>:<p className="limit-text">Ingen gräns satt</p>}
 					</Col> 
 				}
 			</Row>

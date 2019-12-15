@@ -91,6 +91,20 @@
 			"child": "get",
 			"parent": "get",
 			"admin": "get"
+		},
+		"approveparent": {
+			"visitor": "post"
+		},
+		"disapproveparent": {
+			"visitor": "post"
+		},
+		"sendChildRequest":{
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
 		}
+
+		
 	}
 }
