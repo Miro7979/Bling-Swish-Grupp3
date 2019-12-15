@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import Context from './Context';
 import {
   Button,
@@ -11,23 +11,27 @@ const CreateNotificationModal = (props) => {
 
   const { className } = props;
 
-  const [modal, setModal] = useState(true);
-
   const toggle = () => {
-    setModal(false)
+    props.resetModal();
+    console.log('toggle');
   };
 
   const callFunctionsOnApp = () => {
     props.toggleNotificationModal();
+    console.log('togglenoti');
   }
+
+  let loginPage = !window.location.href.includes('/login');
+
 
   return (
     <div className="notisModal">
-      <Modal isOpen={modal} toggle={toggle} className={className}>
+      <Modal isOpen={props.showModal}  className={className}>
         <ModalBody className="modalBody">
           <h5 className="notifyMessage">Du har fått en betalning på ditt Bling konto.</h5>
         </ModalBody>
-        <Button className="notisModalBtn" onClick={callFunctionsOnApp}>Ok</Button>
+        {loginPage && <Button className="notisModalBtn" onClick={callFunctionsOnApp}>Ok</Button>}
+        {/* {!loginPage && <Button className="notisModalBtn" onClick={toggle}>Ok</Button>} */}
       </Modal>
     </div>
   );

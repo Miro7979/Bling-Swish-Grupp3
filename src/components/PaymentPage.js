@@ -61,9 +61,9 @@ const PaymentPage = props => {
     } catch (error) {
       console.error('Error:', error);
     }
-   // window.location.reload();
+    // window.location.reload();
   };
-
+  
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -81,9 +81,10 @@ const PaymentPage = props => {
       return ''
     }
   }
-
-
+  
+  
   async function sendTransaction() {
+    console.log('paymentPage');
     let transaction = {
       amount: cash,
       message: message || 'Du har fått pengar på din bling konto',
@@ -112,7 +113,6 @@ const PaymentPage = props => {
       return ''
     }
   }
-  console.log();
 
   return (
     <React.Fragment>
