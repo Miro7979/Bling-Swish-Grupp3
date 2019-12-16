@@ -94,7 +94,8 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
-    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000) {
+
+    if (!number || !cash || number !== state.user.phone || cash < 0 || cash > 10000 || state.user.balance > cash) {
 
       setProblem(true);
       clearTimeout(problemTimer);
@@ -104,7 +105,7 @@ const PaymentPage = props => {
       }, 2000)
       setProblemTimer(timer);
       setSendMoney(false)
-      if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || (state.user.limit && cash > state.user.limit)) {
+      if (cash > state.user.limit) {
         setProblem(true)
         if (state.user.limit && cash > state.user.limit) {
           setLimitProblem(true);
@@ -136,11 +137,13 @@ const PaymentPage = props => {
       }
     }
   }
+
   return (
     <React.Fragment>
       <Row>
-        <Col sm={{ size: 6, offset: 3 }} className=" userBalance mt-3" >
+        <Col sm={{ size: 8, offset: 2 }} className=" userBalance mt-3" >
           {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}
+          {state.user.limit ? ' och din överföringsbegränsning är ' + state.user.limit.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) : ''}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
