@@ -25,8 +25,7 @@ const CreateAccountModal = () => {
 
     let newUser = new User(user);
     await newUser.save()
-    let foundUser = await User.findOne({ email: email })
-    foundUser ? setCreated(true) : setProblem(true)
+    newUser.success ? setCreated(true) : setProblem(true)
   }
   const [problem, setProblem] = useState(false);
   const [created, setCreated] = useState(false);
