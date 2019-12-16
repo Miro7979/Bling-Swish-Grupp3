@@ -95,7 +95,35 @@ const PaymentPage = props => {
       from: state.user._id
     }
 
-    if (!number || !cash || number !== state.user.phone || cash < 0 || cash > 10000 || state.user.balance > cash) {
+    setTimeout(() => {
+      setProblem(false);
+      setSendMoney(false);
+    }, 2000)
+
+    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash) {
+      setProblem(true);
+      setSendMoney(false)
+      return;
+    }
+
+    if (state.user.limit && cash > state.user.limit) {
+      setProblem(true)
+      setLimitProblem(true);
+      return
+    }
+
+    if (number && cash) {
+      setSendMoney(true)
+      setProblem(false)
+    }
+    try {
+      let bling = await new Transaction(transaction)
+      await bling.save()
+
+      global.stateUpdater()
+      createNotification();
+    }
+    catch {
 
       setProblem(true);
       clearTimeout(problemTimer);
@@ -104,38 +132,10 @@ const PaymentPage = props => {
 
       }, 2000)
       setProblemTimer(timer);
-      setSendMoney(false)
-      if (cash > state.user.limit) {
-        setProblem(true)
-        if (state.user.limit && cash > state.user.limit) {
-          setLimitProblem(true);
-        }
-        return
-      }
-      if (number && cash) {
-        setSendMoney(true)
-        setProblem(false)
-      }
-      try {
-        let bling = await new Transaction(transaction)
-        await bling.save()
-
-        global.stateUpdater()
-        createNotification();
-      }
-      catch {
-
-        setProblem(true);
-        clearTimeout(problemTimer);
-        let timer = setTimeout(() => {
-          setProblem(false);
-
-        }, 2000)
-        setProblemTimer(timer);
-      } finally {
-        return ''
-      }
+    } finally {
+      return ''
     }
+    
   }
 
   return (
