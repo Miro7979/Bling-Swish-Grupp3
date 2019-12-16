@@ -21,8 +21,8 @@ let userSchema = new Schema({
   nationalIdNumber: { type: Number, required: true },
   role: { type: String, default: 'visitor' },
   children: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  waitingChildren:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-  favorites: [{ type: Schema.Types.ObjectId, ref: 'User', unique: true }],
+  waitingChildren: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  favorites: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   emailConfirmed: { type: Boolean, default: false },
   deactivated: { type: Boolean, default: false },
   limit: { type: Number },
@@ -39,9 +39,9 @@ userSchema.pre('find', function () {
   this.populate('transactionsTo');
 });
 
-userSchema.pre('save', function() {
+userSchema.pre('save', function () {
   let favoritesAsStr = this.favorites.map(x => x.toString());
-  this.favorites = this.favorites.filter((x,i) => i === favoritesAsStr.indexOf(x));
+  this.favorites = this.favorites.filter((x, i) => i === favoritesAsStr.indexOf(x));
   this.markModified('favorites');
 });
 
