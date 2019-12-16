@@ -27,13 +27,14 @@ let sse;
 function App() {
   let context = useContext(Context);
   const [state, setState] = useState(context);
+  let [showModal, setShowModal] = useState(false);
 
 
   // listenToSSE();
   useEffect(() => {
     sse = new SSE('/api/sse');
     let messageListener = sse.listen('message', (data) => {
-      setState((prev) => ({ ...prev, showNoti: true }))
+      setShowModal(true);
     });
 
     return () => {
@@ -68,9 +69,14 @@ function App() {
 
   const toggleNotificationModal = () => {
     setState((prev) => ({ ...prev, showNoti: false, reload: prev.reload+1 }))
+    setShowModal(false)
   }
 
-  let propsToNotificationModal = { toggleNotificationModal };
+  const resetModal = () => {
+    setShowModal(false)
+  }
+
+  let propsToNotificationModal = { toggleNotificationModal, showModal, resetModal };
 
 
   function redirector() {
@@ -136,9 +142,7 @@ function App() {
 
   return (
     <Context.Provider value={[state, setState]}>
-      {state.showNoti ?
         <NotificationModal {...propsToNotificationModal} />
-        : ''}
       {state.booting ? <Loader className="spinner"
         type="Bars"
         color="#FFFF"

@@ -31,6 +31,10 @@ class RegisterServiceWorker {
   }
 
   async registerPushNotifications(registered) {
+
+    // If browser doesn't support pushManager don't proceed with serviceWorker (Safari doesn't support pushManager).
+    if(!registered.pushManager) {return;}
+
     const publicVapidKey = 'BH_WGf-8nB-Jm-I3noFwMl2sByECoCZQjMwJoK40y2PLQSFqAgilGxV10ugUTMlmtms77Eqi-SYXBk-nw2BfNU4';
     // Register
     const subscription = await registered.pushManager.subscribe({

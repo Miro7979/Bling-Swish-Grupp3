@@ -67,7 +67,7 @@ const PaymentPage = props => {
     }
     // window.location.reload();
   };
-
+  
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -85,8 +85,8 @@ const PaymentPage = props => {
       return ''
     }
   }
-
-
+  
+  
   async function sendTransaction() {
     let transaction = {
       amount: cash,
