@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import Context from './Context';
 import MypagePageChild from './MyPagePageChild.js';
 import MyPagePageAddChild from './MyPagePageAddChild.js';
 import MyPagePageWaitingChild from './MyPagePageWaitingChild.js';
@@ -8,7 +9,7 @@ import goBackLogo from '../images/goback-icon.png';
 import { User, Login } from 'the.rest/dist/to-import';
 
 const MyPagePage = () => {
-
+	const [state, setState] = useContext(Context);
 	const [userData, setUserData] = useState({
 		name: '', password: '', phone: '', email: '', nationalIdNumber: '', role: '', limit: '', children: [],
 		waitingChildren: []
@@ -53,6 +54,7 @@ const MyPagePage = () => {
 				await child.save();
 			}
 			await user.save();
+			setState({ ...state, user })
 			setWantToEdit({ wantToEdit: false });
 		}
 	}
