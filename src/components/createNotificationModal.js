@@ -1,5 +1,4 @@
 import React from 'react';
-// import Context from './Context';
 import {
   Button,
   Modal,
@@ -7,21 +6,17 @@ import {
 } from 'reactstrap';
 
 const CreateNotificationModal = (props) => {
-  // let [state] = useContext(Context);
-
+  let loginPage = window.location.href.includes('/login');
   const { className } = props;
 
   const toggle = () => {
     props.resetModal();
-    console.log('toggle');
   };
 
   const callFunctionsOnApp = () => {
     props.toggleNotificationModal();
-    console.log('togglenoti');
   }
 
-  let loginPage = window.location.href.includes('/login');
 
 
   return (
