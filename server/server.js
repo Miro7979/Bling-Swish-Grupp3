@@ -128,9 +128,9 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
 
 app.post('/api/sendChildRequest', async (req, res) => {
     // expecting a body with _id and childId
-    let {_id, childId} = req.body;
-    let parent = await User.findOne({_id: _id});
-    let child = await User.findOne({_id: childId});
+    let { _id, childId } = req.body;
+    let parent = await User.findOne({ _id: _id });
+    let child = await User.findOne({ _id: childId });
     let encoded = btoa(_id + ' ' + childId);
     let approvalLink = `https://blingswish.se/godkann-foralder/${encoded}`;
     let denialLink = `https://blingswish.se/neka-foralder/${encoded}`;
@@ -147,24 +147,24 @@ app.post('/api/sendChildRequest', async (req, res) => {
         text
     }
     sendMail(user);
-    res.json({mailSent: true});
+    res.json({ mailSent: true });
 });
 app.post('/api/approveparent*', async (req, res) => {
     try {
         let decoded = atob(req.body.encoded).split(" ")
         let parentId = decoded[0]
         let childId = decoded[1]
-        let parent = await User.findOne({_id: parentId})
-        if(parent.waitingChildren.includes(childId) && !parent.children.includes(childId)){
+        let parent = await User.findOne({ _id: parentId })
+        if (parent.waitingChildren.includes(childId) && !parent.children.includes(childId)) {
             parent.children.push(childId)
-            let filteredArray = parent.waitingChildren.filter((e)=> { return e != childId })
+            let filteredArray = parent.waitingChildren.filter((e) => { return e != childId })
             parent.waitingChildren = filteredArray
             await parent.save()
-            res.send({validLink: true});
+            res.send({ validLink: true });
         }
-        else if(!parent.waitingChildren.includes(childId) || parent.children.includes(childId)){
+        else if (!parent.waitingChildren.includes(childId) || parent.children.includes(childId)) {
             req.body.notValid = "Problem med länken"
-            res.send({validLink: false})
+            res.send({ validLink: false })
         }
     }
     catch (error) {
@@ -178,16 +178,16 @@ app.post('/api/disapproveparent*', async (req, res) => {
         let decoded = atob(req.body.encoded).split(" ")
         let parentId = decoded[0]
         let childId = decoded[1]
-        let parent = await User.findOne({_id: parentId})
-        if(parent.waitingChildren.includes(childId)){
-            let filteredArray = parent.waitingChildren.filter((e)=> { return e != childId })
+        let parent = await User.findOne({ _id: parentId })
+        if (parent.waitingChildren.includes(childId)) {
+            let filteredArray = parent.waitingChildren.filter((e) => { return e != childId })
             parent.waitingChildren = filteredArray
             await parent.save()
-            res.send({validLink: true});
+            res.send({ validLink: true });
         }
-        else if(!parent.waitingChildren.includes(childId)){
+        else if (!parent.waitingChildren.includes(childId)) {
             req.body.notValid = "Problem med länken"
-            res.send({validLink: false})
+            res.send({ validLink: false })
         }
     }
     catch (error) {
@@ -510,15 +510,15 @@ webpush.setVapidDetails(
     'mailto:melsie78@gmail.com',
     vapidKeys.public,
     vapidKeys.private
-    );
-    
-    
-    // Subscribe route
-    app.post('/api/push-subscriber', async (req, res) => {
+);
+
+
+// Subscribe route
+app.post('/api/push-subscriber', async (req, res) => {
     const subscription = req.body;
     // Send 201 - resource created
     res.status(201).json({ subscribing: true });
-    
+
     if (req.session.user) {
         await findUserAndKeys(subscription, req.session.user)
     }
@@ -526,8 +526,8 @@ webpush.setVapidDetails(
         req.session.subscription = subscription
         sendNotification(subscription, { body: 'Välkommen!' });
     }
-    
-    
+
+
     // Send some notifications...
     // this might not be what you do directly on subscription
     // normally
@@ -557,7 +557,7 @@ async function sendNotification(subscription, payload) {
     };
     await webpush.sendNotification(
         subscription, JSON.stringify(toSend)
-        ).catch(err => console.log(err));
+    ).catch(err => console.log(err));
 }
 
 
