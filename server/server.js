@@ -286,6 +286,8 @@ app.post('/api/users', async (req, res) => {
         let html = `<a href='www.blingswish.se/aktiverakonto/${mail}'>Aktivera ditt konto</a>`
         let userMail = { email: user.email, subject, text, html }
         let error;
+        let resultFromSave = await user.save()
+            .catch(err => error = err + '');
         if(error){
             res.send({error})
         }
