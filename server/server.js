@@ -288,11 +288,11 @@ app.post('/api/users', async (req, res) => {
         let error;
         let resultFromSave = await user.save()
             .catch(err => error = err + '');
-        if(error){
-            res.send({error})
+        if (error) {
+            res.send({ error })
         }
-        else if(!error){
-            res.send({success: true});
+        else if (!error) {
+            res.send({ success: true });
         }
         !error && sendMail(userMail)
     }
