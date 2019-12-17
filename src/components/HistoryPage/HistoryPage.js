@@ -63,7 +63,7 @@ function HistoryPage() {
     } else {
       userId = state.user._id;
     }
-
+    
     // Starts fetching requested transaction
     let myTransactions = [];
     async function fetchUserTransactions() {
@@ -76,15 +76,17 @@ function HistoryPage() {
         myTransactions = await myTransactions.json();
         
         let transactionsHash = [];
-        myTransactions.forEach(transaction => {
+        for(let transaction of myTransactions) {
           let { date, amount, message, from, to } = transaction;
           let dateSlice1 = date.slice(0, 10);
           let dateSlice2 = date.slice(11, 19);
           date = dateSlice1 + ', kl.' + dateSlice2;
           transaction = { date, amount, message, fromUser: from.name === theDropdownTitle ? '' : from.name, toUser: to.name === theDropdownTitle ? '' : to.name };
+          if(transaction.fromUser !== '' && transaction.toUser !== ''){
+            return;
+          }
           transactionsHash.push(transaction);
-        });
-        
+        }
         setTransactions(transactionsHash);
       } catch (error) {
         console.log('There has been a problem with your fetch operation.', error.message)

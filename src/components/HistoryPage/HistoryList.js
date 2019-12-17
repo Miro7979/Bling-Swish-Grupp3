@@ -23,10 +23,14 @@ function HistoryList(props) {
           <div className="col">
             <div className="row">
               <div className="col list-col">
-                <div className="row list-row">{transaction.date}</div>
                 <div className="row list-row">
-                  <p>{transaction.fromUser === '' ? '' : transaction.fromUser}</p>
-                  <p>{transaction.toUser === '' ? '' : transaction.toUser}</p>
+                  <p>
+                    {transaction.date}
+                  </p>
+                </div>
+                <div className="row list-row">
+                  <p className="p-name">{transaction.fromUser === '' ? '' : transaction.fromUser}</p>
+                  <p className="p-name">{transaction.toUser === '' ? '' : transaction.toUser}</p>
                   <p className={transaction.fromUser === '' ? 'red-dot' : 'green-dot'}></p>
                 </div>
               </div>
