@@ -8,6 +8,7 @@ import { Approveparent } from 'the.rest/dist/to-import';
 
 const ApproveParent = (props) => {
   useEffect(() => {
+
     setModal(true);
     isValidChild()
     // eslint-disable-next-line react-hooks/exhaustive-deps
