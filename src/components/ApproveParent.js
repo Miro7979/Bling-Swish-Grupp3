@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
+import { ApproveParent } from 'the.rest/dist/to-import';
 
-import { Approveparent } from 'the.rest/dist/to-import';
 
-
-const ApproveParent=(props)=>{
+const ApproveParent = (props) => {
   useEffect(() => {
     setModal(true);
     isValidChild()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  async function isValidChild(){
-    let approveLink = await new Approveparent({encoded:props.match.params.encoded})
+  async function isValidChild() {
+    let approveLink = await new ApproveParent({ encoded: props.match.params.encoded })
     await approveLink.save()
     console.log(approveLink.validLink)
     setCreated(approveLink.validLink)
@@ -26,26 +25,26 @@ const ApproveParent=(props)=>{
 
   const toggle = () => setModal(!modal);
 
-  return(
-   <div>
-   <Modal isOpen={modal} size="md">
-     <ModalBody>
-       <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={false}>
-         Något problem med länken!
+  return (
+    <div>
+      <Modal isOpen={modal} size="md">
+        <ModalBody>
+          <Alert color="danger" isOpen={problem} toggle={dismissProblem} fade={false}>
+            Något problem med länken!
      </Alert>
-       <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
-         Ditt konto är nu kopplat till ett föräldrarkonto, gå vidare till logga in med knappen nedan!
+          <Alert color="success" isOpen={created} toggle={dismissCreated} fade={false}>
+            Ditt konto är nu kopplat till ett föräldrarkonto, gå vidare till logga in med knappen nedan!
      </Alert>
-     </ModalBody>
-     <ModalFooter>
-         <Link to="/">
-           <Button color="secondary" onClick={toggle}>
-             Ok
+        </ModalBody>
+        <ModalFooter>
+          <Link to="/">
+            <Button color="secondary" onClick={toggle}>
+              Ok
            </Button>
-         </Link>
-     </ModalFooter>
-   </Modal>
- </div >
+          </Link>
+        </ModalFooter>
+      </Modal>
+    </div >
   );
 
 }
