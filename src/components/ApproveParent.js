@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-
 import { Approveparent } from 'the.rest/dist/to-import';
 
 
