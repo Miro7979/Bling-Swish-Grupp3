@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { Link } from "react-router-dom";
-import { ApproveParent } from 'the.rest/dist/to-import';
+
+import { Approveparent } from 'the.rest/dist/to-import';
+
 
 
 const ApproveParent = (props) => {
@@ -11,7 +13,7 @@ const ApproveParent = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   async function isValidChild() {
-    let approveLink = await new ApproveParent({ encoded: props.match.params.encoded })
+    let approveLink = await new Approveparent({ encoded: props.match.params.encoded })
     await approveLink.save()
     console.log(approveLink.validLink)
     setCreated(approveLink.validLink)
