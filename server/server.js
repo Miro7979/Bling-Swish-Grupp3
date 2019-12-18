@@ -126,7 +126,7 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
     }
 })
 
-app.post('/api/sendChildRequest', async (req, res) => {
+app.put('/api/sendChildRequest*', async (req, res) => {
     // expecting a body with _id and childId
     let { _id, childId } = req.body;
     let parent = await User.findOne({ _id: _id });
@@ -134,7 +134,6 @@ app.post('/api/sendChildRequest', async (req, res) => {
     let encoded = btoa(_id + ' ' + childId);
     let approvalLink = `https://blingswish.se/godkann-foralder/${encoded}`;
     let denialLink = `https://blingswish.se/neka-foralder/${encoded}`;
-    console.log(approvalLink)
     parent.waitingChildren.push(child._id);
     await parent.save()
     let info = `Godkänner du att att ${parent.name} (med telefonnummer ${parent.phone}) är registererad som din föräldr i Blingswish? Detta innebär att hen kan sätta din betalningslimit samt se dina transaktioner.`
@@ -147,7 +146,8 @@ app.post('/api/sendChildRequest', async (req, res) => {
         text
     }
     sendMail(user);
-    res.json({ mailSent: true });
+    req.body.valid = true
+    res.send( {valid:true} );
 });
 app.post('/api/approveparent*', async (req, res) => {
     try {
@@ -168,7 +168,7 @@ app.post('/api/approveparent*', async (req, res) => {
         }
     }
     catch (error) {
-        req.json(error)
+        res.json({ validLink: false, error })
     }
 
 })
@@ -191,7 +191,7 @@ app.post('/api/disapproveparent*', async (req, res) => {
         }
     }
     catch (error) {
-        req.json(error)
+        res.send({ validLink: false, error })
     }
 
 })
@@ -492,7 +492,8 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'updatepassword': 'Updatepassword',
     'populatemyfavorites': 'Populatemyfavorites',
     'approveparent': 'Approveparent',
-    'disapproveparent': 'Disapproveparent'
+    'disapproveparent': 'Disapproveparent',
+    'sendChildRequest': 'SendChildRequest'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

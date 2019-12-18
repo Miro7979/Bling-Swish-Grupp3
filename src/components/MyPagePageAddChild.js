@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { User } from 'the.rest/dist/to-import';
+import { User, SendChildRequest } from 'the.rest/dist/to-import';
 import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageAddChild=({userData,setUserData})=>{
@@ -17,19 +17,26 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 			setData({...data,foundChild:'',error:'Inga användare med det nummret'});	
 		}
 		else{
-			setData({...data,error:'',foundChild:child});	
+			setData({...data,error:'',foundChild:child});
 		}
 	}
 
-	const addChild=()=>{
+	const addChild= async ()=>{
 		let duplicate=false
+		for(let child of userData.waitingChildren){			
+			if(child._id===data.foundChild._id){duplicate=true;}
+		}
 		for(let child of userData.children){			
 			if(child._id===data.foundChild._id){duplicate=true;}
 		}
 		if(duplicate===false){
+			let _id = userData._id
+			let childId = data.foundChild._id	
+			let newChild = await new SendChildRequest({_id, childId})
+			await newChild.save()
 			setUserData({
 				...userData,
-				children: [ ...userData.children, data.foundChild ]
+				waitingChildren: [ ...userData.waitingChildren, data.foundChild ]
 			}); 
 		}
 	}
