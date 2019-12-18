@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { User, SendChildRequest } from 'the.rest/dist/to-import';
+import { User } from 'the.rest/dist/to-import';
 import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageAddChild=({userData,setUserData})=>{
@@ -32,8 +32,8 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 		if(duplicate===false){
 			let _id = userData._id
 			let childId = data.foundChild._id	
-			let newChild = await new SendChildRequest({_id, childId})
-			await newChild.save()
+			// let newChild = await new SendChildRequest({_id, childId})
+			// await newChild.save()
 			setUserData({
 				...userData,
 				waitingChildren: [ ...userData.waitingChildren, data.foundChild ]
