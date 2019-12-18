@@ -1,0 +1,110 @@
+{
+	"apiPath": "/api",
+	"rules": {
+		"sse": {
+			"visitor": "get",
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},
+		"login": {
+			"visitor": "post get",
+			"child": "delete get",
+			"parent": "delete get",
+			"admin": "delete get"
+		},
+		"transactions": {
+			"child": "get post",
+			"parent": "post get",
+			"admin": "all"
+		},
+		"users": {
+			"visitor": "all",
+			"child": "all",
+			"parent": "all",
+			"admin": "all"
+		},
+		"notifications": {
+			"child": "post get",
+			"parent": "post get",
+			"admin": "all"
+		},
+		"mytransactions": {
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
+		},
+		"imuser": {
+		"admin": "get",
+		"parent": "get",
+		"child": "get"
+		},
+		"activateaccounts":{
+			"visitor": "all",
+			"child": "all",
+			"parent": "all",
+			"admin": "all"
+		},
+		"resets": {
+			"visitor": "all"
+		},
+		"my-transactions": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},		
+		"send-sse": {
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"populatemychildren": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},		
+		"push-subscriber": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"aktiverakonto": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"updatepassword": {
+			"visitor": "post",
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
+		},		
+		"nyttlosenord": {
+			"visitor": "get",
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},
+		"populatemyfavorites": {
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},
+		"approveparent": {
+			"visitor": "post"
+		},
+		"disapproveparent": {
+			"visitor": "post"
+		},
+		"sendChildRequest":{
+			"visitor": "post",
+			"child": "post",
+			"parent": "post put",
+			"admin": "post"
+		}
+
+		
+	}
+}

@@ -1,0 +1,11 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background: #6f285a;
+	background: -moz-linear-gradient(left, #6f285a 0%, #1c6ea4 50%, #6f285a 100%);
+	background: -webkit-linear-gradient(left, #6f285a 0%, #1c6ea4 50%, #6f285a 100%);
+	background: linear-gradient(to right, #6f285a 0%, #1c6ea4 50%, #6f285a 100%);
+	color: rgb(251, 249, 249) !important;
+}

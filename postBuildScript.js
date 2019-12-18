@@ -1,0 +1,51 @@
+// Cleaning up strange paths in index
+// starting with /Miro7979/Bling-Swish-Grupp3
+
+const fs = require('fs');
+const path = require('path');
+
+const indexPath = path.resolve(__dirname, './build', 'index.html');
+let contents = fs.readFileSync(indexPath, 'utf-8');
+contents = contents.split('/Miro7979/Bling-Swish-Grupp3').join('');
+fs.writeFileSync(indexPath, contents, 'utf-8');
+console.log('Cleaned paths in index.html');
+
+const publicPath = path.resolve(__dirname, './public');
+const buildPath = path.resolve(__dirname, './build');
+const swPath = path.resolve(publicPath, './serviceWorker.js');
+const swInBuildPath = path.resolve(buildPath, './serviceWorker.js');
+
+// Removing service worker created by create-react-app
+// and its precache-maniffest since we have our own
+// service worker...
+const filesInBuild = fs.readdirSync(buildPath);
+filesInBuild.forEach(file => {
+  if (
+    file.indexOf('precache-manifest.') === 0 ||
+    file.indexOf('service-worker.js') === 0
+  ) {
+    fs.unlinkSync(path.resolve(buildPath, file));
+  }
+});
+console.log('Removed unnecessary files.');
+
+// Changing this.version in the serviceWorker.js
+contents = fs.readFileSync(swPath, 'utf-8');
+let version = contents.match(
+  /this.version\s*=\s*([\d|\.]*)/
+)[1] / 1;
+version = Math.round(version * 100 + 1) / 100;
+contents = contents.replace(
+  /this.version\s*=\s*[\d|\.]*/,
+  `this.version = ${version}`
+);
+fs.writeFileSync(swPath, contents, 'utf-8');
+// Changing this.production in build/serviceWorker.js 
+contents = contents.replace(
+  /this.production\s*=\s*false/,
+  'this.production = true'
+);
+fs.writeFileSync(swInBuildPath, contents, 'utf-8');
+console.log('Changed this.version in serviceWorker.js');
+console.log(`Current this.version is ${version}.`);
+console.log('Changed this.production to true in serviceWorker.js');
