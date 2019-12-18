@@ -125,6 +125,18 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
         console.log(e)
     }
 })
+app.post('/api/findchild*', async (req, res) => {
+    console.log("req",req.body)
+    try {
+        console.log(req.body)
+       let child = await User.findOne({phone:req.body.phone})
+       console.log(child)
+       res.send({name: child.name,_id:child._id})
+    }
+    catch (e) {
+        console.log(e)
+    }
+});
 
 app.put('/api/sendChildRequest*', async (req, res) => {
     // expecting a body with _id and childId
@@ -268,6 +280,7 @@ app.post('/api/users', async (req, res) => {
     try {
         // we should check that the same username does
         // not exist... let's save that for letter
+        let checkUser = await User.findOne({email: user.email})
         if (
             typeof req.body.password !== 'string' ||
             req.body.password.length < 6
@@ -275,9 +288,13 @@ app.post('/api/users', async (req, res) => {
             res.json({ error: 'Password to short' });
             return;
         }
+       if(checkUser){
+           res.send({error: 'You already got an account'})
+       }
         let user = new User({
             ...req.body,
             password: encryptPassword(req.body.password),
+            role: 'visitor'
         });
         let mail = btoa(user.email)
         req.body.user = user;
@@ -289,7 +306,7 @@ app.post('/api/users', async (req, res) => {
         let resultFromSave = await user.save()
             .catch(err => error = err + '');
         if (error) {
-            res.send({ error })
+            res.send({ success: false })
         }
         else if (!error) {
             res.send({ success: true });
@@ -395,17 +412,27 @@ app.post('/api/notifications*', async (req, res) => {
 });
 
 app.post('/api/transaction*', async (req, res) => {
-    let to = await User.findOne({ phone: req.body.to })
-    let transaction = new Transaction({
-        // balance: req.body.balance,
-        message: req.body.message,
-        amount: req.body.amount,
-        to: to._id,
-        from: req.body.from
-    });
-
-    await transaction.save()
-    res.json(transaction);
+    try{
+        let to = await User.findOne({ phone: req.body.to })
+        if(to){
+            if(req.body.amount > req.session.user.limit || req.body.amount > req.session.user.balance || req.body.amount < 0 ){
+                res.json({limitError: "Du försöker blinga mer än din gräns"})
+            }
+            let transaction = new Transaction({
+                // balance: req.body.balance,
+                message: req.body.message,
+                amount: req.body.amount,
+                to: to._id,
+                from: req.body.from
+            });
+            
+            await transaction.save()
+            res.json(transaction);
+        }
+    }
+    catch(e){
+        res.json({error:e})
+    }
 });
 
 app.get('/api/my-transactions/:userId', async (req, res) => {
@@ -430,7 +457,7 @@ app.get('/api/my-transactions/:userId', async (req, res) => {
     }
 });
 
-app.get('/api/populatemychildren', async (req, res) => {
+app.get('/api/populatemychildren*', async (req, res) => {
     let user = req.session.user;
     if (!user) {
         res.json('Nope!')
@@ -493,7 +520,9 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'populatemyfavorites': 'Populatemyfavorites',
     'approveparent': 'Approveparent',
     'disapproveparent': 'Disapproveparent',
-    'sendChildRequest': 'SendChildRequest'
+    'sendChildRequest': 'SendChildRequest',
+    'populatemychildren': 'Populatemychildren',
+    'findchild': "Findchild"
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

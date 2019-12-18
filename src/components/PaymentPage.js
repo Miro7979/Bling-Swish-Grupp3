@@ -94,19 +94,20 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
-
+    
     setTimeout(() => {
       setProblem(false);
       setSendMoney(false);
     }, 2000)
-
+    
     if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash) {
+      console.log("num", number);
+      console.log("balans", state.user.balance)
       setProblem(true);
       setSendMoney(false)
       return;
     }
-
-    if (state.user.limit && cash > state.user.limit) {
+    if (cash > state.user.limit) {
       setProblem(true)
       setLimitProblem(true);
       return
@@ -119,7 +120,7 @@ const PaymentPage = props => {
     try {
       let bling = await new Transaction(transaction)
       await bling.save()
-
+      console.log(bling)
       global.stateUpdater()
       createNotification();
     }
@@ -143,7 +144,7 @@ const PaymentPage = props => {
       <Row>
         <Col sm={{ size: 8, offset: 2 }} className=" userBalance mt-3" >
           {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) + ' på din Bling konto.'}
-          {state.user.limit ? ' Och din överföringsbegränsning är ' + state.user.limit.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) : ''}
+          {state.user.limit ? ' Och din överföringsbegränsning per transaktion är ' + state.user.limit.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) : ''}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>

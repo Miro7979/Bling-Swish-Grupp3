@@ -19,9 +19,9 @@
 			"admin": "all"
 		},
 		"users": {
-			"visitor": "all",
-			"child": "all",
-			"parent": "all",
+			"visitor": "post",
+			"child": "",
+			"parent": "",
 			"admin": "all"
 		},
 		"notifications": {
@@ -103,8 +103,10 @@
 			"child": "post",
 			"parent": "post put",
 			"admin": "post"
+		},
+		"findchild":{
+			"parent": "post",
+			"admin": "all"
 		}
-
-		
 	}
 }

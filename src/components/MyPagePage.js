@@ -6,7 +6,7 @@ import MyPagePageWaitingChild from './MyPagePageWaitingChild.js';
 import { Col, Row, Button } from 'reactstrap';
 import logo from '../images/person-icon.png';
 import goBackLogo from '../images/goback-icon.png';
-import { User, Login } from 'the.rest/dist/to-import';
+import { Login, Populatemychildren } from 'the.rest/dist/to-import';
 
 const MyPagePage = () => {
 	const [state, setState] = useContext(Context);
@@ -24,9 +24,8 @@ const MyPagePage = () => {
 
 	useEffect(() => {
 		async function loadLoggedInUser() {
-
-			let whoIsLoggedIn = await Login.findOne();
-			let user = (await User.find({ name: whoIsLoggedIn.name }).populate('children', 'name limit'))[0];
+			console.log("hej")
+			let user = await Login.findOne()
 			setUserData({
 				...userData, name: user.name, password: user.password, phone: user.phone, email: user.email,
 				nationalIdNumber: user.nationalIdNumber, role: user.role, limit: user.limit, children: user.children,_id:user._id,
@@ -38,23 +37,22 @@ const MyPagePage = () => {
 	}, []);
 
 	async function handleSubmit() {
-
 		let regularx = /^[\w ]+$/;
 		if (userData.password.length < 6) { setPasswordError({ passwordError: true }); }
 		else if (!regularx.test(userData.password)) { setPasswordError({ passwordError: true }); }
 		else {
 			setPasswordError({ passwordError: false });
 			let user = await Login.findOne();
-			//let user = await User.findOne({ name: whoIsLoggedIn.name });
 			user.password = userData.password;
 			user.limit = userData.limit;
 			user.children = userData.children;
-			if (userData.children.length > 0) {
-				let child = await User.findOne({ _id: userData.children[0]._id });
-				child.limit = userData.children[0].limit;
-				await child.save();
-			}
-			await user.save();
+			// if (userData.children.length > 0) {
+			// 	let child = await User.findOne({ _id: userData.children[0]._id });
+			// 	child.limit = userData.children[0].limit;
+			// 	await child.save();
+			// }
+		
+			// await user.save();
 			setState({ ...state, user })
 			setWantToEdit({ wantToEdit: false });
 		}

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { User } from 'the.rest/dist/to-import';
+import { Findchild, SendChildRequest } from 'the.rest/dist/to-import';
 import {Col,Row,Button} from 'reactstrap';
 
 const MyPagePageAddChild=({userData,setUserData})=>{
@@ -12,7 +12,8 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 	});
 
 	async function findChild(){
-		let child = await User.findOne({phone:data.childPhone});
+		let child = await new Findchild({phone:data.childPhone});
+		await child.save()
 		if(child===undefined){
 			setData({...data,foundChild:'',error:'Inga användare med det nummret'});	
 		}
@@ -30,6 +31,9 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 			if(child._id===data.foundChild._id){duplicate=true;}
 		}
 		if(duplicate===false){
+			let childRequest = await new SendChildRequest({_id:userData._id,childId: data.foundChild._id})
+			await childRequest.save()
+			console.log(childRequest)
 			// let _id = userData._id
 			// let childId = data.foundChild._id
 				
