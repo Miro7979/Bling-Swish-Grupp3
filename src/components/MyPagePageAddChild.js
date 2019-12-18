@@ -30,8 +30,9 @@ const MyPagePageAddChild=({userData,setUserData})=>{
 			if(child._id===data.foundChild._id){duplicate=true;}
 		}
 		if(duplicate===false){
-			let _id = userData._id
-			let childId = data.foundChild._id	
+			// let _id = userData._id
+			// let childId = data.foundChild._id
+				
 			// let newChild = await new SendChildRequest({_id, childId})
 			// await newChild.save()
 			setUserData({
