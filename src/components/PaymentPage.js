@@ -67,7 +67,7 @@ const PaymentPage = props => {
     }
     // window.location.reload();
   };
-  
+
   async function createNotification() {
     let notify = {
       message: message || "Du har fått en betalning på ditt Bling konto",
@@ -85,8 +85,8 @@ const PaymentPage = props => {
       return ''
     }
   }
-  
-  
+
+
   async function sendTransaction() {
     let transaction = {
       amount: cash,
@@ -135,15 +135,15 @@ const PaymentPage = props => {
     } finally {
       return ''
     }
-    
+
   }
 
   return (
     <React.Fragment>
       <Row>
         <Col sm={{ size: 8, offset: 2 }} className=" userBalance mt-3" >
-          {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })}
-          {state.user.limit ? ' och din överföringsbegränsning är ' + state.user.limit.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) : ''}
+          {'Hej ' + state.user.name + '! Du har ' + state.user.balance.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) + ' på din Bling konto.'}
+          {state.user.limit ? ' Och din överföringsbegränsning är ' + state.user.limit.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) : ''}
         </Col>
         <Col sm={{ size: 6, offset: 3 }} className="mt-5">
           <Label className="payment-lable">Betala till:</Label>
