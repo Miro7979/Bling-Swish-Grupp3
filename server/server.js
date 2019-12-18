@@ -408,6 +408,16 @@ app.post('/api/transaction*', async (req, res) => {
     res.json(transaction);
 });
 
+app.post('/api/validate-phonenbr', async (req, res) => {
+    let userWithThisPhoneNbr = await User.findOne({phone: req.body.number})
+
+    if(userWithThisPhoneNbr){
+        res.json('success')
+    } else {
+        res.json('error')
+    }
+})
+
 app.get('/api/my-transactions/:userId', async (req, res) => {
     let userId = req.params.userId;
     let user = req.session.user;

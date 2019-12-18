@@ -103,8 +103,11 @@
 			"child": "post",
 			"parent": "post put",
 			"admin": "post"
+		},
+		"validate-phonenbr":{
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
 		}
-
-		
 	}
 }

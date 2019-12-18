@@ -100,7 +100,16 @@ const PaymentPage = props => {
       setSendMoney(false);
     }, 2000)
 
-    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash) {
+    const response = await fetch('/api/validate-phonenbr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({number})
+    });
+    let foundPhone = await response.json();
+
+    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash || foundPhone === 'error') {
       setProblem(true);
       setSendMoney(false)
       return;
