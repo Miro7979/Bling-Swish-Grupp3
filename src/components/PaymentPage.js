@@ -90,7 +90,7 @@ const PaymentPage = props => {
   async function sendTransaction() {
     let transaction = {
       amount: cash,
-      message: message || 'Du har fått pengar på din bling konto',
+      message: message || 'En transaktion har genomförts.',
       to: number,
       from: state.user._id
     }
