@@ -101,7 +101,7 @@
 		"sendChildRequest":{
 			"visitor": "post",
 			"child": "post",
-			"parent": "post",
+			"parent": "post put",
 			"admin": "post"
 		}
 

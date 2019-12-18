@@ -15,7 +15,6 @@ const ApproveParent = (props) => {
   async function isValidChild() {
     let approveLink = await new Approveparent({ encoded: props.match.params.encoded })
     await approveLink.save()
-    console.log(approveLink.validLink)
     setCreated(approveLink.validLink)
     setProblem(!approveLink.validLink)
   }

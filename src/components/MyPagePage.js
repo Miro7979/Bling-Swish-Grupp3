@@ -29,7 +29,8 @@ const MyPagePage = () => {
 			let user = (await User.find({ name: whoIsLoggedIn.name }).populate('children', 'name limit'))[0];
 			setUserData({
 				...userData, name: user.name, password: user.password, phone: user.phone, email: user.email,
-				nationalIdNumber: user.nationalIdNumber, role: user.role, limit: user.limit, children: user.children
+				nationalIdNumber: user.nationalIdNumber, role: user.role, limit: user.limit, children: user.children,_id:user._id,
+				waitingChildren:user.waitingChildren
 			});
 		}
 		loadLoggedInUser();
@@ -43,8 +44,8 @@ const MyPagePage = () => {
 		else if (!regularx.test(userData.password)) { setPasswordError({ passwordError: true }); }
 		else {
 			setPasswordError({ passwordError: false });
-			let whoIsLoggedIn = await Login.findOne();
-			let user = await User.findOne({ name: whoIsLoggedIn.name });
+			let user = await Login.findOne();
+			//let user = await User.findOne({ name: whoIsLoggedIn.name });
 			user.password = userData.password;
 			user.limit = userData.limit;
 			user.children = userData.children;
@@ -109,7 +110,7 @@ const MyPagePage = () => {
 				<div>
 					<Row>
 						<Col>
-							<p className="error-text">! Lösenord måste vara minst sex tecken långt och får endast inehålla bokstäver samt siffror </p>
+							<p className="error-text">! Lösenord måste vara minst sex tecken långt </p>
 						</Col>
 					</Row>
 				</div> : ''}

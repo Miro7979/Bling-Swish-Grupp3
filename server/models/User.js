@@ -71,7 +71,12 @@ userSchema.virtual('transactionsFrom', {
 userSchema.pre('find', function () {
   this.populate('transactionsFrom');
 });
-
+userSchema.pre('find', function () {
+  this.populate('children');
+});
+userSchema.pre('find', function () {
+  this.populate('waitingChildren');
+});
 // Create a virtual getter transactions
 // that combines transactionsTo and transactionsFrom
 userSchema.virtual('transactions').get(function () {
