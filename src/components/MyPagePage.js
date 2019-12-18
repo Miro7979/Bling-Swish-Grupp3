@@ -130,7 +130,7 @@ const MyPagePage = () => {
 				}
 			</Row>
 
-			{userData.children.length > 0 ?
+			{userData && userData.children.length > 0 ?
 				<div className="mt-4">
 					{userData.children.map((child, index) => {
 						return (
@@ -139,7 +139,7 @@ const MyPagePage = () => {
 					})}
 				</div> : ''}
 
-			{userData.waitingChildren.length > 0 ?
+			{userData.waitingChildren && userData.waitingChildren.length > 0 ?
 				<div className="mt-4">
 					{userData.waitingChildren.map((child, index) => {
 						return (
