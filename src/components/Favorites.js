@@ -10,6 +10,7 @@ const Favorites = props => {
   async function displayFavorites() {
     try {
       let user = await Populatemyfavorites.findOne()
+      console.log(user.favorites)
       //if users true and they have have an id
       if (user && user._id) {
         setState((prev) => ({ ...prev, user: { ...prev.user, favorites: user.favorites } }))

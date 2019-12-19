@@ -6,7 +6,7 @@ import MyPagePageWaitingChild from './MyPagePageWaitingChild.js';
 import { Col, Row, Button } from 'reactstrap';
 import logo from '../images/person-icon.png';
 import goBackLogo from '../images/goback-icon.png';
-import { Login, Populatemychildren } from 'the.rest/dist/to-import';
+import { Login, Setuserlimit } from 'the.rest/dist/to-import';
 
 const MyPagePage = () => {
 	const [state, setState] = useContext(Context);
@@ -24,7 +24,6 @@ const MyPagePage = () => {
 
 	useEffect(() => {
 		async function loadLoggedInUser() {
-			console.log("hej")
 			let user = await Login.findOne()
 			setUserData({
 				...userData, name: user.name, password: user.password, phone: user.phone, email: user.email,
@@ -46,6 +45,7 @@ const MyPagePage = () => {
 			user.password = userData.password;
 			user.limit = userData.limit;
 			user.children = userData.children;
+
 			// if (userData.children.length > 0) {
 			// 	let child = await User.findOne({ _id: userData.children[0]._id });
 			// 	child.limit = userData.children[0].limit;
@@ -61,6 +61,11 @@ const MyPagePage = () => {
 	const goBackButton = () => {
 		setWantToEdit({ wantToEdit: false });
 		setPasswordError({ passwordError: false });
+	}
+	async function setUserLimit(e){
+		let userLimit = await new Setuserlimit({limit: e})
+		await userLimit.save()
+		console.log(userLimit)
 	}
 
 	return (
@@ -118,7 +123,7 @@ const MyPagePage = () => {
 				{wantToEdit.wantToEdit ?
 					<Col sm={7} xs={8}>
 						{userData.role === 'parent' ?
-							<input type="number" className="form-control" value={userData.limit || ''} onChange={(e) => setUserData({ ...userData, limit: e.target.value })} /> :
+							<input type="number" className="form-control" value={userData.limit || ''} onChange={(e) =>  setUserLimit(e.target.value) && setUserData({ ...userData, limit: e.target.value })} /> :
 							<div>{userData.limit ? <p>{userData.limit},00 sek</p> : <p className="limit-text">Ingen gräns satt</p>}</div>
 						}
 					</Col> :

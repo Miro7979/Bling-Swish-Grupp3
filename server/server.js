@@ -207,6 +207,29 @@ app.post('/api/disapproveparent*', async (req, res) => {
     }
 
 })
+app.post('/api/setchildlimit', async (req,res) =>{
+    let foundChild = await User.findOne({_id:req.body.childId})
+    foundChild.limit = req.body.limit
+    await foundChild.save()
+    res.send({updated:true})
+} )
+app.post('/api/setuserlimit', async (req,res) =>{
+    let user = await User.findOne({_id:req.session.user._id})
+    user.limit = req.body.limit
+    await user.save()
+    res.send({updated:true})
+} )
+
+
+app.post('/api/deletechild', async (req,res) =>{
+    let user = await User.findOne({_id:req.session.user._id})
+    let deletedArr =user.children.filter((object)=>{
+        return object._id != req.body.deleteId;
+    })
+    user.children = deletedArr
+    await user.save()    
+    res.send({deleted:true})
+} )
 
 
 
@@ -317,6 +340,7 @@ app.post('/api/users', async (req, res) => {
         console.log(error)
     }
 });
+
 
 // route to login
 app.post('/api/login*', async (req, res) => {
@@ -522,7 +546,10 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'disapproveparent': 'Disapproveparent',
     'sendChildRequest': 'SendChildRequest',
     'populatemychildren': 'Populatemychildren',
-    'findchild': "Findchild"
+    'findchild': "Findchild",
+    'setchildlimit': 'Setchildlimit',
+    'deletechild': 'Deletechild',
+    'setuserlimit': 'Setuserlimit'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

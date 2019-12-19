@@ -2,19 +2,27 @@ import React from 'react';
 import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon-black.png';
 import {Col,Row} from 'reactstrap';
+import {Deletechild, Setchildlimit } from 'the.rest/dist/to-import' 
 
 const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 
-	const changeLimit=(e)=>{
+	const changeLimit= async (e)=>{
 		if(e.target.value>0){
 			child.limit=e.target.value;
+			let childsLimit = await new Setchildlimit({limit:e.target.value,childId:child._id})
+			await childsLimit.save()
 		}
 	}
-	const deleteChild=(id)=>{
+	const deleteChild= async (id)=>{
 		child.limit='';
+		console.log(id)
+		let deletedChild = await new Deletechild({deleteId:id})
+		await deletedChild.save()
+		console.log(deletedChild)
 		let updatedData= userData.children.filter((object)=>{
 			return object._id !==id;
 		});
+		console.log( updatedData)
 		setUserData({
 			...userData,
 			children:updatedData

@@ -107,6 +107,15 @@
 		"findchild":{
 			"parent": "post",
 			"admin": "all"
+		},
+		"setchildlimit":{
+			"parent": "post"
+		},
+		"deletechild": {
+			"parent": "post"
+		},
+		"setuserlimit":{
+			"parent": "post"
 		}
 	}
 }
