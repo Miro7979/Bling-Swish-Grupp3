@@ -35,11 +35,11 @@
 			"child": "get"
 		},
 		"imuser": {
-		"admin": "get",
-		"parent": "get",
-		"child": "get"
+			"admin": "get",
+			"parent": "get",
+			"child": "get"
 		},
-		"activateaccounts":{
+		"activateaccounts": {
 			"visitor": "all",
 			"child": "all",
 			"parent": "all",
@@ -52,37 +52,42 @@
 			"child": "get",
 			"parent": "get",
 			"admin": "get"
-		},		
+		},
 		"send-sse": {
 			"child": "post",
 			"parent": "post",
 			"admin": "post"
-		},		
+		},
 		"populatemychildren": {
 			"child": "get",
 			"parent": "get",
 			"admin": "get"
-		},		
+		},
 		"push-subscriber": {
 			"visitor": "post",
 			"child": "post",
 			"parent": "post",
 			"admin": "post"
-		},		
+		},
 		"aktiverakonto": {
 			"visitor": "post",
 			"child": "post",
 			"parent": "post",
 			"admin": "post"
-		},		
+		},
 		"updatepassword": {
 			"visitor": "post",
 			"child": "post",
 			"parent": "post",
 			"admin": "post"
-		},		
+		},
 		"nyttlosenord": {
 			"visitor": "get",
+			"child": "get",
+			"parent": "get",
+			"admin": "get"
+		},
+		"thompa": {
 			"child": "get",
 			"parent": "get",
 			"admin": "get"
@@ -98,23 +103,23 @@
 		"disapproveparent": {
 			"visitor": "post"
 		},
-		"sendChildRequest":{
+		"sendChildRequest": {
 			"visitor": "post",
 			"child": "post",
 			"parent": "post put",
 			"admin": "post"
 		},
-		"findchild":{
+		"findchild": {
 			"parent": "post",
 			"admin": "all"
 		},
-		"setchildlimit":{
+		"setchildlimit": {
 			"parent": "post"
 		},
 		"deletechild": {
 			"parent": "post"
 		},
-		"setuserlimit":{
+		"setuserlimit": {
 			"parent": "post"
 		}
 	}
