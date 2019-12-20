@@ -506,6 +506,17 @@ app.post('/api/findfavorite*', async (req, res) => {
         console.log(e)
     }
 });
+app.post('/api/setfavorite*', async (req, res) => {
+    try {
+        let user = await User.findOne({ _id: req.session.user._id })
+        user.favorites.push(req.body.favoriteId);
+        await user.save()
+        res.send({ valid: true })
+    }
+    catch (e) {
+        console.log(e)
+    }
+});
 
 app.get('/api/populatemyfavorites*', async (req, res) => {
     let user = req.session.user;
@@ -563,7 +574,8 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'setchildlimit': 'Setchildlimit',
     'deletechild': 'Deletechild',
     'setuserlimit': 'Setuserlimit',
-    'findfavorite': 'Findfavorite'
+    'findfavorite': 'Findfavorite',
+    'setfavorite': 'Setfavorite'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

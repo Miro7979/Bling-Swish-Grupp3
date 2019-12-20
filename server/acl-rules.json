@@ -126,6 +126,11 @@
 			"parent": "all",
 			"child": "all",
 			"admin": "all"
+		},
+		"setfavorite": {
+			"parent": "all",
+			"child": "all",
+			"admin": "all"
 		}
 	}
 }
