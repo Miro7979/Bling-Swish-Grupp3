@@ -46,11 +46,9 @@ const PaymentPage = props => {
       setShowFavorites(false)
       let settingFavorite = new Setfavorite({favoriteId:favoriteFound._id})
       await settingFavorite.save()
-      console.log(settingFavorite)
       loggedInUser.favorites.push(favoriteFound._id);
       //await loggedInUser.save();
       //loggedInUser = await User.findOne({ _id: state.user._id })
-      console.log(loggedInUser.favorites)
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
       setShowFavorites(true)
