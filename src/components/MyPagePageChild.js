@@ -1,36 +1,33 @@
 import React from 'react';
 import logo from '../images/child-icon.png';
 import deleteIcon from '../images/delete-icon-black.png';
-import {Col,Row} from 'reactstrap';
-import {Deletechild, Setchildlimit } from 'the.rest/dist/to-import' 
+import { Col, Row } from 'reactstrap';
+import { Deletechild, Setchildlimit } from 'the.rest/dist/to-import'
 
-const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
+const MyPagePageChild = ({ child, wantToEdit, userData, setUserData }) => {
 
-	const changeLimit= async (e)=>{
-		if(e.target.value>0){
-			child.limit=e.target.value;
-			let childsLimit = await new Setchildlimit({limit:e.target.value,childId:child._id})
+	const changeLimit = async (e) => {
+		if (e.target.value > 0) {
+			child.limit = e.target.value;
+			let childsLimit = await new Setchildlimit({ limit: e.target.value, childId: child._id })
 			await childsLimit.save()
 		}
 	}
-	const deleteChild= async (id)=>{
-		child.limit='';
-		console.log(id)
-		let deletedChild = await new Deletechild({deleteId:id})
+	const deleteChild = async (id) => {
+		child.limit = '';
+		let deletedChild = await new Deletechild({ deleteId: id })
 		await deletedChild.save()
-		console.log(deletedChild)
-		let updatedData= userData.children.filter((object)=>{
-			return object._id !==id;
+		let updatedData = userData.children.filter((object) => {
+			return object._id !== id;
 		});
-		console.log( updatedData)
 		setUserData({
 			...userData,
-			children:updatedData
+			children: updatedData
 		});
 	}
 
-  return(
-    <div className="child-component">
+	return (
+		<div className="child-component">
 
 			<Row>
 				<Col xs={4}>
@@ -40,28 +37,28 @@ const MyPagePageChild=({child,wantToEdit,userData,setUserData})=>{
 					{child.name}
 				</Col>
 				<Col xs={2}>
-					{wantToEdit.wantToEdit?
-						<img src={deleteIcon} alt="ta bort ikon" className="button delete-button" onClick={()=>deleteChild(child._id)}></img>:''}
+					{wantToEdit.wantToEdit ?
+						<img src={deleteIcon} alt="ta bort ikon" className="button delete-button" onClick={() => deleteChild(child._id)}></img> : ''}
 				</Col>
 			</Row>
 
-			<Row className="mt-3" style={{height:'40px'}}>
+			<Row className="mt-3" style={{ height: '40px' }}>
 				<Col xs={4}>
-						Beloppsgräns<br></br>/månad
-				</Col>		
-				
-				{wantToEdit.wantToEdit?
-				<Col sm={7} xs={8}>
-					<input type="number" className="form-control vertical-center" placeholder={child.limit} onChange={changeLimit}></input>
-				</Col>:
-				<Col xs={8}>
-					{child.limit?<p>{child.limit},00 kr</p>:<p className="limit-text" style={{color:'red'}}>Ingen gräns satt</p>}
+					Beloppsgräns<br></br>/månad
 				</Col>
+
+				{wantToEdit.wantToEdit ?
+					<Col sm={7} xs={8}>
+						<input type="number" className="form-control vertical-center" placeholder={child.limit} onChange={changeLimit}></input>
+					</Col> :
+					<Col xs={8}>
+						{child.limit ? <p>{child.limit},00 kr</p> : <p className="limit-text" style={{ color: 'red' }}>Ingen gräns satt</p>}
+					</Col>
 				}
 			</Row>
-					   				
-		</div>	
-  );
+
+		</div>
+	);
 }
 export default MyPagePageChild;
 

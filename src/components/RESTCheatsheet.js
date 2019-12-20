@@ -24,25 +24,3 @@ console.log(whoIsLoggedIn);
 // Log out with delete
 let deleteThisUser = await whoIsLoggedIn.delete()
 console.log(deleteThisUser)
-
-// Same as let newUser = newUser(user)
-//await newUser.save()
-    //     let response = {
-//       uri: 'http://localhost:3000/api/users',
-//       body: {
-//           ...user
-//       },
-//       json: true
-//   };
-//   try {
-//     const res = await request.post(response);
-//     console.log(res)
-//     if (res.statusCode !== 200) {
-//       console.log("oh no we got an error")
-//     }
-//     console.log(res);
-//     console.log("statuscode", res.statusCode)
-//     return res;
-// } catch (err) {
-//     return err;
-// }

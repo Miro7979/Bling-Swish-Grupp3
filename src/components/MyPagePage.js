@@ -27,8 +27,8 @@ const MyPagePage = () => {
 			let user = await Login.findOne()
 			setUserData({
 				...userData, name: user.name, password: user.password, phone: user.phone, email: user.email,
-				nationalIdNumber: user.nationalIdNumber, role: user.role, limit: user.limit, children: user.children,_id:user._id,
-				waitingChildren:user.waitingChildren
+				nationalIdNumber: user.nationalIdNumber, role: user.role, limit: user.limit, children: user.children, _id: user._id,
+				waitingChildren: user.waitingChildren
 			});
 		}
 		loadLoggedInUser();
@@ -51,7 +51,7 @@ const MyPagePage = () => {
 			// 	child.limit = userData.children[0].limit;
 			// 	await child.save();
 			// }
-		
+
 			// await user.save();
 			setState({ ...state, user })
 			setWantToEdit({ wantToEdit: false });
@@ -62,10 +62,9 @@ const MyPagePage = () => {
 		setWantToEdit({ wantToEdit: false });
 		setPasswordError({ passwordError: false });
 	}
-	async function setUserLimit(e){
-		let userLimit = await new Setuserlimit({limit: e})
+	async function setUserLimit(e) {
+		let userLimit = await new Setuserlimit({ limit: e })
 		await userLimit.save()
-		console.log(userLimit)
 	}
 
 	return (
@@ -123,7 +122,7 @@ const MyPagePage = () => {
 				{wantToEdit.wantToEdit ?
 					<Col sm={7} xs={8}>
 						{userData.role === 'parent' ?
-							<input type="number" className="form-control" value={userData.limit || ''} onChange={(e) =>  setUserLimit(e.target.value) && setUserData({ ...userData, limit: e.target.value })} /> :
+							<input type="number" className="form-control" value={userData.limit || ''} onChange={(e) => setUserLimit(e.target.value) && setUserData({ ...userData, limit: e.target.value })} /> :
 							<div>{userData.limit ? <p>{userData.limit},00 sek</p> : <p className="limit-text">Ingen gräns satt</p>}</div>
 						}
 					</Col> :

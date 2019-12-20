@@ -126,12 +126,12 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
     }
 })
 app.post('/api/findchild*', async (req, res) => {
-    console.log("req",req.body)
+    console.log("req", req.body)
     try {
         console.log(req.body)
-       let child = await User.findOne({phone:req.body.phone})
-       console.log(child)
-       res.send({name: child.name,_id:child._id})
+        let child = await User.findOne({ phone: req.body.phone })
+        console.log(child)
+        res.send({ name: child.name, _id: child._id })
     }
     catch (e) {
         console.log(e)
@@ -159,7 +159,7 @@ app.put('/api/sendChildRequest*', async (req, res) => {
     }
     sendMail(user);
     req.body.valid = true
-    res.send( {valid:true} );
+    res.send({ valid: true });
 });
 app.post('/api/approveparent*', async (req, res) => {
     try {
@@ -207,29 +207,29 @@ app.post('/api/disapproveparent*', async (req, res) => {
     }
 
 })
-app.post('/api/setchildlimit', async (req,res) =>{
-    let foundChild = await User.findOne({_id:req.body.childId})
+app.post('/api/setchildlimit', async (req, res) => {
+    let foundChild = await User.findOne({ _id: req.body.childId })
     foundChild.limit = req.body.limit
     await foundChild.save()
-    res.send({updated:true})
-} )
-app.post('/api/setuserlimit', async (req,res) =>{
-    let user = await User.findOne({_id:req.session.user._id})
+    res.send({ updated: true })
+})
+app.post('/api/setuserlimit', async (req, res) => {
+    let user = await User.findOne({ _id: req.session.user._id })
     user.limit = req.body.limit
     await user.save()
-    res.send({updated:true})
-} )
+    res.send({ updated: true })
+})
 
 
-app.post('/api/deletechild', async (req,res) =>{
-    let user = await User.findOne({_id:req.session.user._id})
-    let deletedArr =user.children.filter((object)=>{
+app.post('/api/deletechild', async (req, res) => {
+    let user = await User.findOne({ _id: req.session.user._id })
+    let deletedArr = user.children.filter((object) => {
         return object._id != req.body.deleteId;
     })
     user.children = deletedArr
-    await user.save()    
-    res.send({deleted:true})
-} )
+    await user.save()
+    res.send({ deleted: true })
+})
 
 
 
@@ -303,7 +303,7 @@ app.post('/api/users', async (req, res) => {
     try {
         // we should check that the same username does
         // not exist... let's save that for letter
-        let checkUser = await User.findOne({email: user.email})
+        let checkUser = await User.findOne({ email: user.email })
         if (
             typeof req.body.password !== 'string' ||
             req.body.password.length < 6
@@ -311,9 +311,9 @@ app.post('/api/users', async (req, res) => {
             res.json({ error: 'Password to short' });
             return;
         }
-       if(checkUser){
-           res.send({error: 'You already got an account'})
-       }
+        if (checkUser) {
+            res.send({ error: 'You already got an account' })
+        }
         let user = new User({
             ...req.body,
             password: encryptPassword(req.body.password),
@@ -436,11 +436,11 @@ app.post('/api/notifications*', async (req, res) => {
 });
 
 app.post('/api/transaction*', async (req, res) => {
-    try{
+    try {
         let to = await User.findOne({ phone: req.body.to })
-        if(to){
-            if(req.body.amount > req.session.user.limit || req.body.amount > req.session.user.balance || req.body.amount < 0 ){
-                res.json({limitError: "Du försöker blinga mer än din gräns"})
+        if (to) {
+            if (req.body.amount > req.session.user.limit || req.body.amount > req.session.user.balance || req.body.amount < 0) {
+                res.json({ limitError: "Du försöker blinga mer än din gräns" })
             }
             let transaction = new Transaction({
                 // balance: req.body.balance,
@@ -449,13 +449,13 @@ app.post('/api/transaction*', async (req, res) => {
                 to: to._id,
                 from: req.body.from
             });
-            
+
             await transaction.save()
             res.json(transaction);
         }
     }
-    catch(e){
-        res.json({error:e})
+    catch (e) {
+        res.json({ error: e })
     }
 });
 
@@ -494,6 +494,8 @@ app.get('/api/populatemychildren*', async (req, res) => {
         );
     res.json(err || userChildren);
 });
+app.get('/api/thompa', (req, res) => res.json("thompa"));
+
 app.get('/api/populatemyfavorites*', async (req, res) => {
     let user = req.session.user;
     if (!user) {

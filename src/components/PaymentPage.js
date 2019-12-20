@@ -94,15 +94,13 @@ const PaymentPage = props => {
       to: number,
       from: state.user._id
     }
-    
+
     setTimeout(() => {
       setProblem(false);
       setSendMoney(false);
     }, 2000)
-    
+
     if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash) {
-      console.log("num", number);
-      console.log("balans", state.user.balance)
       setProblem(true);
       setSendMoney(false)
       return;
@@ -120,7 +118,6 @@ const PaymentPage = props => {
     try {
       let bling = await new Transaction(transaction)
       await bling.save()
-      console.log(bling)
       global.stateUpdater()
       createNotification();
     }

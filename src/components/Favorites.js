@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Card, Button, CardBody, Row, Col } from 'reactstrap';
-import { User , Populatemyfavorites} from 'the.rest/dist/to-import';
+import { User, Populatemyfavorites } from 'the.rest/dist/to-import';
 import Context from './Context';
 const uuidv4 = require('uuid/v4')
 
@@ -10,7 +10,6 @@ const Favorites = props => {
   async function displayFavorites() {
     try {
       let user = await Populatemyfavorites.findOne()
-      console.log(user.favorites)
       //if users true and they have have an id
       if (user && user._id) {
         setState((prev) => ({ ...prev, user: { ...prev.user, favorites: user.favorites } }))
