@@ -126,12 +126,12 @@ app.get('/api/nyttlosenord/:id', async (req, res) => {
     }
 })
 app.post('/api/findchild*', async (req, res) => {
-    console.log("req", req.body)
     try {
-        console.log(req.body)
         let child = await User.findOne({ phone: req.body.phone })
-        console.log(child)
-        res.send({ name: child.name, _id: child._id })
+        if(child.role == "child"){
+            res.send({ name: child.name, _id: child._id })
+            console.log(child)
+        }
     }
     catch (e) {
         console.log(e)
@@ -463,7 +463,7 @@ app.get('/api/my-transactions/:userId', async (req, res) => {
     let userId = req.params.userId;
     let user = req.session.user;
     let userChildren = user.children;
-
+    console.log("user",user.name)
     if ((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
         try {
             let iGot = await Transaction.find({ to: userId })
@@ -471,6 +471,7 @@ app.get('/api/my-transactions/:userId', async (req, res) => {
             let allMyTransactions = [...iGot, ...iSent];
             allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
             res.json(allMyTransactions);
+            console.log(allMyTransactions)
         }
         catch (e) {
             console.log(e)
@@ -495,6 +496,16 @@ app.get('/api/populatemychildren*', async (req, res) => {
     res.json(err || userChildren);
 });
 app.get('/api/thompa', (req, res) => res.json("thompa"));
+
+app.post('/api/findfavorite*', async (req, res) => {
+    try {
+        let favorite = await User.findOne({ phone: req.body.phone })
+        res.send({ name: favorite.name, _id: favorite._id })
+    }
+    catch (e) {
+        console.log(e)
+    }
+});
 
 app.get('/api/populatemyfavorites*', async (req, res) => {
     let user = req.session.user;
@@ -551,7 +562,8 @@ app.use(theRest(express, '/api', pathToModelFolder, null, {
     'findchild': "Findchild",
     'setchildlimit': 'Setchildlimit',
     'deletechild': 'Deletechild',
-    'setuserlimit': 'Setuserlimit'
+    'setuserlimit': 'Setuserlimit',
+    'findfavorite': 'Findfavorite'
 }));
 
 //app.use('/api/users', require('./routes/api/users'));

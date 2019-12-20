@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, User } from 'the.rest/dist/to-import';
+import { Notification, Transaction, User, Findfavorite, Login } from 'the.rest/dist/to-import';
 import {
   Row,
   Col,
@@ -35,17 +35,20 @@ const PaymentPage = props => {
 
   async function addToFavorites() {
     //find input + e.target.value and save to an array of favorites
-    let favoriteFound = await User.findOne({ phone: number });
-    let loggedInUser = await User.findOne({ _id: state.user._id });
-    if (favoriteFound && !loggedInUser.favorites.find(userId => userId === favoriteFound.id)) {
+    console.log(number)
+    let favoriteFound =  new Findfavorite({ phone: number });
+    await favoriteFound.save()
+    console.log(favoriteFound)
+    let loggedInUser = await Login.findOne();
+    if (favoriteFound && !loggedInUser.favorites.find(userId => userId._id === favoriteFound._id)) {
       if (loggedInUser.favorites.includes(favoriteFound._id)) {
         alert("lägg inte till samma person två gånger")
         return
       }
       setShowFavorites(false)
       loggedInUser.favorites.push(favoriteFound);
-      await loggedInUser.save();
-      loggedInUser = await User.findOne({ _id: state.user._id })
+      //await loggedInUser.save();
+      //loggedInUser = await User.findOne({ _id: state.user._id })
       setState((prev) => ({ ...prev, user: { ...prev.user, favorites: loggedInUser.favorites } }));
       setFavorites(loggedInUser.favorites);
       setShowFavorites(true)

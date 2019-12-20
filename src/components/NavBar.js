@@ -30,9 +30,14 @@ const NavBar = () => {
                 <NavItem>
                   <Link className="navlink ml-3" to="/betalningar">Skicka Pengar</Link>
                 </NavItem>
+                {state.user.role === 'admin' ?  
+                <NavItem>
+                  <Link className="navlink ml-3" to="/adminsida">Admins Sida</Link>
+                </NavItem> : 
                 <NavItem>
                   <Link className="navlink ml-3" to="/minasidor">Min Sida</Link>
                 </NavItem>
+                }
                 <NavItem>
                   <Link className="navlink ml-3" to="/betalningshistorik">Betalningshistorik</Link>
                 </NavItem>

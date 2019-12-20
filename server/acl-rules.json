@@ -121,6 +121,11 @@
 		},
 		"setuserlimit": {
 			"parent": "post"
+		},
+		"findfavorite": {
+			"parent": "all",
+			"child": "all",
+			"admin": "all"
 		}
 	}
 }
