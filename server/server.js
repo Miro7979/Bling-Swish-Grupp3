@@ -459,19 +459,34 @@ app.post('/api/transaction*', async (req, res) => {
     }
 });
 
+app.post('/api/validate-phonenbr', async (req, res) => {
+    let userWithThisPhoneNbr = await User.findOne({phone: req.body.number})
+
+    if(userWithThisPhoneNbr){
+        res.json('success')
+    } else {
+        res.json('error')
+    }
+})
+
 app.get('/api/my-transactions/:userId', async (req, res) => {
     let userId = req.params.userId;
     let user = req.session.user;
     let userChildren = user.children;
-    console.log("user",user.name)
-    if ((user && user._id === userId) || (userChildren.length > 0 && userChildren.includes(userId))) {
+    let userChildren2 = [];
+    if(userChildren.length > 0) {
+        for(let child of userChildren) {
+            let {_id} = child;
+            userChildren2.push(_id);
+        }
+    }
+    if ((user && user._id === userId) || (userChildren.length > 0 && userChildren2.includes(userId))) {
         try {
             let iGot = await Transaction.find({ to: userId })
             let iSent = await Transaction.find({ from: userId })
             let allMyTransactions = [...iGot, ...iSent];
             allMyTransactions.sort((a, b) => a.date < b.date ? -1 : 1).reverse();
             res.json(allMyTransactions);
-            console.log(allMyTransactions)
         }
         catch (e) {
             console.log(e)

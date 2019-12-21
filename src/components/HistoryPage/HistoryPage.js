@@ -60,6 +60,8 @@ function HistoryPage() {
     if(state.user.children.length > 0 && theDropdownTitle !== state.user.name) {
       let nameIndex = dropdownNames.indexOf(theDropdownTitle);
       userId = state.user.children[nameIndex - 1];
+      if(!userId) {return}
+      userId = userId._id;
     } else {
       userId = state.user._id;
     }

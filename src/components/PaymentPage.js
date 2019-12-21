@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Context from './Context';
-import { Notification, Transaction, User, Findfavorite, Login, Setfavorite } from 'the.rest/dist/to-import';
+import { Notification, Transaction, Findfavorite, Login, Setfavorite } from 'the.rest/dist/to-import';
 import {
   Row,
   Col,
@@ -102,8 +102,17 @@ const PaymentPage = props => {
       setProblem(false);
       setSendMoney(false);
     }, 2000)
+    
+    const response = await fetch('/api/validate-phonenbr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({number})
+    });
+    let foundPhone = await response.json();
 
-    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash) {
+    if (!number || !cash || number === state.user.phone || cash < 0 || cash > 10000 || state.user.balance < cash || foundPhone === 'error') {
       setProblem(true);
       setSendMoney(false)
       return;

@@ -131,6 +131,11 @@
 			"parent": "all",
 			"child": "all",
 			"admin": "all"
+		},
+		"validate-phonenbr":{
+			"child": "post",
+			"parent": "post",
+			"admin": "post"
 		}
 	}
 }
