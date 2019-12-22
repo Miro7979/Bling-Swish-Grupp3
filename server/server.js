@@ -513,6 +513,27 @@ app.get('/api/populatemychildren*', async (req, res) => {
 
 app.get('/api/thompa',(req,res)=>res.json("thompa"));
 
+app.post('/api/findfavorite*', async (req, res) => {
+  try {
+      let favorite = await User.findOne({ phone: req.body.phone })
+      res.send({ name: favorite.name, _id: favorite._id })
+  }
+  catch (e) {
+      console.log(e)
+  }
+});
+app.post('/api/setfavorite*', async (req, res) => {
+  try {
+      let user = await User.findOne({ _id: req.session.user._id })
+      user.favorites.push(req.body.favoriteId);
+      await user.save()
+      res.send({ valid: true })
+  }
+  catch (e) {
+      console.log(e)
+  }
+});
+
 app.get('/api/populatemyfavorites*', async (req, res) => {
     let user = req.session.user;
     if (!user) {
